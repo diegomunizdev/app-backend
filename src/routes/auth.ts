@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 const router: Router = Router();
 import { TokenValidation } from '../libs/verifyToken';
 import { signup, signin, profile } from '../controllers/auth.controller';
