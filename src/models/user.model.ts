@@ -15,6 +15,7 @@ export interface IUser extends Document {
     date_of_birth: string,
     type: UserType, // admin, client or personal_trainer
     phone: String,
+    genre: String,
     encryptPassword(password: string): Promise<string>,
     validatePassword(password: string): Promise<boolean>
 }
@@ -22,6 +23,7 @@ export interface IUser extends Document {
 const UserSchema = new Mongoose.Schema({
     username: {
         type: String,
+        unique: true,
         required: true,
         min: 4,
         lowercase: true
@@ -51,6 +53,10 @@ const UserSchema = new Mongoose.Schema({
         required: true
     },
     phone: {
+        type: String,
+        required: true
+    },
+    genre: {
         type: String,
         required: true
     }

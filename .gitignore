@@ -1,13 +1,29 @@
-# Logs
+# Directory
+dist
+node_modules
+
+# Optional npm cache directory
+.npm
+
+# dependencies
+.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+build
+
+# misc
+.DS_Store
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Optional npm cache directory
-.npm
-
-## files
-node_modules
-.env
