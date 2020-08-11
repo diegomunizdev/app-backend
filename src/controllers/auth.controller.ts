@@ -3,11 +3,15 @@ import User, { IUser } from '../models/User';
 
 import jwt from 'jsonwebtoken';
 
-export const signup = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response) => {
     const user: IUser = new User({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        cpf: req.body.cpf,
+        date_of_birth: req.body.date_of_birth,
+        type: req.body.type,
+        phone: req.body.phone
     });
 
     user.password = await user.encryptPassword(user.password);
@@ -16,7 +20,7 @@ export const signup = async (req: Request, res: Response) => {
     // token
     const token: string = jwt.sign({ _id: saveUser._id }, process.env.TOKEN_SECRET || 'tokentest');
 
-    res.header('auth-token', token).json(saveUser);
+    res.header('access-token', token).json(saveUser);
 }
 
 export const signin = async (req: Request, res: Response) => {
@@ -32,7 +36,7 @@ export const signin = async (req: Request, res: Response) => {
         expiresIn: 60 * 60 * 24
     })
 
-    res.header('auth-token', token).json(user);
+    res.header('access-token', token).json(user);
 }
 
 export const profile = async (req: Request, res: Response) => {

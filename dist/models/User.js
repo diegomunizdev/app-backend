@@ -12,9 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = require("mongoose");
+exports.UserType = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const UserSchema = new mongoose_1.Schema({
+var UserType;
+(function (UserType) {
+    UserType["ADMIN"] = "admin";
+    UserType["CLIENT"] = "client";
+    UserType["PERSONAL_TRAINER"] = "personal_trainer";
+})(UserType = exports.UserType || (exports.UserType = {}));
+const UserSchema = new mongoose_1.default.Schema({
     username: {
         type: String,
         required: true,
@@ -30,6 +37,34 @@ const UserSchema = new mongoose_1.Schema({
     password: {
         type: String,
         required: true
+    },
+    cpf: {
+        type: String,
+        unique: true,
+        required: true,
+        min: 11
+    },
+    date_of_birth: {
+        type: String,
+        required: true
+    },
+    type: {
+        type: UserType,
+        required: true
+    },
+    phone: {
+        type: String,
+        required: true
+    }
+}, {
+    timestamps: { createdAt: 'created_at', updatedAt: false },
+    toJSON: {
+        transform: (doc, ret) => {
+            ret.id = ret._id;
+            delete ret._id;
+            delete ret.__v;
+            return ret;
+        }
     }
 });
 UserSchema.methods.encryptPassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,5 +76,6 @@ UserSchema.methods.validatePassword = function (password) {
         return yield bcrypt_1.default.compare(password, this.password);
     });
 };
-exports.default = mongoose_1.model('User', UserSchema);
+const UserModel = mongoose_1.default.model('User', UserSchema);
+exports.default = UserModel;
 //# sourceMappingURL=User.js.map

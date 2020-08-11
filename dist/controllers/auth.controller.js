@@ -12,20 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.profile = exports.signin = exports.signup = void 0;
+exports.profile = exports.signin = exports.register = void 0;
 const User_1 = __importDefault(require("../models/User"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-exports.signup = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = new User_1.default({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        cpf: req.body.cpf,
+        date_of_birth: req.body.date_of_birth,
+        type: req.body.type,
+        phone: req.body.phone
     });
     user.password = yield user.encryptPassword(user.password);
     const saveUser = yield user.save();
     // token
     const token = jsonwebtoken_1.default.sign({ _id: saveUser._id }, process.env.TOKEN_SECRET || 'tokentest');
-    res.header('auth-token', token).json(saveUser);
+    res.header('access-token', token).json(saveUser);
 });
 exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield User_1.default.findOne({
@@ -39,7 +43,7 @@ exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const token = jsonwebtoken_1.default.sign({ _id: user._id }, process.env.TOKEN_SECRET || 'tokentest', {
         expiresIn: 60 * 60 * 24
     });
-    res.header('auth-token', token).json(user);
+    res.header('access-token', token).json(user);
 });
 exports.profile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const user = yield User_1.default.findById(req.userId, { password: 0 });

@@ -6,11 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenValidation = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 exports.TokenValidation = (req, res, next) => {
-    const token = req.header('auth-token');
-    if (!token)
-        return res.status(401).json('Acesso negado!');
-    const payload = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET || 'tokentest');
-    req.userId = payload._id;
-    next();
+    try {
+        const token = req.header('access-token');
+        if (!token)
+            return res.status(401).json('Acesso negado!');
+        const payload = jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET || 'tokentest');
+        req.userId = payload._id;
+        next();
+    }
+    catch (error) {
+        res.json('ERROR:' + error);
+    }
 };
 //# sourceMappingURL=verifyToken.js.map
