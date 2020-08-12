@@ -6,8 +6,7 @@ import jwt from 'jsonwebtoken';
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user: IUser = new User(req.body);
-        user.password = await user.encryptPassword(user.password);
-
+        user.password = await user.encryptPassword(user.password ? user.password : '');
         const saveUser = await user.save();
         // token
         const token_secret = process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : undefined
@@ -25,6 +24,7 @@ export const getUser = async (req: Request, res: Response) => {
         if (!user) return res.status(404).json({
             message: 'User not found'
         })
+        user ? user.password = undefined : ''
         res.status(200).json(user)
     } catch (error) {
         res.json(error)
@@ -37,6 +37,7 @@ export const getUsers = async (req: Request, res: Response) => {
         if (!users) return res.status(404).json({
             message: 'Users not found'
         })
+        users ? users.map(el => el.password = undefined) : ''
         res.status(200).json(users)
     } catch (error) {
         res.json(error)

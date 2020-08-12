@@ -12,7 +12,7 @@ interface IPayload {
 export const TokenValidation = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.header('access_token');
-        if (!token) return res.status(401).json('Acesso negado!')
+        if (!token) return res.status(401).json({ error: 'Access danied' })
 
         const payload = jwt.verify(token, process.env.TOKEN_SECRET || 'tokentest') as IPayload
 

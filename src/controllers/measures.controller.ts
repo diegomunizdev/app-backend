@@ -4,6 +4,7 @@ import Measures, { IMeasures } from '../models/user.data/measures.model'
 export const createMeasure = async (req: Request, res: Response) => {
     try {
         const measure: IMeasures = new Measures(req.body)
+        if (!measure) return res.status(400).json({ error: 'Measure not created' })
         await measure.save()
         res.status(200).json({
             message: 'Measure successfully created'
@@ -17,7 +18,7 @@ export const getMeasures = async (req: Request, res: Response) => {
     try {
         const measures = await Measures.find()
         if (!measures) return res.status(404).json({
-            message: 'Failed. Measures were not found'
+            error: 'Failed. Measures were not found'
         })
         res.status(200).json(measures)
     } catch (error) {
@@ -29,7 +30,7 @@ export const getMeasure = async (req: Request, res: Response) => {
     try {
         const measure = await Measures.findById(req.params.measureId)
         if (!measure) return res.status(404).json({
-            message: 'Failed. Measure not found'
+            error: 'Failed. Measure not found'
         })
         res.status(200).json(measure)
     } catch (error) {
@@ -41,7 +42,7 @@ export const updateMeasure = async (req: Request, res: Response) => {
     try {
         const { measureId } = req.params
         if (!measureId) return res.status(404).json({
-            message: 'Failed. Measure not found'
+            error: 'Failed. Measure not found'
         })
         const measure = {
             weight: req.body.weight,
@@ -77,7 +78,7 @@ export const deleteMeasure = async (req: Request, res: Response) => {
     try {
         const measureId = req.params.measureId
         if (!measureId) return res.status(404).json({
-            message: 'Failed. Measure not found'
+            error: 'Failed. Measure not found'
         })
         await Measures.findByIdAndRemove(measureId)
         res.status(200).json({

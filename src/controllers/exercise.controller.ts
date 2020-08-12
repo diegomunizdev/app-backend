@@ -17,7 +17,7 @@ export const getExercises = async (req: Request, res: Response) => {
     try {
         const exercises = await Exercise.find()
         if (!exercises) return res.status(404).json({
-            message: 'Failed. Exercises were not found'
+            error: 'Failed. Exercises were not found'
         })
         res.status(200).json(exercises)
     } catch (error) {
@@ -29,7 +29,7 @@ export const getExercise = async (req: Request, res: Response) => {
     try {
         const exercise = await Exercise.findById(req.params.exerciseId)
         if (!exercise) return res.status(404).json({
-            message: 'Failed. Exercise not found'
+            error: 'Failed. Exercise not found'
         })
         res.status(200).json(exercise)
     } catch (error) {
@@ -41,7 +41,7 @@ export const updateExercise = async (req: Request, res: Response) => {
     try {
         const { exerciseId } = req.params
         if (!exerciseId) return res.status(404).json({
-            message: 'Failed. Exercise not found'
+            error: 'Failed. Exercise not found'
         })
         const exercise = {
             exercise_monday: req.body.exercise_monday,
@@ -67,7 +67,7 @@ export const deleteExercise = async (req: Request, res: Response) => {
     try {
         const exerciseId = req.params.exerciseId
         if (!exerciseId) return res.status(404).json({
-            message: 'Failed. Exercise not found'
+            error: 'Failed. Exercise not found'
         })
         await Exercise.findByIdAndRemove(exerciseId)
         res.status(200).json({

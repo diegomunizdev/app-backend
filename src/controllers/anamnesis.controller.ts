@@ -4,6 +4,7 @@ import Anamnesis, { IAnamnesis } from '../models/user.data/anamnesis.model'
 export const createAnamnesis = async (req: Request, res: Response) => {
     try {
         const anamnesis: IAnamnesis = new Anamnesis(req.body)
+        if (!anamnesis) return res.status(400).json({ error: 'Failed. Listing could not be created' })
         await anamnesis.save()
         res.status(200).json({
             message: 'Anamnesis successfully created'
@@ -33,7 +34,7 @@ export const getAnamnesis = async (req: Request, res: Response) => {
         })
         res.status(200).json(anamnesis)
     } catch (error) {
-
+        res.json(error)
     }
 }
 
@@ -41,7 +42,7 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
     try {
         const { anamnesisId } = req.params
         if (!anamnesisId) return res.status(404).json({
-            message: 'Failed. Anamnesis not found'
+            error: 'Failed. Anamnesis not found'
         })
         const anamnesis = {
             diabetes: req.body.diabetes,
@@ -76,7 +77,7 @@ export const deleteAnamnesis = async (req: Request, res: Response) => {
     try {
         const anamnesisId = req.params.anamnesisId
         if (!anamnesisId) return res.status(404).json({
-            message: 'Failed. Anamnesis not found'
+            error: 'Failed. Anamnesis not found'
         })
         await Anamnesis.findByIdAndRemove(anamnesisId)
         res.status(200).json({

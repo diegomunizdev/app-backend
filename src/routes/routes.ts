@@ -9,7 +9,7 @@ import { createAnamnesis, getAllAnamnesis, getAnamnesis, updateAnamnesis, delete
 import { createMeasure, getMeasure, getMeasures, updateMeasure, deleteMeasure } from '../controllers/measures.controller'
 
 // auth
-routes.post('/signin', signin)
+routes.post('/auth/signin', signin)
 
 // user
 routes.post('/user', TokenValidation, createUser)

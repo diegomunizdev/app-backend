@@ -11,7 +11,7 @@ export interface IUser extends Document {
     name: string,
     username: string,
     email: string,
-    password: string,
+    password: string | undefined,
     cpf: string,
     date_of_birth: string,
     type: UserType, // admin, client or personal_trainer
