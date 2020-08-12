@@ -7,9 +7,9 @@ export const signin = async (req: Request, res: Response) => {
         const user = await User.findOne({
             username: req.body.username
         });
-        if (!user) return res.status(400).json('Nome de usuário ou senha incorreto')
+        if (!user) return res.status(400).json('Invalid username or password')
         const correctPassword: boolean = await user.validatePassword(req.body.password);
-        if (!correctPassword) return res.status(400).json('Senha inválida');
+        if (!correctPassword) return res.status(400).json('Invalid password');
 
         const token: string = jwt.sign({ _id: user._id, type: user.type }, process.env.TOKEN_SECRET || 'tokentest', {
             expiresIn: 60 * 60 * 24

@@ -5,7 +5,8 @@ import { TokenValidation } from '../libs/verifyToken';
 import { signin } from '../controllers/auth.controller';
 import { createUser, getUser, getUsers, updateUser, deleteUser } from '../controllers/user.controller'
 import { createExercise, getExercise, getExercises, updateExercise, deleteExercise } from '../controllers/exercise.controller'
-import { createAnamnesis, getAllAnamnesis, getAnamnesis, updateAnamnesis, deleteAnamnesis} from '../controllers/anamnesis.controller'
+import { createAnamnesis, getAllAnamnesis, getAnamnesis, updateAnamnesis, deleteAnamnesis } from '../controllers/anamnesis.controller'
+import { createMeasure, getMeasure, getMeasures, updateMeasure, deleteMeasure } from '../controllers/measures.controller'
 
 // auth
 routes.post('/signin', signin)
@@ -30,6 +31,13 @@ routes.post('/user/:userId/anamnesis', TokenValidation, createAnamnesis)
     .get('/user/:userId/anamnesis/:anamnesisId', TokenValidation, getAnamnesis)
     .patch('/user/:userId/anamnesis/:anamnesisId', TokenValidation, updateAnamnesis)
     .delete('/user/:userId/anamnesis/:anamnesisId', TokenValidation, deleteAnamnesis)
+
+// measures
+routes.post('/user/:userId/measures', TokenValidation, createMeasure)
+    .get('/user/:userId/measures', TokenValidation, getMeasures)
+    .get('/user/:userId/measures/:measureId', TokenValidation, getMeasure)
+    .patch('/user/:userId/measures/:measureId', TokenValidation, updateMeasure)
+    .delete('/user/:userId/measures/:measureId', TokenValidation, deleteMeasure)
 
 
 export default routes;

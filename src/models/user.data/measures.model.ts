@@ -1,7 +1,7 @@
 import Mongoose, { Document } from 'mongoose'
 
 export interface IMeasures extends Document {
-    Weight: number,
+    weight: number,
     height: number,
     chest: number,
     waist: number,
@@ -22,7 +22,7 @@ export interface IMeasures extends Document {
 }
 
 const MeasureSchema = new Mongoose.Schema({
-    Weight: { type: Number },
+    weight: { type: Number },
     height: { type: Number },
     chest: { type: Number },
     waist: { type: Number },

@@ -69,7 +69,7 @@ export const deleteExercise = async (req: Request, res: Response) => {
         if (!exerciseId) return res.status(404).json({
             message: 'Failed. Exercise not found'
         })
-        await Exercise.findByIdAndDelete(exerciseId)
+        await Exercise.findByIdAndRemove(exerciseId)
         res.status(200).json({
             message: 'Exercise successfully removed'
         })
