@@ -8,6 +8,7 @@ export enum UserType {
 }
 
 export interface IUser extends Document {
+    name: string,
     username: string,
     email: string,
     password: string,
@@ -21,6 +22,10 @@ export interface IUser extends Document {
 }
 
 const UserSchema = new Mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
     username: {
         type: String,
         unique: true,
@@ -36,6 +41,7 @@ const UserSchema = new Mongoose.Schema({
     },
     password: {
         type: String,
+        min: 6,
         required: true
     },
     cpf: {
