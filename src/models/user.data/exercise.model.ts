@@ -32,5 +32,5 @@ const ExerciseSchema = new Mongoose.Schema({
     }
 })
 
-const ExerciseModel = Mongoose.model<IExercise>('exercise', ExerciseSchema)
+const ExerciseModel = Mongoose.model<IExercise>('Exercise', ExerciseSchema)
 export default ExerciseModel
