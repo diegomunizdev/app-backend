@@ -41,7 +41,7 @@ export const getPromotions = async (req: Request, res: Response) => {
 
 export const updatePromotion = async (req: Request, res: Response) => {
     try {
-        const promotionId = req.params
+        const { promotionId } = req.params
         if (!promotionId) return res.status(400).json({
             error: 'Failed. Promotion not found'
         })
@@ -50,6 +50,7 @@ export const updatePromotion = async (req: Request, res: Response) => {
             value: req.body.value,
             date_start: req.body.date_start,
             date_end: req.body.date_end,
+            user_id: req.body.user_id
         }
         await Promotions.findByIdAndUpdate(promotionId, {
             $set: promotion

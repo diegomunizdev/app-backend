@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const routes: Router = Router();
-import { TokenValidation } from '../libs/verifyToken';
+import { TokenValidation } from '../middlewares/verifyToken';
 
 import { signin } from '../controllers/auth.controller';
 import { createUser, getUser, getUsers, updateUser, deleteUser } from '../controllers/user.controller'
