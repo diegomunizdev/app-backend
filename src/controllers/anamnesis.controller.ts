@@ -4,13 +4,14 @@ import Anamnesis, { IAnamnesis } from '../models/user.data/anamnesis.model'
 export const createAnamnesis = async (req: Request, res: Response) => {
     try {
         const anamnesis: IAnamnesis = new Anamnesis(req.body)
-        if (!anamnesis) return res.status(400).json({ error: 'Failed. Listing could not be created' })
-        await anamnesis.save()
-        res.status(200).json({
-            message: 'Anamnesis successfully created'
+        if (!anamnesis) return res.status(400).json({
+            status: 'Failure',
+            error: 'Listing could not be created'
         })
+        await anamnesis.save()
+        res.status(200).json({ status: 'Success', data: anamnesis })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
@@ -20,21 +21,22 @@ export const getAllAnamnesis = async (req: Request, res: Response) => {
         if (!anamnesis) return res.status(400).json({
             message: 'Failed. Anamnesis were not found'
         })
-        res.status(200).json(anamnesis)
+        res.status(200).json({ status: 'Success', data: anamnesis })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
-export const getAnamnesis = async (req: Request, res: Response) => {
+export const getByAnamnesisId = async (req: Request, res: Response) => {
     try {
         const anamnesis = await Anamnesis.findById(req.params.anamnesisId)
         if (!anamnesis) return res.status(404).json({
-            message: 'Failed. Anamnesis not found'
+            status: 'Failure',
+            message: 'Anamnesis not found'
         })
-        res.status(200).json(anamnesis)
+        res.status(200).json({ status: 'Success', data: anamnesis })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
@@ -65,11 +67,9 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
         await Anamnesis.findByIdAndUpdate(anamnesisId, {
             $set: anamnesis
         }, { new: true })
-        res.status(200).json({
-            message: 'Anamnesis updated successfully'
-        })
+        res.status(200).json({ status: 'Success', data: anamnesis })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
@@ -81,9 +81,10 @@ export const deleteAnamnesis = async (req: Request, res: Response) => {
         })
         await Anamnesis.findByIdAndRemove(anamnesisId)
         res.status(200).json({
+            status: 'Success',
             message: 'Anamnesis successfully removed'
         })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
