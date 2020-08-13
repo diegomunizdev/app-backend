@@ -7,7 +7,7 @@ import { createUser, getUser, getUsers, updateUser, deleteUser } from '../contro
 import { createExercise, getExercise, getExercises, updateExercise, deleteExercise } from '../controllers/exercise.controller'
 import { createAnamnesis, getAllAnamnesis, getAnamnesis, updateAnamnesis, deleteAnamnesis } from '../controllers/anamnesis.controller'
 import { createMeasure, getMeasure, getMeasures, updateMeasure, deleteMeasure } from '../controllers/measures.controller'
-
+import { createPromotion, getPromotion, getPromotions, updatePromotion, deletePromotion } from '../controllers/promotion.controller';
 // auth
 routes.post('/auth/signin', signin)
 
@@ -39,5 +39,11 @@ routes.post('/user/:userId/measures', TokenValidation, createMeasure)
     .patch('/user/:userId/measures/:measureId', TokenValidation, updateMeasure)
     .delete('/user/:userId/measures/:measureId', TokenValidation, deleteMeasure)
 
+// promotion
+routes.post('/user/:userId/promotion', TokenValidation, createPromotion)
+    .get('/user/:userId/promotion', TokenValidation, getPromotions)
+    .get('/user/:userId/promotion/:promotionId', TokenValidation, getPromotion)
+    .patch('/user/:userId/promotion/:promotionId', TokenValidation, updatePromotion)
+    .delete('/user/:userId/promotion/:promotionId', TokenValidation, deletePromotion)
 
 export default routes;
