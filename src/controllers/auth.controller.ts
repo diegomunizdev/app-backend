@@ -12,6 +12,7 @@ export const signin = async (req: Request, res: Response) => {
             status: 'Failure',
             error: 'Invalid username or password'
         })
+
         const correctPassword: boolean = await user.validatePassword(req.body.password);
         if (!correctPassword) return res.status(400).json({
             status: 'Failure',
@@ -26,8 +27,9 @@ export const signin = async (req: Request, res: Response) => {
             status: 'Failure',
             error: 'Token was not provider'
         })
+
         user ? user.password = undefined : ''
-        res.header('access_token', token).json({ access_token: token })
+        res.header('Authorization', token).json({ Authorization: token })
     } catch (error) {
         res.json({ status: 'Failure', error: error })
     }

@@ -17,7 +17,7 @@ export const createAddress = async (req: Request, res: Response) => {
 
 export const getAddress = async (req: Request, res: Response) => {
     try {
-        const userId = await Address.findById(req.params.userId)
+        const userId = await Address.findOne({ user_id: req.params.userId })
         if (!userId) return res.status(404).json({
             status: 'Failure',
             error: 'Failed. Address not found'
@@ -30,8 +30,8 @@ export const getAddress = async (req: Request, res: Response) => {
 
 export const updateAddress = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params
-        const addr = await Address.findOne({ user_id: userId })
+        const addr = await Address.findOne({ user_id: req.params.userId })
+        console.log(addr)
         if (!addr) res.status(404).json({
             status: 'Failure',
             error: 'Failed. Address not found'
@@ -44,6 +44,7 @@ export const updateAddress = async (req: Request, res: Response) => {
             neighborhood: req.body.neighborhood,
             city: req.body.city
         }
+
         await Address.findByIdAndUpdate(addr ? addr.id : '', {
             $set: address
         }, { new: true })
@@ -55,14 +56,17 @@ export const updateAddress = async (req: Request, res: Response) => {
 
 export const deleteAddress = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params
-        const addr = await Address.findOne({ user_id: userId })
+        const addr = await Address.findOne({ user_id: req.params.userId })
         if (!addr) res.status(404).json({
             status: 'Failure',
             error: 'Failed. Address not found'
         })
 
-        await Address.findByIdAndRemove(addr ? addr.id : '')
+        const deleteAddress = await Address.findByIdAndRemove(addr ? addr.id : '')
+        if (!deleteAddress) return res.status(404).json({
+            status: 'Failure',
+            error: 'has not been removed'
+        })
         res.status(200).json({
             status: 'Success',
             message: 'Address successfully removed'

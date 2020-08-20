@@ -4,6 +4,7 @@ import { TokenValidation } from '../middlewares/token.validation';
 
 import { signin } from '../controllers/auth.controller';
 import { createUser, getByUserId, getUsers, updateUser, deleteUser } from '../controllers/user.controller'
+import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/address.controller'
 import { createExercise, getByExerciseId, getExercises, updateExercise, deleteExercise } from '../controllers/exercise.controller'
 import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/anamnesis.controller'
 import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/measures.controller'
@@ -20,6 +21,12 @@ routes.post('/user', TokenValidation, createUser)
     .get(`${url_user}`, TokenValidation, getByUserId)
     .patch(`${url_user}`, TokenValidation, updateUser)
     .delete(`${url_user}`, TokenValidation, deleteUser)
+
+// Address
+routes.post(`${url_user}/address`, TokenValidation, createAddress)
+    .get(`${url_user}/address`, TokenValidation, getAddress)
+    .patch(`${url_user}/address`, TokenValidation, updateAddress)
+    .delete(`${url_user}/address`, TokenValidation, deleteAddress)
 
 // exercises
 routes.post(`${url_user}/exercises`, TokenValidation, createExercise)

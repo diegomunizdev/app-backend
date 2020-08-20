@@ -3,6 +3,8 @@ import User, { IUser } from '../models/user.data/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+import { deleteAddress } from './address.controller'
+
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user: IUser = new User(req.body);
@@ -20,7 +22,10 @@ export const createUser = async (req: Request, res: Response) => {
             error: 'Token was not provider'
         })
         saveUser.password = undefined
-        res.header('access_token', token).json({ status: 'Success', data: saveUser });
+        res.header('Authorization', token).json({
+            status: 'Success',
+            data: saveUser
+        });
     } catch (error) {
         res.json({ status: 'Failure', error: error })
     }
@@ -62,7 +67,6 @@ export const updateUser = async (req: Request, res: Response) => {
         })
         const user = {
             name: req.body.username,
-            username: req.body.username,
             email: req.body.email,
             password: req.body.password,
             type: req.body.type,
@@ -77,7 +81,10 @@ export const updateUser = async (req: Request, res: Response) => {
             $set: user
         }, { new: true })
         user.password = undefined
-        res.status(200).json({ status: 'Success', data: user })
+        res.status(200).json({
+            status: 'Success',
+            data: user
+        })
     } catch (error) {
         res.json({ status: 'Failure', error: error })
     }
