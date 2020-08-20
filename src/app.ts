@@ -13,10 +13,10 @@ app.set('port', process.env.PORT ? process.env.PORT : '');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use((req: Request, res: Response, next: NextFunction) => {
-    // Which site is allowed to connect, in the example below the "*" indicates that any site can connect
-    res.header("Access-Control-Allow-Origin", "*");
-    // What methods can the connection perform in the API
-    res.header("Access-Control-Allow-Methods", 'GET,PUT,PATCH,POST,DELETE');
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,PATCH,OPTIONS,POST,PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Authorization, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
     app.use(cors());
     next();
 });

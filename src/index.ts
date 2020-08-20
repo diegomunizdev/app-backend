@@ -6,7 +6,7 @@ import './database';
 
 function main() {
     app.listen(app.get('port'));
-    console.log('> Servidor rodando na porta', app.get('port'));
+    console.log('> Server running on the port:', app.get('port'));
 }
 
 main();
