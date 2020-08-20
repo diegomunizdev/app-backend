@@ -4,12 +4,14 @@ import Exercise, { IExercise } from '../models/user.data/exercise.model'
 export const createExercise = async (req: Request, res: Response) => {
     try {
         const exercise: IExercise = new Exercise(req.body)
-        await exercise.save()
-        res.status(200).json({
-            message: 'Exercise successfully created'
+        if (!exercise) return res.status(400).json({
+            status: 'Failure',
+            error: 'Unable to save exercise'
         })
+        await exercise.save()
+        res.status(200).json({ status: 'Success', data: exercise })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
@@ -17,23 +19,25 @@ export const getExercises = async (req: Request, res: Response) => {
     try {
         const exercises = await Exercise.find()
         if (!exercises) return res.status(404).json({
+            status: 'Failure',
             error: 'Failed. Exercises were not found'
         })
-        res.status(200).json(exercises)
+        res.status(200).json({ status: 'Success', data: exercises })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
-export const getExercise = async (req: Request, res: Response) => {
+export const getByExerciseId = async (req: Request, res: Response) => {
     try {
         const exercise = await Exercise.findById(req.params.exerciseId)
         if (!exercise) return res.status(404).json({
+            status: 'Failure',
             error: 'Failed. Exercise not found'
         })
-        res.status(200).json(exercise)
+        res.status(200).json({ status: 'Success', data: exercise })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
@@ -41,6 +45,7 @@ export const updateExercise = async (req: Request, res: Response) => {
     try {
         const { exerciseId } = req.params
         if (!exerciseId) return res.status(404).json({
+            status: 'Failure',
             error: 'Failed. Exercise not found'
         })
         const exercise = {
@@ -55,11 +60,9 @@ export const updateExercise = async (req: Request, res: Response) => {
         await Exercise.findByIdAndUpdate(exerciseId, {
             $set: exercise
         }, { new: true })
-        res.status(200).json({
-            message: 'Exercises updated successfully'
-        })
+        res.status(200).json({ status: 'Success', data: exercise })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
 
@@ -67,13 +70,15 @@ export const deleteExercise = async (req: Request, res: Response) => {
     try {
         const exerciseId = req.params.exerciseId
         if (!exerciseId) return res.status(404).json({
+            status: 'Failure',
             error: 'Failed. Exercise not found'
         })
         await Exercise.findByIdAndRemove(exerciseId)
         res.status(200).json({
+            status: 'Success',
             message: 'Exercise successfully removed'
         })
     } catch (error) {
-        res.json(error)
+        res.json({ status: 'Failure', error: error })
     }
 }
