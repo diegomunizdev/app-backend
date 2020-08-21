@@ -3,8 +3,6 @@ import User, { IUser, UserType } from '../models/user.data/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { deleteAddress } from './address.controller'
-
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user: IUser = new User(req.body);
@@ -90,6 +88,7 @@ export const updateUser = async (req: Request, res: Response) => {
         })
         const user = {
             name: req.body.name,
+            username: req.body.username,
             email: req.body.email,
             password: req.body.password,
             cpf: req.body.cpf,

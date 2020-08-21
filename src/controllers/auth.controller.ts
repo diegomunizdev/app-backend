@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 export const signin = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({
-            email: req.body.email
+            username: req.body.username
         }).select('+password');
 
         if (!user) return res.status(400).json({
