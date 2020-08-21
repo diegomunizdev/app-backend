@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User, { IUser } from '../models/user.data/user.model';
+import User, { IUser, UserType } from '../models/user.data/user.model';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
@@ -35,10 +35,33 @@ export const getByUserId = async (req: Request, res: Response) => {
     try {
         const user = await User.findById(req.params.userId)
         if (!user) return res.status(404).json({
+            status: 'Failure',
             message: 'User not found'
         })
         user ? user.password = undefined : ''
         res.status(200).json({ status: 'Success', data: user })
+    } catch (error) {
+        res.json({ status: 'Failure', error: error })
+    }
+}
+
+export const getUsersType = async (req: Request, res: Response) => {
+    try {
+        const type = req.params.type
+        let usersType
+        if (UserType.ADMIN === type) {
+            usersType = await User.find({ type: UserType.ADMIN })
+        } else if (UserType.CLIENT === type) {
+            usersType = await User.find({ type: UserType.CLIENT })
+        } else if (UserType.PERSONAL_TRAINER === type) {
+            usersType = await User.find({ type: UserType.PERSONAL_TRAINER })
+        }
+        if (!usersType) return res.status(404).json({
+            status: 'Failute',
+            message: 'User not found'
+        })
+        usersType ? usersType.map(el => el.password = undefined) : ''
+        res.status(200).json({ status: 'Success', data: usersType })
     } catch (error) {
         res.json({ status: 'Failure', error: error })
     }
@@ -60,23 +83,27 @@ export const getUsers = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
     try {
-        const { userId } = req.params
+        const userId = await User.findById(req.params.userId)
         if (!userId) return res.status(404).json({
             status: 'Failure',
             error: 'Update failed. User not found'
         })
         const user = {
-            name: req.body.username,
+            name: req.body.name,
             email: req.body.email,
             password: req.body.password,
+            cpf: req.body.cpf,
+            date_of_birth: req.body.date_of_birth,
             type: req.body.type,
             phone: req.body.phone,
+            genre: req.body.genre,
             encryptPassword: async (password: string): Promise<string> => {
                 password = req.body.password
                 const salt = await bcrypt.genSalt(10);
                 return bcrypt.hash(password, salt)
             }
         }
+        user.password = await user.encryptPassword(user.password ? user.password : '')
         await User.findByIdAndUpdate(userId, {
             $set: user
         }, { new: true })

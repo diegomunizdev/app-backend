@@ -14,16 +14,15 @@ export interface IUser extends Document {
     cpf: string,
     date_of_birth: string,
     type: UserType, // admin, client or personal_trainer
-    phone: String,
-    genre: String,
+    phone: string,
+    genre: string,
     encryptPassword(password: string): Promise<string>,
     validatePassword(password: string): Promise<boolean>
 }
 
 const UserSchema = new Mongoose.Schema({
     name: {
-        type: String,
-        required: true
+        type: String
     },
     email: {
         type: String,
@@ -43,20 +42,17 @@ const UserSchema = new Mongoose.Schema({
         min: 11
     },
     date_of_birth: {
-        type: String,
-        required: true
+        type: String
     },
     type: {
         type: UserType,
         required: true
     },
     phone: {
-        type: String,
-        required: true
+        type: String
     },
     genre: {
-        type: String,
-        required: true
+        type: String
     }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },
