@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import User from '../models/user.data/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
+import { responseError, responseSuccess} from '../middlewares/response'
 
 export const signin = async (req: Request, res: Response) => {
     try {
@@ -32,7 +33,7 @@ export const signin = async (req: Request, res: Response) => {
         user ? user.password = undefined : ''
         res.header('Authorization', token).json({ Authorization: token })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -45,7 +46,7 @@ export const forgot = async (req: Request, res: Response) => {
         })
         res.status(200).json({ status: 'Success', data: user })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -75,6 +76,6 @@ export const changePassword = async (req: Request, res: Response) => {
             data: user
         })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }

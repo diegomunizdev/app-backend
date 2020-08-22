@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import Measures, { IMeasures } from '../models/user.data/measures.model'
 import { PaginationData } from './pagination.controller'
+import { responseError, responseSuccess} from '../middlewares/response'
 
 export const createMeasure = async (req: Request, res: Response) => {
     try {
@@ -12,7 +13,7 @@ export const createMeasure = async (req: Request, res: Response) => {
         await measure.save()
         res.status(200).json({ status: 'Success', data: measure })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -27,7 +28,7 @@ export const getByMeasureId = async (req: Request, res: Response) => {
         })
         res.status(200).json({ status: 'Success', data: measure })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -62,7 +63,7 @@ export const updateMeasure = async (req: Request, res: Response) => {
         }, { new: true })
         res.status(200).json({ status: 'Success', data: measure })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -79,6 +80,6 @@ export const deleteMeasure = async (req: Request, res: Response) => {
             message: 'Measure successfully removed'
         })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }

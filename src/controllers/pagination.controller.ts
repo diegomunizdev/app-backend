@@ -1,5 +1,6 @@
-import { Request, Response } from "express"
+import { Request, Response } from 'express'
 import { UserType } from '../models/user.data/user.model'
+import { responseError, responseSuccess } from '../middlewares/response'
 
 export const PaginationData = (model: any) => {
     return async (req: Request, res: Response) => {
@@ -38,14 +39,11 @@ export const PaginationData = (model: any) => {
 
             result.data.map((dt: any) => dt.password = undefined)
 
-            if (!result) return res.status(400).json({
-                status: 'Failure',
-                error: 'Users not found'
-            })
+            if (!result.data) responseError(res, 'Users not found', 400)
 
-            res.status(200).json({ status: 'Success', result: result })
+            responseSuccess(res, result, 200)
         } catch (error) {
-            res.json({ status: 'Failure', error: error })
+            responseError(res, error)
         }
     }
 }
@@ -104,21 +102,11 @@ export const PaginationDataType = (model: any) => {
                     .exec()
             }
 
-            if (!result.data) return res.status(404).json({
-                status: 'Failute',
-                message: 'User not found'
-            })
-
+            if (!result.data) responseError(res, 'Users not found', 400)
             result.data.map((dt: any) => dt.password = undefined)
-
-            if (!result) return res.status(400).json({
-                status: 'Failure',
-                error: 'Users not found'
-            })
-
-            res.status(200).json({ status: 'Success', result: result })
+            responseSuccess(res, result, 200)
         } catch (error) {
-            res.json({ status: 'Failure', error: error })
+            responseError(res, error)
         }
     }
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const routes: Router = Router();
-import { TokenValidation } from '../middlewares/token.validation';
+import { TokenValidation, TokenValidationAdmin, TokenValidationAdminAndPersonal } from '../middlewares/token.validation';
 import { signin, forgot, changePassword } from '../controllers/auth.controller';
 import { createUser, getByUserId, getUsers, getUsersByType, updateUser, deleteUser } from '../controllers/user.controller'
 import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/address.controller'
@@ -17,12 +17,12 @@ routes.post('/auth/signin', signin)
 const url_user = '/user/:userId'
 
 // user
-routes.post('/user', TokenValidation, createUser)
-    .get('/user', TokenValidation, getUsers)
-    .get('/user/:type', TokenValidation, getUsersByType)
-    .get(`${url_user}`, TokenValidation, getByUserId)
+routes.post('/user', TokenValidationAdmin, createUser)
+    .get('/user', TokenValidationAdminAndPersonal, getUsers)
+    .get('/user/:type', TokenValidationAdminAndPersonal, getUsersByType)
+    .get(`${url_user}`, TokenValidationAdminAndPersonal, getByUserId)
     .patch(`${url_user}`, TokenValidation, updateUser)
-    .delete(`${url_user}`, TokenValidation, deleteUser)
+    .delete(`${url_user}`, TokenValidationAdmin, deleteUser)
 
 // Address
 routes.post(`${url_user}/address`, TokenValidation, createAddress)
@@ -31,31 +31,31 @@ routes.post(`${url_user}/address`, TokenValidation, createAddress)
     .delete(`${url_user}/address`, TokenValidation, deleteAddress)
 
 // exercises
-routes.post(`${url_user}/exercises`, TokenValidation, createExercise)
+routes.post(`${url_user}/exercises`, TokenValidationAdminAndPersonal, createExercise)
     .get(`${url_user}/exercises`, TokenValidation, getExercises)
     .get(`${url_user}/exercises/:exerciseId`, TokenValidation, getByExerciseId)
-    .patch(`${url_user}/exercises/:exerciseId`, TokenValidation, updateExercise)
-    .delete(`${url_user}/exercises/:exerciseId`, TokenValidation, deleteExercise)
+    .patch(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, updateExercise)
+    .delete(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, deleteExercise)
 
 // anamnesis
-routes.post(`${url_user}/anamnesis`, TokenValidation, createAnamnesis)
+routes.post(`${url_user}/anamnesis`, TokenValidationAdminAndPersonal, createAnamnesis)
     .get(`${url_user}/anamnesis`, TokenValidation, getAllAnamnesis)
     .get(`${url_user}/anamnesis/:anamnesisId`, TokenValidation, getByAnamnesisId)
-    .patch(`${url_user}/anamnesis/:anamnesisId`, TokenValidation, updateAnamnesis)
-    .delete(`${url_user}/anamnesis/:anamnesisId`, TokenValidation, deleteAnamnesis)
+    .patch(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, updateAnamnesis)
+    .delete(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, deleteAnamnesis)
 
 // measures
-routes.post(`${url_user}/measures`, TokenValidation, createMeasure)
+routes.post(`${url_user}/measures`, TokenValidationAdminAndPersonal, createMeasure)
     .get(`${url_user}/measures`, TokenValidation, getMeasures)
-    .get(`${url_user}/measures/:measureId`, TokenValidation, getByMeasureId)
+    .get(`${url_user}/measures/:measureId`, TokenValidationAdminAndPersonal, getByMeasureId)
     .patch(`${url_user}/measures/:measureId`, TokenValidation, updateMeasure)
     .delete(`${url_user}/measures/:measureId`, TokenValidation, deleteMeasure)
 
 // promotion
-routes.post(`${url_user}/promotion`, TokenValidation, createPromotion)
-    .get(`${url_user}/promotion`, TokenValidation, getPromotions)
-    .get(`${url_user}/promotion/:promotionId`, TokenValidation, getByPromotionId)
-    .patch(`${url_user}/promotion/:promotionId`, TokenValidation, updatePromotion)
-    .delete(`${url_user}/promotion/:promotionId`, TokenValidation, deletePromotion)
+routes.post(`${url_user}/promotion`, TokenValidationAdmin, createPromotion)
+    .get(`${url_user}/promotion`, TokenValidationAdmin, getPromotions)
+    .get(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, getByPromotionId)
+    .patch(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, updatePromotion)
+    .delete(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, deletePromotion)
 
 export default routes;

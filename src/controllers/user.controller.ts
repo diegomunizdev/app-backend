@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import User, { IUser } from '../models/user.data/user.model'
 import bcrypt from 'bcrypt'
 import { PaginationData, PaginationDataType } from './pagination.controller';
+import { responseError, responseSuccess} from '../middlewares/response'
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -14,7 +15,7 @@ export const createUser = async (req: Request, res: Response) => {
         await user.save()
         res.status(200).json({ status: 'Success', data: user })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -28,7 +29,7 @@ export const getByUserId = async (req: Request, res: Response) => {
         user ? user.password = undefined : ''
         res.status(200).json({ status: 'Success', data: user })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -69,7 +70,7 @@ export const updateUser = async (req: Request, res: Response) => {
             data: user
         })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -85,7 +86,7 @@ export const deleteUser = async (req: Request, res: Response) => {
             message: 'User removed successfully'
         })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 

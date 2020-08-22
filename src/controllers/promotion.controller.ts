@@ -1,6 +1,9 @@
 import { Request, Response } from 'express'
-import Promotions, { IPromotions } from '../models/promotions'
+import Promotions, { IPromotions } from '../models/promotions.model'
 import { PaginationData } from './pagination.controller'
+import { responseError, responseSuccess } from '../middlewares/response'
+
+// TODO: refatorar respostas
 
 export const createPromotion = async (req: Request, res: Response) => {
     try {
@@ -10,9 +13,9 @@ export const createPromotion = async (req: Request, res: Response) => {
             error: 'Promotion could not be created'
         })
         await promotion.save()
-        res.status(200).json({ status: 'Success', data: promotion })
+        responseSuccess(res, promotion, 200)
     } catch (error) {
-        res.status(400).json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -24,9 +27,9 @@ export const getByPromotionId = async (req: Request, res: Response) => {
             status: 'Failure',
             error: 'Promotion not found'
         })
-        res.status(200).json({ status: 'Success', data: promotion })
+        responseSuccess(res, promotion, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -50,9 +53,9 @@ export const updatePromotion = async (req: Request, res: Response) => {
         await Promotions.findByIdAndUpdate(promotionId, {
             $set: promotion
         }, { new: true })
-        res.status(200).json(promotion)
+        responseSuccess(res, promotion, 200)
     } catch (error) {
-        res.json(error)
+        responseError(res, error)
     }
 }
 
@@ -64,10 +67,8 @@ export const deletePromotion = async (req: Request, res: Response) => {
             error: 'Failed. Promotion not found'
         })
         await Promotions.findByIdAndRemove(promotionId)
-        res.status(200).json({
-            message: 'Promotion successfully removed'
-        })
+        responseSuccess(res, 'Promotion successfully removed', 200)
     } catch (error) {
-        res.json(error)
+        responseError(res, error)
     }
 }

@@ -1,40 +1,32 @@
 import { Request, Response } from 'express'
+import { responseError, responseSuccess } from '../middlewares/response'
 import Address, { IAddress } from '../models/user.data/address.model'
 
 export const createAddress = async (req: Request, res: Response) => {
     try {
         const address: IAddress = new Address(req.body)
-        if (!address) return res.status(400).json({
-            status: 'Failure',
-            error: 'Unable to save address'
-        })
+        if (!address) responseError(res, 'Unable to save address', 400)
         await address.save()
-        res.status(200).json({ status: 'Success', data: address })
+        responseSuccess(res, address, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const getAddress = async (req: Request, res: Response) => {
     try {
         const userId = await Address.findOne({ user_id: req.params.userId })
-        if (!userId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Address not found'
-        })
-        res.status(200).json({ status: 'Success', data: userId })
+        if (!userId) responseError(res, 'Address not found', 404)
+        responseSuccess(res, userId, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const updateAddress = async (req: Request, res: Response) => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        if (!addr) res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Address not found'
-        })
+        if (!addr) responseError(res, 'Address not found', 404)
         const address = {
             zip_code: req.body.zip_code,
             name: req.body.name,
@@ -47,30 +39,20 @@ export const updateAddress = async (req: Request, res: Response) => {
         await Address.findByIdAndUpdate(addr ? addr.id : '', {
             $set: address
         }, { new: true })
-        res.status(200).json({ status: 'Success', data: address })
+        responseSuccess(res, addr, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const deleteAddress = async (req: Request, res: Response) => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        if (!addr) res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Address not found'
-        })
-
+        if (!addr) responseError(res, 'Address not found', 404)
         const deleteAddress = await Address.findByIdAndRemove(addr ? addr.id : '')
-        if (!deleteAddress) return res.status(404).json({
-            status: 'Failure',
-            error: 'has not been removed'
-        })
-        res.status(200).json({
-            status: 'Success',
-            message: 'Address successfully removed'
-        })
+        if (!deleteAddress) responseError(res, 'Has not been removed', 400)
+        responseSuccess(res, 'Address successfully removed', 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }

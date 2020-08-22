@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import Exercise, { IExercise } from '../models/user.data/exercise.model'
 import { PaginationData } from './pagination.controller'
+import { responseError, responseSuccess} from '../middlewares/response'
 
 export const createExercise = async (req: Request, res: Response) => {
     try {
@@ -12,7 +13,7 @@ export const createExercise = async (req: Request, res: Response) => {
         await exercise.save()
         res.status(200).json({ status: 'Success', data: exercise })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -27,7 +28,7 @@ export const getByExerciseId = async (req: Request, res: Response) => {
         })
         res.status(200).json({ status: 'Success', data: exercise })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -52,7 +53,7 @@ export const updateExercise = async (req: Request, res: Response) => {
         }, { new: true })
         res.status(200).json({ status: 'Success', data: exercise })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -69,6 +70,6 @@ export const deleteExercise = async (req: Request, res: Response) => {
             message: 'Exercise successfully removed'
         })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }

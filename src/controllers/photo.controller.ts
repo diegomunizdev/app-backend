@@ -2,6 +2,9 @@ import { Request, Response } from 'express'
 import Photo from '../models/user.data/photo.model'
 import path from 'path'
 import fs from 'fs-extra'
+import { responseError, responseSuccess } from '../middlewares/response'
+
+// TODO: refatorar respostas
 
 export const createPhoto = async (req: Request, res: Response) => {
     try {
@@ -21,7 +24,7 @@ export const createPhoto = async (req: Request, res: Response) => {
         await photo.save()
         res.status(200).json({ status: 'Success', data: photo })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -34,7 +37,7 @@ export const getPhoto = async (req: Request, res: Response) => {
         })
         res.status(200).json({ status: 'Success', data: userId })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -55,7 +58,7 @@ export const updatePhoto = async (req: Request, res: Response) => {
         }, { new: true })
         res.status(200).json({ status: 'Success', data: pht })
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -66,11 +69,8 @@ export const deletePhoto = async (req: Request, res: Response) => {
         if (pht) {
             fs.unlink(path.resolve(pht.imagePath));
         }
-        return res.json({
-            status: 'Success',
-            message: 'Photo removed successfully',
-        });
+        responseSuccess(res, 'Photo successfully removed', 200)
     } catch (error) {
-
+        responseError(res, error)
     }
 }
