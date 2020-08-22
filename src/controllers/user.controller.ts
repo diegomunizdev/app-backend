@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
-import User, { IUser, UserType } from '../models/user.data/user.model'
+import User, { IUser } from '../models/user.data/user.model'
 import bcrypt from 'bcrypt'
+import { PaginationData, PaginationDataType } from './pagination.controller';
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -31,41 +32,9 @@ export const getByUserId = async (req: Request, res: Response) => {
     }
 }
 
-export const getUsersType = async (req: Request, res: Response) => {
-    try {
-        const type = req.params.type
-        let usersType
-        if (UserType.ADMIN === type) {
-            usersType = await User.find({ type: UserType.ADMIN })
-        } else if (UserType.CLIENT === type) {
-            usersType = await User.find({ type: UserType.CLIENT })
-        } else if (UserType.PERSONAL_TRAINER === type) {
-            usersType = await User.find({ type: UserType.PERSONAL_TRAINER })
-        }
-        if (!usersType) return res.status(404).json({
-            status: 'Failute',
-            message: 'User not found'
-        })
-        usersType ? usersType.map(el => el.password = undefined) : ''
-        res.status(200).json({ status: 'Success', data: usersType })
-    } catch (error) {
-        res.json({ status: 'Failure', error: error })
-    }
-}
+export const getUsersByType = PaginationDataType(User)
 
-export const getUsers = async (req: Request, res: Response) => {
-    try {
-        const users = await User.find()
-        if (!users) return res.status(404).json({
-            status: 'Failure',
-            error: 'Users not found'
-        })
-        users ? users.map(el => el.password = undefined) : ''
-        res.status(200).json({ status: 'Success', data: users })
-    } catch (error) {
-        res.json({ status: 'Failure', error: error })
-    }
-}
+export const getUsers = PaginationData(User)
 
 export const updateUser = async (req: Request, res: Response) => {
     try {

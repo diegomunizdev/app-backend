@@ -52,6 +52,5 @@ const MeasureSchema = new Mongoose.Schema({
     }
 })
 
-
 const MeasureModel = Mongoose.model<IMeasures>('Measures', MeasureSchema)
 export default MeasureModel

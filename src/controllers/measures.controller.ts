@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Measures, { IMeasures } from '../models/user.data/measures.model'
+import { PaginationData } from './pagination.controller'
 
 export const createMeasure = async (req: Request, res: Response) => {
     try {
@@ -15,18 +16,7 @@ export const createMeasure = async (req: Request, res: Response) => {
     }
 }
 
-export const getMeasures = async (req: Request, res: Response) => {
-    try {
-        const measures = await Measures.find()
-        if (!measures) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Measures were not found'
-        })
-        res.status(200).json({ status: 'Success', data: measures })
-    } catch (error) {
-        res.json({ status: 'Failure', error: error })
-    }
-}
+export const getMeasures = PaginationData(Measures)
 
 export const getByMeasureId = async (req: Request, res: Response) => {
     try {

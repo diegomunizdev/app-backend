@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Exercise, { IExercise } from '../models/user.data/exercise.model'
+import { PaginationData } from './pagination.controller'
 
 export const createExercise = async (req: Request, res: Response) => {
     try {
@@ -15,18 +16,7 @@ export const createExercise = async (req: Request, res: Response) => {
     }
 }
 
-export const getExercises = async (req: Request, res: Response) => {
-    try {
-        const exercises = await Exercise.find()
-        if (!exercises) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Exercises were not found'
-        })
-        res.status(200).json({ status: 'Success', data: exercises })
-    } catch (error) {
-        res.json({ status: 'Failure', error: error })
-    }
-}
+export const getExercises = PaginationData(Exercise)
 
 export const getByExerciseId = async (req: Request, res: Response) => {
     try {

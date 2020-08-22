@@ -44,7 +44,6 @@ const UserSchema = new Mongoose.Schema({
     cpf: {
         type: String,
         unique: true,
-        required: true,
         min: 11
     },
     date_of_birth: {
