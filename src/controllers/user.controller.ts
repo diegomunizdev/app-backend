@@ -1,7 +1,6 @@
-import { Request, Response } from 'express';
-import User, { IUser, UserType } from '../models/user.data/user.model';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { Request, Response } from 'express'
+import User, { IUser, UserType } from '../models/user.data/user.model'
+import bcrypt from 'bcrypt'
 
 export const createUser = async (req: Request, res: Response) => {
     try {
@@ -11,19 +10,8 @@ export const createUser = async (req: Request, res: Response) => {
             error: 'Error creating user'
         })
         user.password = await user.encryptPassword(user.password ? user.password : '');
-        const saveUser = await user.save();
-        // token
-        const token_secret = process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : undefined
-        const token: string = jwt.sign({ _id: saveUser._id }, token_secret || 'tokentest');
-        if (!token) return res.status(401).json({
-            status: 'Failure',
-            error: 'Token was not provider'
-        })
-        saveUser.password = undefined
-        res.header('Authorization', token).json({
-            status: 'Success',
-            data: saveUser
-        });
+        await user.save()
+        res.status(200).json({ status: 'Success', data: user })
     } catch (error) {
         res.json({ status: 'Failure', error: error })
     }

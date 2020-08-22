@@ -44,7 +44,8 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
     try {
         const { anamnesisId } = req.params
         if (!anamnesisId) return res.status(404).json({
-            error: 'Failed. Anamnesis not found'
+            status: 'Failure',
+            error: 'Anamnesis not found'
         })
         const anamnesis = {
             diabetes: req.body.diabetes,
