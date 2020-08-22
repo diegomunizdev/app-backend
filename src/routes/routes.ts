@@ -1,9 +1,8 @@
 import { Router } from 'express';
 const routes: Router = Router();
 import { TokenValidation } from '../middlewares/token.validation';
-
-import { signin } from '../controllers/auth.controller';
-import { createUser, getByUserId, getUsers, updateUser, deleteUser } from '../controllers/user.controller'
+import { signin, forgot, changePassword } from '../controllers/auth.controller';
+import { createUser, getByUserId, getUsers, getUsersByType, updateUser, deleteUser } from '../controllers/user.controller'
 import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/address.controller'
 import { createExercise, getByExerciseId, getExercises, updateExercise, deleteExercise } from '../controllers/exercise.controller'
 import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/anamnesis.controller'
@@ -12,12 +11,15 @@ import { createPromotion, getByPromotionId, getPromotions, updatePromotion, dele
 
 // auth
 routes.post('/auth/signin', signin)
+    .post('/auth/forgot', forgot)
+    .patch('/auth/user/:userId/changepassword', changePassword)
 
 const url_user = '/user/:userId'
 
 // user
 routes.post('/user', TokenValidation, createUser)
     .get('/user', TokenValidation, getUsers)
+    .get('/user/:type', TokenValidation, getUsersByType)
     .get(`${url_user}`, TokenValidation, getByUserId)
     .patch(`${url_user}`, TokenValidation, updateUser)
     .delete(`${url_user}`, TokenValidation, deleteUser)

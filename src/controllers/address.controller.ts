@@ -31,7 +31,6 @@ export const getAddress = async (req: Request, res: Response) => {
 export const updateAddress = async (req: Request, res: Response) => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        console.log(addr)
         if (!addr) res.status(404).json({
             status: 'Failure',
             error: 'Failed. Address not found'

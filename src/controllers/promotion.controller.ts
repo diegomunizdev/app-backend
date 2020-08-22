@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Promotions, { IPromotions } from '../models/promotions'
+import { PaginationData } from './pagination.controller'
 
 export const createPromotion = async (req: Request, res: Response) => {
     try {
@@ -29,20 +30,7 @@ export const getByPromotionId = async (req: Request, res: Response) => {
     }
 }
 
-
-export const getPromotions = async (req: Request, res: Response) => {
-    try {
-        const promotions = await Promotions.find()
-        if (!promotions) return res.status(400).json({
-            status: 'Failure',
-            error: 'Promotions were not found'
-        })
-        res.status(200).json({ status: 'Success', data: promotions })
-    } catch (error) {
-        res.json({ status: 'Failure', error: error })
-    }
-}
-
+export const getPromotions = PaginationData(Promotions)
 
 export const updatePromotion = async (req: Request, res: Response) => {
     try {

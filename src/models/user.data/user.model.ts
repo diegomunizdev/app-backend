@@ -9,21 +9,26 @@ export enum UserType {
 
 export interface IUser extends Document {
     name: string,
+    username: string,
     email: string,
     password: string | undefined,
     cpf: string,
     date_of_birth: string,
     type: UserType, // admin, client or personal_trainer
-    phone: String,
-    genre: String,
+    phone: string,
+    genre: string,
     encryptPassword(password: string): Promise<string>,
     validatePassword(password: string): Promise<boolean>
 }
 
 const UserSchema = new Mongoose.Schema({
     name: {
+        type: String
+    },
+    username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     email: {
         type: String,
@@ -39,24 +44,20 @@ const UserSchema = new Mongoose.Schema({
     cpf: {
         type: String,
         unique: true,
-        required: true,
         min: 11
     },
     date_of_birth: {
-        type: String,
-        required: true
+        type: String
     },
     type: {
         type: UserType,
         required: true
     },
     phone: {
-        type: String,
-        required: true
+        type: String
     },
     genre: {
-        type: String,
-        required: true
+        type: String
     }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },

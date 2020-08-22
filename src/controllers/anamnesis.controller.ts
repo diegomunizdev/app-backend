@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Anamnesis, { IAnamnesis } from '../models/user.data/anamnesis.model'
+import { PaginationData } from './pagination.controller'
 
 export const createAnamnesis = async (req: Request, res: Response) => {
     try {
@@ -15,17 +16,7 @@ export const createAnamnesis = async (req: Request, res: Response) => {
     }
 }
 
-export const getAllAnamnesis = async (req: Request, res: Response) => {
-    try {
-        const anamnesis = await Anamnesis.find()
-        if (!anamnesis) return res.status(400).json({
-            message: 'Failed. Anamnesis were not found'
-        })
-        res.status(200).json({ status: 'Success', data: anamnesis })
-    } catch (error) {
-        res.json({ status: 'Failure', error: error })
-    }
-}
+export const getAllAnamnesis = PaginationData(Anamnesis)
 
 export const getByAnamnesisId = async (req: Request, res: Response) => {
     try {
@@ -44,7 +35,8 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
     try {
         const { anamnesisId } = req.params
         if (!anamnesisId) return res.status(404).json({
-            error: 'Failed. Anamnesis not found'
+            status: 'Failure',
+            error: 'Anamnesis not found'
         })
         const anamnesis = {
             diabetes: req.body.diabetes,
