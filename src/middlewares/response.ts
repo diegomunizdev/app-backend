@@ -1,10 +1,11 @@
 import { Response } from 'express'
 
 export const responseError = (res: Response, err: any, status_code?: number) => {
-    return res.status(status_code ? status_code : 500).json({
+    return res.status(status_code ? status_code : 400).json({
         code: status_code,
         status: 'Failure',
-        error: err
+        message: err.message,
+        field: err.path
     })
 }
 

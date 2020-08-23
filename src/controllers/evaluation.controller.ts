@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import Evaluation, { IEvaluation } from '../models/evaluation.model'
 import { responseError, responseSuccess } from '../middlewares/response'
+import { PaginationData } from './pagination.controller'
 
 export const createEvaluation = async (req: Request, res: Response) => {
     try {
@@ -13,10 +14,12 @@ export const createEvaluation = async (req: Request, res: Response) => {
     }
 }
 
-export const getEvaluation = async (req: Request, res: Response) => {
+export const getEvaluation = PaginationData(Evaluation)
+
+export const getEvaluationById = async (req: Request, res: Response) => {
     try {
-        const evaluation = await Evaluation.find()
-        if (!evaluation) return responseError(res, 'Evaluations not found', 400)
+        const evaluation = await Evaluation.findOne({ id: req.params.evaluationId })
+        if (!evaluation) return responseError(res, 'Evaluation not found', 400)
         responseSuccess(res, evaluation, 200)
     } catch (error) {
         responseError(res, error)

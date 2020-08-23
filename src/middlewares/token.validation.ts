@@ -23,7 +23,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
 
         next()
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        res.json({ status: 'Failure', error: error.message })
     }
 }
 

@@ -1,5 +1,6 @@
 import Mongoose, { Document } from 'mongoose';
 import bcrypt from 'bcrypt';
+import * as yup from 'yup'
 
 export enum UserType {
     ADMIN = 'admin',
@@ -23,7 +24,8 @@ export interface IUser extends Document {
 
 const UserSchema = new Mongoose.Schema({
     name: {
-        type: String
+        type: String,
+        required: true
     },
     username: {
         type: String,
@@ -44,10 +46,11 @@ const UserSchema = new Mongoose.Schema({
     cpf: {
         type: String,
         unique: true,
-        min: 11
+        min: 10
     },
     date_of_birth: {
-        type: String
+        type: String,
+        required: true
     },
     type: {
         type: UserType,

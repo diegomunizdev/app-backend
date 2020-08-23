@@ -1,17 +1,14 @@
 import { Request, Response } from 'express'
 import Measures, { IMeasures } from '../models/user.data/measures.model'
 import { PaginationData } from './pagination.controller'
-import { responseError, responseSuccess} from '../middlewares/response'
+import { responseError, responseSuccess } from '../middlewares/response'
 
 export const createMeasure = async (req: Request, res: Response) => {
     try {
         const measure: IMeasures = new Measures(req.body)
-        if (!measure) return res.status(400).json({
-            status: 'Failure',
-            error: 'Measure not created'
-        })
+        if (!measure) responseError(res, 'Measure not created', 400)
         await measure.save()
-        res.status(200).json({ status: 'Success', data: measure })
+        responseSuccess(res, measure, 200)
     } catch (error) {
         responseError(res, error)
     }
@@ -22,11 +19,8 @@ export const getMeasures = PaginationData(Measures)
 export const getByMeasureId = async (req: Request, res: Response) => {
     try {
         const measure = await Measures.findById(req.params.measureId)
-        if (!measure) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Measure not found'
-        })
-        res.status(200).json({ status: 'Success', data: measure })
+        if (!measure) responseError(res, 'Measure not found', 404)
+        responseSuccess(res, measure, 200)
     } catch (error) {
         responseError(res, error)
     }
@@ -35,10 +29,7 @@ export const getByMeasureId = async (req: Request, res: Response) => {
 export const updateMeasure = async (req: Request, res: Response) => {
     try {
         const { measureId } = req.params
-        if (!measureId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Measure not found'
-        })
+        if (!measureId) responseError(res, 'Measure not found', 404)
         const measure = {
             weight: req.body.weight,
             height: req.body.height,
@@ -61,7 +52,7 @@ export const updateMeasure = async (req: Request, res: Response) => {
         await Measures.findByIdAndUpdate(measureId, {
             $set: measure
         }, { new: true })
-        res.status(200).json({ status: 'Success', data: measure })
+        responseSuccess(res, measure, 200)
     } catch (error) {
         responseError(res, error)
     }
@@ -70,15 +61,9 @@ export const updateMeasure = async (req: Request, res: Response) => {
 export const deleteMeasure = async (req: Request, res: Response) => {
     try {
         const measureId = req.params.measureId
-        if (!measureId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Measure not found'
-        })
+        if (!measureId) responseError(res, 'Measure not found', 404)
         await Measures.findByIdAndRemove(measureId)
-        res.status(200).json({
-            status: 'Success',
-            message: 'Measure successfully removed'
-        })
+        responseSuccess(res, 'Measure successfully removed', 200)
     } catch (error) {
         responseError(res, error)
     }

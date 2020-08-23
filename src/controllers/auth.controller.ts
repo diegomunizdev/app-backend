@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import User from '../models/user.data/user.model';
+import User, { IUser } from '../models/user.data/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-import { responseError, responseSuccess} from '../middlewares/response'
+import { responseError, responseSuccess } from '../middlewares/response'
 
 export const signin = async (req: Request, res: Response) => {
     try {
@@ -10,25 +10,16 @@ export const signin = async (req: Request, res: Response) => {
             username: req.body.username
         }).select('+password');
 
-        if (!user) return res.status(400).json({
-            status: 'Failure',
-            error: 'Invalid username or password'
+        if (!user) responseError(res, 'Invalid username or password', 404)
+
+        const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
+        if (!correctPassword) responseError(res, 'Invalid password', 403)
+
+        const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET || 'tokentest', {
+            expiresIn: '7d'
         })
 
-        const correctPassword: boolean = await user.validatePassword(req.body.password);
-        if (!correctPassword) return res.status(400).json({
-            status: 'Failure',
-            error: 'Invalid password'
-        });
-
-        const token: string = jwt.sign({ id: user._id, type: user.type }, process.env.TOKEN_SECRET || 'tokentest', {
-            expiresIn: '3d'
-        })
-
-        if (!token) return res.status(401).json({
-            status: 'Failure',
-            error: 'Token was not provider'
-        })
+        if (!token) responseSuccess(res, 'Token was not provider', 404)
 
         user ? user.password = undefined : ''
         res.header('Authorization', token).json({ Authorization: token })
@@ -40,11 +31,8 @@ export const signin = async (req: Request, res: Response) => {
 export const forgot = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-        if (!user) return res.status(400).json({
-            status: 'Failure',
-            error: 'User not found in the database'
-        })
-        res.status(200).json({ status: 'Success', data: user })
+        if (!user) responseError(res, 'User not found in the database', 404)
+        responseSuccess(res, user, 200)
     } catch (error) {
         responseError(res, error)
     }
@@ -53,10 +41,7 @@ export const forgot = async (req: Request, res: Response) => {
 export const changePassword = async (req: Request, res: Response) => {
     try {
         const userId = await User.findById(req.params.userId)
-        if (!userId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Update failed. User not found'
-        })
+        if (!userId) responseError(res, 'User not found', 404)
         const user = {
             email: req.body.email,
             password: req.body.password,
@@ -71,10 +56,7 @@ export const changePassword = async (req: Request, res: Response) => {
             $set: user
         }, { new: true })
         user.password = undefined
-        res.status(200).json({
-            status: 'Success',
-            data: user
-        })
+        responseSuccess(res, user, 200)
     } catch (error) {
         responseError(res, error)
     }
