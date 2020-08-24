@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const database: string = process.env.CONNECTION_DATABASE ? process.env.CONNECTION_DATABASE : ''
 
-const options = {
+const options: mongoose.ConnectionOptions = {
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,

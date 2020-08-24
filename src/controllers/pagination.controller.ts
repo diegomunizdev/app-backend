@@ -17,21 +17,21 @@ export const PaginationData = (model: any) => {
             "data": []
         }
 
-        if (startIndex > 0) {
-            result.previous = {
-                page: page - 1,
-                limit: limit
-            }
-        }
-
-        if (endIndex < await model.countDocuments().exec()) {
-            result.next = {
-                page: page + 1,
-                limit: limit
-            }
-        }
-
         try {
+            if (startIndex > 0) {
+                result.previous = {
+                    page: page - 1,
+                    limit: limit
+                }
+            }
+
+            if (endIndex < await model.countDocuments().exec()) {
+                result.next = {
+                    page: page + 1,
+                    limit: limit
+                }
+            }
+
             result.data = await model.find()
                 .limit(limit)
                 .skip(startIndex)
@@ -68,22 +68,20 @@ export const PaginationDataType = (model: any) => {
             "next": {},
             "data": []
         }
-
-        if (startIndex > 0) {
-            result.previous = {
-                page: page - 1,
-                limit: limit
-            }
-        }
-
-        if (endIndex < await model.countDocuments({ type: type }).exec()) {
-            result.next = {
-                page: page + 1,
-                limit: limit
-            }
-        }
-
         try {
+            if (startIndex > 0) {
+                result.previous = {
+                    page: page - 1,
+                    limit: limit
+                }
+            }
+
+            if (endIndex < await model.countDocuments({ type: type }).exec()) {
+                result.next = {
+                    page: page + 1,
+                    limit: limit
+                }
+            }
 
             if (UserType.ADMIN === type) {
                 result.data = await model.find({ type: UserType.ADMIN })
@@ -102,7 +100,7 @@ export const PaginationDataType = (model: any) => {
                     .exec()
             }
 
-            if (!result.data) responseError(res, 'Users not found', 400)
+            if (!result) responseError(res, 'Bad request', 400)
             result.data.map((dt: any) => dt.password = undefined)
             responseSuccess(res, result, 200)
         } catch (error) {

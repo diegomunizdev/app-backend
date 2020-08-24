@@ -8,7 +8,7 @@ export const createAnamnesis = async (req: Request, res: Response) => {
         const anamnesis: IAnamnesis = new Anamnesis(req.body)
         if (!anamnesis) responseError(res, 'Listing could not be created', 400)
         await anamnesis.save()
-        responseSuccess(res, anamnesis, 200)
+        responseSuccess(res, anamnesis, 201)
     } catch (error) {
         responseError(res, error)
     }
@@ -19,10 +19,7 @@ export const getAllAnamnesis = PaginationData(Anamnesis)
 export const getByAnamnesisId = async (req: Request, res: Response) => {
     try {
         const anamnesis = await Anamnesis.findById(req.params.anamnesisId)
-        if (!anamnesis) return res.status(404).json({
-            status: 'Failure',
-            message: 'Anamnesis not found'
-        })
+        if (!anamnesis) responseError(res, 'Bad request', 400)
         responseSuccess(res, anamnesis, 200)
     } catch (error) {
         responseError(res, error)
@@ -32,10 +29,7 @@ export const getByAnamnesisId = async (req: Request, res: Response) => {
 export const updateAnamnesis = async (req: Request, res: Response) => {
     try {
         const { anamnesisId } = req.params
-        if (!anamnesisId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Anamnesis not found'
-        })
+        if (!anamnesisId) responseError(res, 'Bad request', 400)
         const anamnesis = {
             diabetes: req.body.diabetes,
             arterial_hypertension: req.body.arterial_hypertension,
@@ -66,9 +60,7 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
 export const deleteAnamnesis = async (req: Request, res: Response) => {
     try {
         const anamnesisId = req.params.anamnesisId
-        if (!anamnesisId) return res.status(404).json({
-            error: 'Failed. Anamnesis not found'
-        })
+        if (!anamnesisId) responseError(res, 'Bad request', 400)
         await Anamnesis.findByIdAndRemove(anamnesisId)
         responseSuccess(res, 'Anamneses successfully removed', 200)
     } catch (error) {

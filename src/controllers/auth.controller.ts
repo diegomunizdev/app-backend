@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User, { IUser } from '../models/user.data/user.model';
+import User from '../models/user.data/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import { responseError, responseSuccess } from '../middlewares/response'
@@ -10,19 +10,20 @@ export const signin = async (req: Request, res: Response) => {
             username: req.body.username
         }).select('+password');
 
-        if (!user) responseError(res, 'Invalid username or password', 404)
+        if (!user) responseError(res, 'Invalid username or password', 400)
 
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
-        if (!correctPassword) responseError(res, 'Invalid password', 403)
+        if (!correctPassword) responseError(res, 'Invalid password', 400)
 
         const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET || 'tokentest', {
             expiresIn: '7d'
         })
 
-        if (!token) responseSuccess(res, 'Token was not provider', 404)
+        if (!token) responseSuccess(res, 'Token was not provider', 400)
 
         user ? user.password = undefined : ''
-        res.header('Authorization', token).json({ Authorization: token })
+        // TODO: conferir se é necessário retornar o .json({ status: 200, Authorization: token })
+        res.header('Authorization', token).json({ status: 200, Authorization: token })
     } catch (error) {
         responseError(res, error)
     }
