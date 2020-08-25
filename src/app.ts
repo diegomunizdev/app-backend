@@ -10,9 +10,8 @@ import Routes from './routes/routes';
 app.set('port', process.env.PORT ? process.env.PORT : '');
 
 // middlewares
-app.use(morgan('start:dev'));
+app.use(morgan('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }))
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
