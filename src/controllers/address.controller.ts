@@ -1,11 +1,14 @@
 import { Request, Response } from 'express'
 import { responseError, responseSuccess } from '../middlewares/response'
 import Address, { IAddress } from '../models/user.data/address.model'
+import { ValidateAddress } from '../validators/address.validator'
 
 export const createAddress = async (req: Request, res: Response) => {
     try {
         const address: IAddress = new Address(req.body)
         if (!address) responseError(res, 'Unable to save address', 400)
+        // TODO: Validando os dados de endereço
+        ValidateAddress.validate(address)
         await address.save()
         responseSuccess(res, address, 201)
     } catch (error) {

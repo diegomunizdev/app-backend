@@ -2,11 +2,13 @@ import { Request, Response } from 'express'
 import { responseError, responseSuccess } from '../middlewares/response'
 import Anamnesis, { IAnamnesis } from '../models/user.data/anamnesis.model'
 import { PaginationData } from './pagination.controller'
+import { ValidateAnamnesis } from '../validators/anamnesis.validator'
 
 export const createAnamnesis = async (req: Request, res: Response) => {
     try {
         const anamnesis: IAnamnesis = new Anamnesis(req.body)
         if (!anamnesis) responseError(res, 'Listing could not be created', 400)
+        ValidateAnamnesis.validate(anamnesis)
         await anamnesis.save()
         responseSuccess(res, anamnesis, 201)
     } catch (error) {

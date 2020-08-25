@@ -2,11 +2,13 @@ import { Request, Response } from 'express'
 import Exercise, { IExercise } from '../models/user.data/exercise.model'
 import { PaginationData } from './pagination.controller'
 import { responseError, responseSuccess } from '../middlewares/response'
+import { ValidateExercise } from '../validators/exercise.validator'
 
 export const createExercise = async (req: Request, res: Response) => {
     try {
         const exercise: IExercise = new Exercise(req.body)
         if (!exercise) responseError(res, 'Exercise not created', 404)
+        ValidateExercise.validate(exercise)
         await exercise.save()
         responseSuccess(res, exercise, 200)
     } catch (error) {

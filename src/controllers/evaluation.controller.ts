@@ -2,11 +2,13 @@ import { Request, Response } from 'express'
 import Evaluation, { IEvaluation } from '../models/evaluation.model'
 import { responseError, responseSuccess } from '../middlewares/response'
 import { PaginationData } from './pagination.controller'
+import { ValidateEvaluation } from '../validators/evaluation.validator'
 
 export const createEvaluation = async (req: Request, res: Response) => {
     try {
         const evaluation: IEvaluation = new Evaluation(req.body)
         if (!evaluation) return responseError(res, 'Unable to save evaluation', 400)
+        ValidateEvaluation.validate(evaluation)
         await evaluation.save()
         responseSuccess(res, evaluation, 200)
     } catch (error) {
@@ -35,7 +37,8 @@ export const updateEvaluation = async (req: Request, res: Response) => {
             title: req.body.title,
             description: req.body.description
         }
-
+        // TODO: FIXME:
+        ValidateEvaluation.validate(evaluation)
         await Evaluation.findByIdAndUpdate(evaluationId, {
             $set: evaluation
         }, { new: true })

@@ -2,11 +2,13 @@ import { Request, Response } from 'express'
 import Promotions, { IPromotions } from '../models/promotions.model'
 import { PaginationData } from './pagination.controller'
 import { responseError, responseSuccess } from '../middlewares/response'
+import { ValidatePromotion} from '../validators/promotion.validator'
 
 export const createPromotion = async (req: Request, res: Response) => {
     try {
         const promotion: IPromotions = new Promotions(req.body)
         if (!promotion) responseError(res, 'Promotion could not be created', 400)
+        ValidatePromotion.validate(promotion)
         await promotion.save()
         responseSuccess(res, promotion, 200)
     } catch (error) {

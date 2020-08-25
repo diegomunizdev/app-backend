@@ -9,7 +9,7 @@ export const createUser = async (req: Request, res: Response) => {
     try {
         const user: IUser = new User(req.body);
         if (!user) responseError(res, 'Error creating user', 400)
-        // TODO: If not valid it falls in catch
+        // TODO: Se algum atributo não for válido retorna o erro no catch
         await ValidateUser.validate(user)
         user.password = await user.encryptPassword(user.password ? user.password : '');
         await user.save()

@@ -2,11 +2,13 @@ import { Request, Response } from 'express'
 import Measures, { IMeasures } from '../models/user.data/measures.model'
 import { PaginationData } from './pagination.controller'
 import { responseError, responseSuccess } from '../middlewares/response'
+import { ValidateMeasure} from '../validators/measures.validator'
 
 export const createMeasure = async (req: Request, res: Response) => {
     try {
         const measure: IMeasures = new Measures(req.body)
         if (!measure) responseError(res, 'Measure not created', 400)
+        ValidateMeasure.validate(measure)
         await measure.save()
         responseSuccess(res, measure, 200)
     } catch (error) {

@@ -8,7 +8,7 @@ import * as yup from 'yup'
 
 export const ValidateUser = yup.object().shape({
     name: yup.string().required(),
-    username: yup.string().required().min(8),
+    username: yup.string().required(),
     email: yup.string().email(),
     password: yup.string().required().min(8),
     cpf: yup.string().required(),
