@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import Photo from '../models/user.data/photo.model'
 import path from 'path'
 import fs from 'fs-extra'
+import { responseError, responseSuccess } from '../middlewares/response'
 
 export const createPhoto = async (req: Request, res: Response) => {
     try {
@@ -12,39 +13,30 @@ export const createPhoto = async (req: Request, res: Response) => {
             imagePath: req.file.path
         }
 
-        if (!myPhoto.user_id) return res.status(404).json({
-            status: 'Failure',
-            error: 'User not found'
-        })
+        if (!myPhoto.user_id) responseError(res, 'User not found', 404)
 
         const photo = new Photo(myPhoto)
         await photo.save()
-        res.status(200).json({ status: 'Success', data: photo })
+        responseSuccess(res, photo, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const getPhoto = async (req: Request, res: Response) => {
     try {
         const userId = await Photo.findOne({ user_id: req.params.userId })
-        if (!userId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. photo not found'
-        })
-        res.status(200).json({ status: 'Success', data: userId })
+        if (!userId) responseError(res, 'Photo not found', 404)
+        responseSuccess(res, userId, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const updatePhoto = async (req: Request, res: Response) => {
     try {
         const photo = await Photo.findOne({ user_id: req.params.userId })
-        if (!photo) res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. photo not found'
-        })
+        if (!photo) responseError(res, 'Photo not found', 404)
         const pht = {
             user_id: photo?.user_id,
             imagePath: req.file.path
@@ -53,24 +45,22 @@ export const updatePhoto = async (req: Request, res: Response) => {
         await Photo.findByIdAndUpdate(photo?.id, {
             $set: pht
         }, { new: true })
-        res.status(200).json({ status: 'Success', data: pht })
+        responseSuccess(res, pht, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const deletePhoto = async (req: Request, res: Response) => {
     try {
         const photo = await Photo.findOne({ user_id: req.params.userId })
+        if (!photo) responseError(res, 'Photo not found', 404)
         const pht = await Photo.findByIdAndRemove(photo?.id);
         if (pht) {
             fs.unlink(path.resolve(pht.imagePath));
         }
-        return res.json({
-            status: 'Success',
-            message: 'Photo removed successfully',
-        });
+        responseSuccess(res, 'Photo successfully removed', 200)
     } catch (error) {
-
+        responseError(res, error)
     }
 }

@@ -3,7 +3,7 @@ import Mongoose, { Document } from 'mongoose'
 export interface IPromotions extends Document {
     title: string
     subtitle: string
-    value: Number
+    value: number
     date_start: string
     date_end: string
     user_id: string

@@ -1,18 +1,18 @@
 import { Request, Response } from 'express'
-import Promotions, { IPromotions } from '../models/promotions'
+import Promotions, { IPromotions } from '../models/promotions.model'
 import { PaginationData } from './pagination.controller'
+import { responseError, responseSuccess } from '../middlewares/response'
+import { ValidatePromotion} from '../validators/promotion.validator'
 
 export const createPromotion = async (req: Request, res: Response) => {
     try {
         const promotion: IPromotions = new Promotions(req.body)
-        if (!promotion) return res.status(400).json({
-            status: 'Failure',
-            error: 'Promotion could not be created'
-        })
+        if (!promotion) responseError(res, 'Promotion could not be created', 400)
+        ValidatePromotion.validate(promotion)
         await promotion.save()
-        res.status(200).json({ status: 'Success', data: promotion })
+        responseSuccess(res, promotion, 200)
     } catch (error) {
-        res.status(400).json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -20,13 +20,10 @@ export const createPromotion = async (req: Request, res: Response) => {
 export const getByPromotionId = async (req: Request, res: Response) => {
     try {
         const promotion = await Promotions.findById(req.params.promotionId)
-        if (!promotion) return res.status(400).json({
-            status: 'Failure',
-            error: 'Promotion not found'
-        })
-        res.status(200).json({ status: 'Success', data: promotion })
+        if (!promotion) responseError(res, 'Promotion not found', 404)
+        responseSuccess(res, promotion, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -35,10 +32,7 @@ export const getPromotions = PaginationData(Promotions)
 export const updatePromotion = async (req: Request, res: Response) => {
     try {
         const { promotionId } = req.params
-        if (!promotionId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Failed. Promotion not found'
-        })
+        if (!promotionId) responseError(res, 'Promotion not found', 404)
         const promotion = {
             title: req.body.title,
             subtitle: req.body.subtitle,
@@ -50,9 +44,9 @@ export const updatePromotion = async (req: Request, res: Response) => {
         await Promotions.findByIdAndUpdate(promotionId, {
             $set: promotion
         }, { new: true })
-        res.status(200).json(promotion)
+        responseSuccess(res, promotion, 200)
     } catch (error) {
-        res.json(error)
+        responseError(res, error)
     }
 }
 
@@ -60,14 +54,10 @@ export const updatePromotion = async (req: Request, res: Response) => {
 export const deletePromotion = async (req: Request, res: Response) => {
     try {
         const promotionId = req.params.promotionId
-        if (!promotionId) return res.status(400).json({
-            error: 'Failed. Promotion not found'
-        })
+        if (!promotionId) responseError(res, 'Promotion not found', 404)
         await Promotions.findByIdAndRemove(promotionId)
-        res.status(200).json({
-            message: 'Promotion successfully removed'
-        })
+        responseSuccess(res, 'Promotion successfully removed', 200)
     } catch (error) {
-        res.json(error)
+        responseError(res, error)
     }
 }

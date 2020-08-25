@@ -2,33 +2,32 @@ import { Request, Response } from 'express'
 import User, { IUser } from '../models/user.data/user.model'
 import bcrypt from 'bcrypt'
 import { PaginationData, PaginationDataType } from './pagination.controller';
+import { responseError, responseSuccess } from '../middlewares/response'
+import { ValidateUser } from '../validators/user.validator'
 
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user: IUser = new User(req.body);
-        if (!user) return res.status(400).json({
-            status: 'Failure',
-            error: 'Error creating user'
-        })
+        if (!user) responseError(res, 'Error creating user', 400)
+        // TODO: Se algum atributo não for válido retorna o erro no catch
+        await ValidateUser.validate(user)
         user.password = await user.encryptPassword(user.password ? user.password : '');
         await user.save()
-        res.status(200).json({ status: 'Success', data: user })
+        user.password = undefined
+        responseSuccess(res, user, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error, 400)
     }
 }
 
 export const getByUserId = async (req: Request, res: Response) => {
     try {
         const user = await User.findById(req.params.userId)
-        if (!user) return res.status(404).json({
-            status: 'Failure',
-            message: 'User not found'
-        })
+        if (!user) responseError(res, 'User not found', 404)
         user ? user.password = undefined : ''
-        res.status(200).json({ status: 'Success', data: user })
+        responseSuccess(res, user, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
@@ -39,10 +38,7 @@ export const getUsers = PaginationData(User)
 export const updateUser = async (req: Request, res: Response) => {
     try {
         const userId = await User.findById(req.params.userId)
-        if (!userId) return res.status(404).json({
-            status: 'Failure',
-            error: 'Update failed. User not found'
-        })
+        if (!userId) responseError(res, 'User not found', 404)
         const user = {
             name: req.body.name,
             username: req.body.username,
@@ -60,32 +56,25 @@ export const updateUser = async (req: Request, res: Response) => {
             }
         }
         user.password = await user.encryptPassword(user.password ? user.password : '')
+        // TODO: If not valid it falls in catch
+        await ValidateUser.validate(user)
         await User.findByIdAndUpdate(userId, {
             $set: user
         }, { new: true })
         user.password = undefined
-        res.status(200).json({
-            status: 'Success',
-            data: user
-        })
+        responseSuccess(res, user, 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
 export const deleteUser = async (req: Request, res: Response) => {
     try {
         const user = await User.findByIdAndRemove(req.params.userId)
-        if (!user) return res.status(404).json({
-            status: 'Failure',
-            error: 'User has not been removed'
-        })
-        res.status(200).json({
-            status: 'Success',
-            message: 'User removed successfully'
-        })
+        if (!user) responseError(res, 'User not found', 404)
+        responseSuccess(res, 'User successfully removed', 200)
     } catch (error) {
-        res.json({ status: 'Failure', error: error })
+        responseError(res, error)
     }
 }
 
