@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePromotion = exports.updatePromotion = exports.getPromotions = exports.getByPromotionId = exports.createPromotion = void 0;
 const promotions_model_1 = __importDefault(require("../models/promotions.model"));
-const pagination_controller_1 = require("./pagination.controller");
 const response_1 = require("../middlewares/response");
-const promotion_validator_1 = require("../validators/promotion.validator");
+const promotion_validator_1 = require("../models/validators/promotion.validator");
+const pagination_controller_1 = require("./pagination/pagination.controller");
 exports.createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const promotion = new promotions_model_1.default(req.body);

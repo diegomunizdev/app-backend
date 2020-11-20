@@ -11,7 +11,8 @@ const options = {
     useFindAndModify: false,
     useUnifiedTopology: true
 };
-mongoose_1.default.connect(database, options).then(result => {
+mongoose_1.default.connect(database, options)
+    .then(result => {
     console.log('>>> Database successfully connected');
 }).catch(err => {
     console.log('xxx Failure. Could not connect to the databse. Error: ', err);

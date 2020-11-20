@@ -1,4 +1,4 @@
-import { UserType } from '../models/user.data/user.model'
+import { UserType } from '../user.data/user.model'
 import * as yup from 'yup'
 
 /**

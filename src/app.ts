@@ -6,9 +6,6 @@ const app: Application = express();
 
 import Routes from './routes/routes';
 
-// settings
-app.set('port', process.env.PORT ? process.env.PORT : '');
-
 // middlewares
 app.use(morgan('dev'));
 app.use(express.json());
@@ -22,7 +19,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 // routes
-app.use('/app', Routes);
+app.use('/gym', Routes);
 
 
 export default app;

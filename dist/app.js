@@ -8,8 +8,6 @@ const morgan_1 = __importDefault(require("morgan"));
 const cors_1 = __importDefault(require("cors"));
 const app = express_1.default();
 const routes_1 = __importDefault(require("./routes/routes"));
-// settings
-app.set('port', process.env.PORT ? process.env.PORT : '');
 // middlewares
 app.use(morgan_1.default('dev'));
 app.use(express_1.default.json());
@@ -22,6 +20,6 @@ app.use((req, res, next) => {
     next();
 });
 // routes
-app.use('/app', routes_1.default);
+app.use('/gym', routes_1.default);
 exports.default = app;
 //# sourceMappingURL=app.js.map

@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAnamnesis = exports.updateAnamnesis = exports.getByAnamnesisId = exports.getAllAnamnesis = exports.createAnamnesis = void 0;
 const response_1 = require("../middlewares/response");
 const anamnesis_model_1 = __importDefault(require("../models/user.data/anamnesis.model"));
-const pagination_controller_1 = require("./pagination.controller");
-const anamnesis_validator_1 = require("../validators/anamnesis.validator");
+const anamnesis_validator_1 = require("../models/validators/anamnesis.validator");
+const pagination_controller_1 = require("./pagination/pagination.controller");
 exports.createAnamnesis = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const anamnesis = new anamnesis_model_1.default(req.body);

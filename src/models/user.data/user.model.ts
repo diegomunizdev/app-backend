@@ -1,6 +1,5 @@
 import Mongoose, { Document } from 'mongoose';
 import bcrypt from 'bcrypt';
-import * as yup from 'yup'
 
 export enum UserType {
     ADMIN = 'admin',

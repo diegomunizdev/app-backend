@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import Promotions, { IPromotions } from '../models/promotions.model'
-import { PaginationData } from './pagination.controller'
 import { responseError, responseSuccess } from '../middlewares/response'
-import { ValidatePromotion} from '../validators/promotion.validator'
+import { ValidatePromotion} from '../models/validators/promotion.validator'
+import { PaginationData } from './pagination/pagination.controller'
 
 export const createPromotion = async (req: Request, res: Response) => {
     try {
