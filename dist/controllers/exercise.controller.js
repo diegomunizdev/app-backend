@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteExercise = exports.updateExercise = exports.getByExerciseId = exports.getExercises = exports.createExercise = void 0;
 const exercise_model_1 = __importDefault(require("../models/user.data/exercise.model"));
-const pagination_controller_1 = require("./pagination.controller");
 const response_1 = require("../middlewares/response");
-const exercise_validator_1 = require("../validators/exercise.validator");
+const exercise_validator_1 = require("../models/validators/exercise.validator");
+const pagination_controller_1 = require("./pagination/pagination.controller");
 exports.createExercise = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const exercise = new exercise_model_1.default(req.body);

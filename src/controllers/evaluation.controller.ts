@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import Evaluation, { IEvaluation } from '../models/evaluation.model'
 import { responseError, responseSuccess } from '../middlewares/response'
-import { PaginationData } from './pagination.controller'
-import { ValidateEvaluation } from '../validators/evaluation.validator'
+import { ValidateEvaluation } from '../models/validators/evaluation.validator'
+import { PaginationData } from './pagination/pagination.controller'
 
 export const createEvaluation = async (req: Request, res: Response) => {
     try {

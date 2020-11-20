@@ -20,7 +20,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ValidateUser = void 0;
-const user_model_1 = require("../models/user.data/user.model");
+const user_model_1 = require("../user.data/user.model");
 const yup = __importStar(require("yup"));
 /**
  * Yup validation field's

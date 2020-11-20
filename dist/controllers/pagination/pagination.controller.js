@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaginationDataType = exports.PaginationData = void 0;
-const user_model_1 = require("../models/user.data/user.model");
-const response_1 = require("../middlewares/response");
+const response_1 = require("../../middlewares/response");
+const user_model_1 = require("../../models/user.data/user.model");
 exports.PaginationData = (model) => {
     return (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const page = parseInt(String(req.query.page), 10);
@@ -56,14 +56,11 @@ exports.PaginationDataType = (model) => {
         let page = 0;
         let limit = 0;
         let type = '';
-        console.log(req);
         if (req.params.type && req.query.page && req.query.limit) {
             page = parseInt(String(req.query.page), 10);
             limit = parseInt(String(req.query.limit), 10);
             type = req.params.type;
         }
-        // TODO: remover console.log
-        console.log('type: ', req.params.type);
         const startIndex = (page - 1) * limit;
         const endIndex = page * limit;
         const result = {

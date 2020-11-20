@@ -5,11 +5,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
+const PORT = process.env.PORT ? process.env.PORT : '4000';
 const app_1 = __importDefault(require("./app"));
 require("./database");
 function main() {
-    app_1.default.listen(app_1.default.get('port'));
-    console.log('> Server running on the port:', app_1.default.get('port'));
+    app_1.default.listen(PORT);
+    console.log(`Server running: http://localhost:${PORT}`);
 }
 main();
 //# sourceMappingURL=index.js.map

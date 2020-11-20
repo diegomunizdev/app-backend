@@ -15,9 +15,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.getUsers = exports.getUsersByType = exports.getByUserId = exports.createUser = void 0;
 const user_model_1 = __importDefault(require("../models/user.data/user.model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const pagination_controller_1 = require("./pagination.controller");
 const response_1 = require("../middlewares/response");
-const user_validator_1 = require("../validators/user.validator");
+const user_validator_1 = require("../models/validators/user.validator");
+const pagination_controller_1 = require("./pagination/pagination.controller");
 exports.createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = new user_model_1.default(req.body);

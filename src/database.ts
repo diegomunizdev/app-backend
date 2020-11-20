@@ -9,8 +9,9 @@ const options: mongoose.ConnectionOptions = {
     useUnifiedTopology: true
 }
 
-mongoose.connect(database, options).then(result => {
-    console.log('>>> Database successfully connected')
-}).catch(err => {
-    console.log('xxx Failure. Could not connect to the databse. Error: ', err);
-})
+mongoose.connect(database, options)
+    .then(result => {
+        console.log('>>> Database successfully connected')
+    }).catch(err => {
+        console.log('xxx Failure. Could not connect to the databse. Error: ', err);
+    })

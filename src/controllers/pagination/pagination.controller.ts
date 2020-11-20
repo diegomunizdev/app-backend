@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { UserType } from '../models/user.data/user.model'
-import { responseError, responseSuccess } from '../middlewares/response'
+import { responseError, responseSuccess } from '../../middlewares/response'
+import { UserType } from '../../models/user.data/user.model'
 
 export const PaginationData = (model: any) => {
     return async (req: Request, res: Response) => {
@@ -52,7 +52,7 @@ export const PaginationDataType = (model: any) => {
     return async (req: Request, res: Response) => {
         let page: number = 0
         let limit: number = 0
-        let type: string = ''
+        let type: any = ''
         if (req.params.type && req.query.page && req.query.limit) {
             page = parseInt(String(req.query.page), 10)
             limit = parseInt(String(req.query.limit), 10)

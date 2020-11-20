@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteEvaluation = exports.updateEvaluation = exports.getEvaluationById = exports.getEvaluation = exports.createEvaluation = void 0;
 const evaluation_model_1 = __importDefault(require("../models/evaluation.model"));
 const response_1 = require("../middlewares/response");
-const pagination_controller_1 = require("./pagination.controller");
-const evaluation_validator_1 = require("../validators/evaluation.validator");
+const evaluation_validator_1 = require("../models/validators/evaluation.validator");
+const pagination_controller_1 = require("./pagination/pagination.controller");
 exports.createEvaluation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const evaluation = new evaluation_model_1.default(req.body);

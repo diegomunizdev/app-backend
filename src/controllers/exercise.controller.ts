@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
 import Exercise, { IExercise } from '../models/user.data/exercise.model'
-import { PaginationData } from './pagination.controller'
 import { responseError, responseSuccess } from '../middlewares/response'
-import { ValidateExercise } from '../validators/exercise.validator'
+import { ValidateExercise } from '../models/validators/exercise.validator'
+import { PaginationData } from './pagination/pagination.controller'
 
 export const createExercise = async (req: Request, res: Response) => {
     try {
