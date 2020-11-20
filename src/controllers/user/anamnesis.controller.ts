@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import { responseError, responseSuccess } from '../middlewares/response'
-import Anamnesis, { IAnamnesis } from '../models/user.data/anamnesis.model'
-import { ValidateAnamnesis } from '../models/validators/anamnesis.validator'
-import { PaginationData } from './pagination/pagination.controller'
+import { responseError, responseSuccess } from '../../middlewares/response'
+import Anamnesis, { IAnamnesis } from '../../models/user.data/anamnesis.model'
+import { ValidateAnamnesis } from '../../models/validators/anamnesis.validator'
+import { PaginationData } from '../pagination/pagination.controller'
 
 export const createAnamnesis = async (req: Request, res: Response) => {
     try {

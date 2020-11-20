@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaginationDataType = exports.PaginationData = void 0;
+const http_status_1 = require("../../middlewares/http.status");
 const response_1 = require("../../middlewares/response");
 const user_model_1 = require("../../models/user.data/user.model");
 exports.PaginationData = (model) => {
@@ -43,8 +44,8 @@ exports.PaginationData = (model) => {
                 .exec();
             result.data.map((dt) => dt.password = undefined);
             if (!result.data)
-                response_1.responseError(res, 'Users not found', 400);
-            response_1.responseSuccess(res, result, 200);
+                response_1.responseError(res, 'Bad Request', http_status_1.HttpStatus.BAD_REQUEST);
+            response_1.responseSuccess(res, result, http_status_1.HttpStatus.OK);
         }
         catch (error) {
             response_1.responseError(res, error);
@@ -101,9 +102,9 @@ exports.PaginationDataType = (model) => {
                     .exec();
             }
             if (!result)
-                response_1.responseError(res, 'Bad request', 400);
+                response_1.responseError(res, 'Bad request', http_status_1.HttpStatus.BAD_REQUEST);
             result.data.map((dt) => dt.password = undefined);
-            response_1.responseSuccess(res, result, 200);
+            response_1.responseSuccess(res, result, http_status_1.HttpStatus.OK);
         }
         catch (error) {
             response_1.responseError(res, error);

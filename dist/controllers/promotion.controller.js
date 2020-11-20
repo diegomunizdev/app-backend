@@ -17,6 +17,7 @@ const promotions_model_1 = __importDefault(require("../models/promotions.model")
 const response_1 = require("../middlewares/response");
 const promotion_validator_1 = require("../models/validators/promotion.validator");
 const pagination_controller_1 = require("./pagination/pagination.controller");
+const http_status_1 = require("../middlewares/http.status");
 exports.createPromotion = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const promotion = new promotions_model_1.default(req.body);
@@ -46,7 +47,7 @@ exports.updatePromotion = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const { promotionId } = req.params;
         if (!promotionId)
-            response_1.responseError(res, 'Promotion not found', 404);
+            response_1.responseError(res, 'Promotion not found', http_status_1.HttpStatus.NOT_FOUND);
         const promotion = {
             title: req.body.title,
             subtitle: req.body.subtitle,
@@ -58,7 +59,7 @@ exports.updatePromotion = (req, res) => __awaiter(void 0, void 0, void 0, functi
         yield promotions_model_1.default.findByIdAndUpdate(promotionId, {
             $set: promotion
         }, { new: true });
-        response_1.responseSuccess(res, promotion, 200);
+        response_1.responseSuccess(res, promotion, http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);
@@ -68,9 +69,9 @@ exports.deletePromotion = (req, res) => __awaiter(void 0, void 0, void 0, functi
     try {
         const promotionId = req.params.promotionId;
         if (!promotionId)
-            response_1.responseError(res, 'Promotion not found', 404);
+            response_1.responseError(res, 'Promotion not found', http_status_1.HttpStatus.NOT_FOUND);
         yield promotions_model_1.default.findByIdAndRemove(promotionId);
-        response_1.responseSuccess(res, 'Promotion successfully removed', 200);
+        response_1.responseSuccess(res, 'Promotion successfully removed', http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);

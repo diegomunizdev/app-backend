@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { HttpStatus } from '../../middlewares/http.status'
 import { responseError, responseSuccess } from '../../middlewares/response'
 import { UserType } from '../../models/user.data/user.model'
 
@@ -39,9 +40,9 @@ export const PaginationData = (model: any) => {
 
             result.data.map((dt: any) => dt.password = undefined)
 
-            if (!result.data) responseError(res, 'Users not found', 400)
+            if (!result.data) responseError(res, 'Bad Request', HttpStatus.BAD_REQUEST)
 
-            responseSuccess(res, result, 200)
+            responseSuccess(res, result, HttpStatus.OK)
         } catch (error) {
             responseError(res, error)
         }
@@ -100,9 +101,9 @@ export const PaginationDataType = (model: any) => {
                     .exec()
             }
 
-            if (!result) responseError(res, 'Bad request', 400)
+            if (!result) responseError(res, 'Bad request', HttpStatus.BAD_REQUEST)
             result.data.map((dt: any) => dt.password = undefined)
-            responseSuccess(res, result, 200)
+            responseSuccess(res, result, HttpStatus.OK)
         } catch (error) {
             responseError(res, error)
         }

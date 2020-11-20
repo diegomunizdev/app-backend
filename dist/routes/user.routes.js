@@ -2,11 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRoutes = void 0;
 const token_validation_1 = require("../middlewares/token.validation");
-const user_controller_1 = require("../controllers/user.controller");
-const address_controller_1 = require("../controllers/address.controller");
-const exercise_controller_1 = require("../controllers/exercise.controller");
-const anamnesis_controller_1 = require("../controllers/anamnesis.controller");
-const measures_controller_1 = require("../controllers/measures.controller");
+const user_controller_1 = require("../controllers/user/user.controller");
+const address_controller_1 = require("../controllers/user/address.controller");
+const exercise_controller_1 = require("../controllers/user/exercise.controller");
+const anamnesis_controller_1 = require("../controllers/user/anamnesis.controller");
+const measures_controller_1 = require("../controllers/user/measures.controller");
 const url_user = '/user/:userId';
 // user
 exports.UserRoutes = (routes) => {

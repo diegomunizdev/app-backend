@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { UserType } from '../models/user.data/user.model';
+import { HttpStatus } from './http.status';
 
 interface IPayload {
     id: string;
@@ -13,7 +14,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
     try {
         const token = req.header('Authorization')
 
-        if (!token) return res.status(401).json({
+        if (!token) return res.status(HttpStatus.FORBINDDEN).json({
             auth: false,
             status: 'Failure',
             message: 'No token provided.'
@@ -31,7 +32,7 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
     try {
         const token = req.header('Authorization')
 
-        if (!token) return res.status(401).json({
+        if (!token) return res.status(HttpStatus.FORBINDDEN).json({
             auth: false,
             status: 'Failure',
             message: 'No token provided.'
@@ -41,7 +42,7 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
         if (decode.type === UserType.ADMIN) {
             jwt.verify(token, process.env.TOKEN_SECRET || 'tokentest') as IPayload
         } else {
-            return res.status(401).json({
+            return res.status(HttpStatus.UNAUTHORIZED).json({
                 status: 'Failure',
                 message: 'Access denied. You are not allowed to access this route'
             })
@@ -57,7 +58,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
     try {
         const token = req.header('Authorization')
 
-        if (!token) return res.status(401).json({
+        if (!token) return res.status(HttpStatus.FORBINDDEN).json({
             auth: false,
             status: 'Failure',
             message: 'No token provided.'
@@ -67,7 +68,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
         if (decode.type === (UserType.ADMIN || UserType.PERSONAL_TRAINER)) {
             jwt.verify(token, process.env.TOKEN_SECRET || 'tokentest') as IPayload
         } else {
-            return res.status(401).json({
+            return res.status(HttpStatus.UNAUTHORIZED).json({
                 status: 'Failure',
                 message: 'Access denied. You are not allowed to access this route'
             })

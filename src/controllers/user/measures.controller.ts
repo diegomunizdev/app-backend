@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import Measures, { IMeasures } from '../models/user.data/measures.model'
-import { responseError, responseSuccess } from '../middlewares/response'
-import { ValidateMeasure} from '../models/validators/measures.validator'
-import { PaginationData } from './pagination/pagination.controller'
+import Measures, { IMeasures } from '../../models/user.data/measures.model'
+import { responseError, responseSuccess } from '../../middlewares/response'
+import { ValidateMeasure} from '../../models/validators/measures.validator'
+import { PaginationData } from '../pagination/pagination.controller'
 
 export const createMeasure = async (req: Request, res: Response) => {
     try {
