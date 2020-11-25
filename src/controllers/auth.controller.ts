@@ -16,14 +16,13 @@ export const signin = async (req: Request, res: Response) => {
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
         if (!correctPassword) responseError(res, 'Invalid password', HttpStatus.BAD_REQUEST)
 
-        const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET || 'tokentest', {
+        const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'zzz', {
             expiresIn: '7d'
         })
 
         if (!token) responseSuccess(res, 'Token was not provider', HttpStatus.BAD_REQUEST)
 
         user ? user.password = undefined : ''
-        // TODO: conferir se é necessário retornar o .json({ status: 200, Authorization: token })
         res.header('Authorization', token).json({ status: HttpStatus.OK, Authorization: token })
     } catch (error) {
         responseError(res, error)

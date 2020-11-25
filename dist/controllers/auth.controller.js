@@ -28,13 +28,12 @@ exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const correctPassword = yield (user ? user.validatePassword(req.body.password) : false);
         if (!correctPassword)
             response_1.responseError(res, 'Invalid password', http_status_1.HttpStatus.BAD_REQUEST);
-        const token = jsonwebtoken_1.default.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET || 'tokentest', {
+        const token = jsonwebtoken_1.default.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'zzz', {
             expiresIn: '7d'
         });
         if (!token)
             response_1.responseSuccess(res, 'Token was not provider', http_status_1.HttpStatus.BAD_REQUEST);
         user ? user.password = undefined : '';
-        // TODO: conferir se é necessário retornar o .json({ status: 200, Authorization: token })
         res.header('Authorization', token).json({ status: http_status_1.HttpStatus.OK, Authorization: token });
     }
     catch (error) {

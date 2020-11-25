@@ -10,17 +10,18 @@ const http_status_1 = require("./http.status");
 exports.TokenValidation = (req, res, next) => {
     try {
         const token = req.header('Authorization');
-        if (!token)
+        const [bearer, auth] = token ? token.split(' ') : '';
+        if (!token || bearer !== "Bearer")
             return res.status(http_status_1.HttpStatus.FORBINDDEN).json({
                 auth: false,
                 status: 'Failure',
-                message: 'No token provided.'
+                message: 'No token provided or token malformatted.'
             });
-        jsonwebtoken_1.default.verify(token, process.env.TOKEN_SECRET || 'tokentest');
+        jsonwebtoken_1.default.verify(auth, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'xxx');
         next();
     }
     catch (error) {
-        res.json({ status: 'Failure', error: error.message });
+        res.status(http_status_1.HttpStatus.BAD_REQUEST).json({ status: 'Failure', error: error.message });
     }
 };
 exports.TokenValidationAdmin = (req, res, next) => {

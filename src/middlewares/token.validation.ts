@@ -12,19 +12,20 @@ interface IPayload {
 
 export const TokenValidation = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.header('Authorization')
+        const token = req.header('Authorization');
+        const [bearer, auth] = token ? token.split(' ') : ''
 
-        if (!token) return res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
             auth: false,
             status: 'Failure',
-            message: 'No token provided.'
+            message: 'No token provided or token malformatted.'
         })
 
-        jwt.verify(token, process.env.TOKEN_SECRET || 'tokentest') as IPayload
+        jwt.verify(auth, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'xxx') as IPayload
 
         next()
     } catch (error) {
-        res.json({ status: 'Failure', error: error.message })
+        res.status(HttpStatus.BAD_REQUEST).json({ status: 'Failure', error: error.message })
     }
 }
 

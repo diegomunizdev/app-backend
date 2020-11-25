@@ -1,10 +1,10 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import Routes from './routes/routes';
+import { HttpStatus } from './middlewares/http.status';
 
 const app: Application = express();
-
-import Routes from './routes/routes';
 
 // middlewares
 app.use(morgan('dev'));
@@ -20,6 +20,14 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 // routes
 app.use('/gym', Routes);
+
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+    res.status(HttpStatus.NOT_FOUND).json({
+        code: HttpStatus.NOT_FOUND,
+        message: 'Página não encontrada!'
+    })
+})
 
 
 export default app;
