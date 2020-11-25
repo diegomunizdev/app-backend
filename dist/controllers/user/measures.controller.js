@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteMeasure = exports.updateMeasure = exports.getByMeasureId = exports.getMeasures = exports.createMeasure = void 0;
-const measures_model_1 = __importDefault(require("../models/user.data/measures.model"));
-const response_1 = require("../middlewares/response");
-const measures_validator_1 = require("../models/validators/measures.validator");
-const pagination_controller_1 = require("./pagination/pagination.controller");
+const measures_model_1 = __importDefault(require("../../models/user.data/measures.model"));
+const response_1 = require("../../middlewares/response");
+const measures_validator_1 = require("../../models/validators/measures.validator");
+const pagination_controller_1 = require("../pagination/pagination.controller");
 exports.createMeasure = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const measure = new measures_model_1.default(req.body);

@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePhoto = exports.updatePhoto = exports.getPhoto = exports.createPhoto = void 0;
-const photo_model_1 = __importDefault(require("../models/user.data/photo.model"));
+const photo_model_1 = __importDefault(require("../../models/user.data/photo.model"));
 const path_1 = __importDefault(require("path"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
-const response_1 = require("../middlewares/response");
+const response_1 = require("../../middlewares/response");
 exports.createPhoto = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { user_id } = req.body;

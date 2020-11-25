@@ -17,14 +17,15 @@ const evaluation_model_1 = __importDefault(require("../models/evaluation.model")
 const response_1 = require("../middlewares/response");
 const evaluation_validator_1 = require("../models/validators/evaluation.validator");
 const pagination_controller_1 = require("./pagination/pagination.controller");
+const http_status_1 = require("../middlewares/http.status");
 exports.createEvaluation = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const evaluation = new evaluation_model_1.default(req.body);
         if (!evaluation)
-            return response_1.responseError(res, 'Unable to save evaluation', 400);
+            return response_1.responseError(res, 'Unable to save evaluation', http_status_1.HttpStatus.BAD_REQUEST);
         evaluation_validator_1.ValidateEvaluation.validate(evaluation);
         yield evaluation.save();
-        response_1.responseSuccess(res, evaluation, 200);
+        response_1.responseSuccess(res, evaluation, http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);
@@ -35,8 +36,8 @@ exports.getEvaluationById = (req, res) => __awaiter(void 0, void 0, void 0, func
     try {
         const evaluation = yield evaluation_model_1.default.findOne({ id: req.params.evaluationId });
         if (!evaluation)
-            return response_1.responseError(res, 'Evaluation not found', 400);
-        response_1.responseSuccess(res, evaluation, 200);
+            return response_1.responseError(res, 'Evaluation not found', http_status_1.HttpStatus.NOT_FOUND);
+        response_1.responseSuccess(res, evaluation, http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);
@@ -46,18 +47,17 @@ exports.updateEvaluation = (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         const evaluationId = evaluation_model_1.default.findById({ id: req.params.evaluationId });
         if (!evaluationId)
-            return response_1.responseError(res, 'Evaluation not found', 400);
+            return response_1.responseError(res, 'Evaluation not found', http_status_1.HttpStatus.NOT_FOUND);
         const evaluation = {
             note: req.body.note,
             title: req.body.title,
             description: req.body.description
         };
-        // TODO: FIXME:
         evaluation_validator_1.ValidateEvaluation.validate(evaluation);
         yield evaluation_model_1.default.findByIdAndUpdate(evaluationId, {
             $set: evaluation
         }, { new: true });
-        response_1.responseSuccess(res, evaluation, 200);
+        response_1.responseSuccess(res, evaluation, http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);
@@ -67,11 +67,11 @@ exports.deleteEvaluation = (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         const evaluationId = yield evaluation_model_1.default.findById({ id: req.params.evaluationId });
         if (!evaluationId)
-            return response_1.responseError(res, 'Evaluation not found', 400);
+            return response_1.responseError(res, 'Evaluation not found', http_status_1.HttpStatus.NOT_FOUND);
         const deleteEvaluation = yield evaluation_model_1.default.findByIdAndRemove(evaluationId);
         if (!deleteEvaluation)
-            return response_1.responseError(res, 'Has not been removed', 400);
-        response_1.responseSuccess(res, 'Evaluation successfully removed', 200);
+            return response_1.responseError(res, 'Has not been removed', http_status_1.HttpStatus.BAD_REQUEST);
+        response_1.responseSuccess(res, 'Evaluation successfully removed', http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);

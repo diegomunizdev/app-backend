@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
-import User, { IUser } from '../models/user.data/user.model'
+import User, { IUser } from '../../models/user.data/user.model'
 import bcrypt from 'bcrypt'
-import { responseError, responseSuccess } from '../middlewares/response'
-import { ValidateUser } from '../models/validators/user.validator';
-import { PaginationData, PaginationDataType } from './pagination/pagination.controller';
+import { responseError, responseSuccess } from '../../middlewares/response'
+import { ValidateUser } from '../../models/validators/user.validator';
+import { PaginationData, PaginationDataType } from '../pagination/pagination.controller';
 
 export const createUser = async (req: Request, res: Response) => {
     try {

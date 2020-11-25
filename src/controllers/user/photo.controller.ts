@@ -1,8 +1,8 @@
 import { Request, Response } from 'express'
-import Photo from '../models/user.data/photo.model'
+import Photo from '../../models/user.data/photo.model'
 import path from 'path'
 import fs from 'fs-extra'
-import { responseError, responseSuccess } from '../middlewares/response'
+import { responseError, responseSuccess } from '../../middlewares/response'
 
 export const createPhoto = async (req: Request, res: Response) => {
     try {

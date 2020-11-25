@@ -9,8 +9,9 @@ const PORT = process.env.PORT ? process.env.PORT : '4000';
 const app_1 = __importDefault(require("./app"));
 require("./database");
 function main() {
-    app_1.default.listen(PORT);
-    console.log(`Server running: http://localhost:${PORT}`);
+    app_1.default.listen(PORT, () => {
+        console.log(`>> Server running: http://localhost:${PORT}`);
+    });
 }
 main();
 //# sourceMappingURL=index.js.map

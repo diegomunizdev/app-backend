@@ -11,10 +11,17 @@ const options = {
     useFindAndModify: false,
     useUnifiedTopology: true
 };
-mongoose_1.default.connect(database, options)
-    .then(result => {
-    console.log('>>> Database successfully connected');
-}).catch(err => {
-    console.log('xxx Failure. Could not connect to the databse. Error: ', err);
-});
+function connection() {
+    return new Promise((resolve, reject) => {
+        mongoose_1.default.connect(database, options)
+            .then((result) => {
+            resolve(result.connection);
+            console.log('>> DATABASE SUCCESSFULLY CONNECTED');
+        }).catch(err => {
+            reject(err);
+            console.log('xxx Failure. Could not connect to the databse. Error: ', err);
+        });
+    });
+}
+connection();
 //# sourceMappingURL=database.js.map

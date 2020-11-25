@@ -17,24 +17,24 @@ const user_model_1 = __importDefault(require("../models/user.data/user.model"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const response_1 = require("../middlewares/response");
+const http_status_1 = require("../middlewares/http.status");
 exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_model_1.default.findOne({
             username: req.body.username
         }).select('+password');
         if (!user)
-            response_1.responseError(res, 'Invalid username or password', 400);
+            response_1.responseError(res, 'Invalid username or password', http_status_1.HttpStatus.BAD_REQUEST);
         const correctPassword = yield (user ? user.validatePassword(req.body.password) : false);
         if (!correctPassword)
-            response_1.responseError(res, 'Invalid password', 400);
-        const token = jsonwebtoken_1.default.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET || 'tokentest', {
+            response_1.responseError(res, 'Invalid password', http_status_1.HttpStatus.BAD_REQUEST);
+        const token = jsonwebtoken_1.default.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'zzz', {
             expiresIn: '7d'
         });
         if (!token)
-            response_1.responseSuccess(res, 'Token was not provider', 400);
+            response_1.responseSuccess(res, 'Token was not provider', http_status_1.HttpStatus.BAD_REQUEST);
         user ? user.password = undefined : '';
-        // TODO: conferir se é necessário retornar o .json({ status: 200, Authorization: token })
-        res.header('Authorization', token).json({ status: 200, Authorization: token });
+        res.header('Authorization', token).json({ status: http_status_1.HttpStatus.OK, Authorization: token });
     }
     catch (error) {
         response_1.responseError(res, error);
@@ -44,8 +44,8 @@ exports.forgot = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_model_1.default.findOne({ email: req.body.email });
         if (!user)
-            response_1.responseError(res, 'User not found in the database', 404);
-        response_1.responseSuccess(res, user, 200);
+            response_1.responseError(res, 'User not found in the database', http_status_1.HttpStatus.NOT_FOUND);
+        response_1.responseSuccess(res, user, http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);
@@ -55,7 +55,7 @@ exports.changePassword = (req, res) => __awaiter(void 0, void 0, void 0, functio
     try {
         const userId = yield user_model_1.default.findById(req.params.userId);
         if (!userId)
-            response_1.responseError(res, 'User not found', 404);
+            response_1.responseError(res, 'User not found', http_status_1.HttpStatus.NOT_FOUND);
         const user = {
             email: req.body.email,
             password: req.body.password,
@@ -70,7 +70,7 @@ exports.changePassword = (req, res) => __awaiter(void 0, void 0, void 0, functio
             $set: user
         }, { new: true });
         user.password = undefined;
-        response_1.responseSuccess(res, user, 200);
+        response_1.responseSuccess(res, user, http_status_1.HttpStatus.OK);
     }
     catch (error) {
         response_1.responseError(res, error);

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { responseError, responseSuccess } from '../middlewares/response'
-import Address, { IAddress } from '../models/user.data/address.model'
-import { ValidateAddress } from '../models/validators/address.validator'
+import { responseError, responseSuccess } from '../../middlewares/response'
+import Address, { IAddress } from '../../models/user.data/address.model'
+import { ValidateAddress } from '../../models/validators/address.validator'
 
 export const createAddress = async (req: Request, res: Response) => {
     try {

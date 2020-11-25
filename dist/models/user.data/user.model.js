@@ -40,7 +40,8 @@ const UserSchema = new mongoose_1.default.Schema({
     password: {
         type: String,
         min: 6,
-        required: true
+        required: true,
+        select: false
     },
     cpf: {
         type: String,

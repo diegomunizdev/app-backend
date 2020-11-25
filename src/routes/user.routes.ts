@@ -1,19 +1,20 @@
 import { Router } from 'express';
 
 import { TokenValidation, TokenValidationAdmin, TokenValidationAdminAndPersonal } from '../middlewares/token.validation';
-import { createUser, getByUserId, getUsers, getUsersByType, updateUser, deleteUser } from '../controllers/user.controller'
-import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/address.controller'
-import { createExercise, getByExerciseId, getExercises, updateExercise, deleteExercise } from '../controllers/exercise.controller'
-import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/anamnesis.controller'
-import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/measures.controller'
+import { createUser, getByUserId, getUsers, getUsersByType, updateUser, deleteUser } from '../controllers/user/user.controller'
+import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/user/address.controller'
+import { createExercise, getByExerciseId, getExercises, updateExercise, deleteExercise } from '../controllers/user/exercise.controller'
+import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
+import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
 
 const url_user = '/user/:userId'
 
 // user
 export const UserRoutes = (routes: Router) => {
     routes.post('/user', TokenValidationAdmin, createUser)
-        .get('/user', TokenValidationAdminAndPersonal, getUsers)
-        .get('/users/:type', TokenValidationAdminAndPersonal, getUsersByType)
+        .get('/user', TokenValidation, getUsers)
+        // TODO: TokenValidationAdminAndPersonal
+        .get('/users/:type', TokenValidation, getUsersByType)
         .get(`${url_user}`, TokenValidationAdminAndPersonal, getByUserId)
         .patch(`${url_user}`, TokenValidation, updateUser)
         .delete(`${url_user}`, TokenValidationAdmin, deleteUser)

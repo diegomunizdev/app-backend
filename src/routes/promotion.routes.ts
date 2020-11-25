@@ -7,7 +7,7 @@ const url_user = '/user/:userId'
 
 export const PromotionsRoutes = (routes: Router) => {
     routes.post(`${url_user}/promotion`, TokenValidationAdmin, createPromotion)
-        .get(`${url_user}/promotion`, TokenValidationAdmin, getPromotions)
+        .get(`${url_user}/promotions`, TokenValidationAdmin, getPromotions)
         .get(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, getByPromotionId)
         .patch(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, updatePromotion)
         .delete(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, deletePromotion)

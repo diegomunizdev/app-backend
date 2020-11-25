@@ -13,9 +13,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteAddress = exports.updateAddress = exports.getAddress = exports.createAddress = void 0;
-const response_1 = require("../middlewares/response");
-const address_model_1 = __importDefault(require("../models/user.data/address.model"));
-const address_validator_1 = require("../models/validators/address.validator");
+const response_1 = require("../../middlewares/response");
+const address_model_1 = __importDefault(require("../../models/user.data/address.model"));
+const address_validator_1 = require("../../models/validators/address.validator");
 exports.createAddress = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const address = new address_model_1.default(req.body);

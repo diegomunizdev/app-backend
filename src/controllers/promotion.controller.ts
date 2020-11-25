@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
 import Promotions, { IPromotions } from '../models/promotions.model'
 import { responseError, responseSuccess } from '../middlewares/response'
-import { ValidatePromotion} from '../models/validators/promotion.validator'
+import { ValidatePromotion } from '../models/validators/promotion.validator'
 import { PaginationData } from './pagination/pagination.controller'
+import { HttpStatus } from '../middlewares/http.status'
 
 export const createPromotion = async (req: Request, res: Response) => {
     try {
@@ -32,7 +33,7 @@ export const getPromotions = PaginationData(Promotions)
 export const updatePromotion = async (req: Request, res: Response) => {
     try {
         const { promotionId } = req.params
-        if (!promotionId) responseError(res, 'Promotion not found', 404)
+        if (!promotionId) responseError(res, 'Promotion not found', HttpStatus.NOT_FOUND)
         const promotion = {
             title: req.body.title,
             subtitle: req.body.subtitle,
@@ -44,7 +45,7 @@ export const updatePromotion = async (req: Request, res: Response) => {
         await Promotions.findByIdAndUpdate(promotionId, {
             $set: promotion
         }, { new: true })
-        responseSuccess(res, promotion, 200)
+        responseSuccess(res, promotion, HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
@@ -54,9 +55,9 @@ export const updatePromotion = async (req: Request, res: Response) => {
 export const deletePromotion = async (req: Request, res: Response) => {
     try {
         const promotionId = req.params.promotionId
-        if (!promotionId) responseError(res, 'Promotion not found', 404)
+        if (!promotionId) responseError(res, 'Promotion not found', HttpStatus.NOT_FOUND)
         await Promotions.findByIdAndRemove(promotionId)
-        responseSuccess(res, 'Promotion successfully removed', 200)
+        responseSuccess(res, 'Promotion successfully removed', HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
