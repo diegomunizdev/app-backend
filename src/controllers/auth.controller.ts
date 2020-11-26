@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import { responseError, responseSuccess } from '../middlewares/response'
 import { HttpStatus } from '../middlewares/http.status';
+import { SECRET_TOKEN } from '../middlewares/token.validation';
 
 export const signin = async (req: Request, res: Response) => {
     try {
@@ -16,8 +17,8 @@ export const signin = async (req: Request, res: Response) => {
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
         if (!correctPassword) responseError(res, 'Invalid password', HttpStatus.BAD_REQUEST)
 
-        const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'zzz', {
-            expiresIn: '7d'
+        const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, SECRET_TOKEN, {
+            expiresIn: '1d'
         })
 
         if (!token) responseSuccess(res, 'Token was not provider', HttpStatus.BAD_REQUEST)

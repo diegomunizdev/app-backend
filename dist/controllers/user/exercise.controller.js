@@ -54,7 +54,9 @@ exports.updateExercise = (req, res) => __awaiter(void 0, void 0, void 0, functio
             exercise_thursday: req.body.exercise_thursday,
             exercise_friday: req.body.exercise_friday,
             exercise_saturday: req.body.exercise_saturday,
-            exercise_sunday: req.body.exercise_sunday
+            exercise_sunday: req.body.exercise_sunday,
+            exercise_start: req.body.exercise_start,
+            exercise_end: req.body.exercise_end
         };
         yield exercise_model_1.default.findByIdAndUpdate(exerciseId, {
             $set: exercise

@@ -39,7 +39,9 @@ export const updateExercise = async (req: Request, res: Response) => {
             exercise_thursday: req.body.exercise_thursday,
             exercise_friday: req.body.exercise_friday,
             exercise_saturday: req.body.exercise_saturday,
-            exercise_sunday: req.body.exercise_sunday
+            exercise_sunday: req.body.exercise_sunday,
+            exercise_start: req.body.exercise_start,
+            exercise_end: req.body.exercise_end
         }
         await Exercise.findByIdAndUpdate(exerciseId, {
             $set: exercise

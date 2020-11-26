@@ -64,7 +64,8 @@ exports.updateMeasure = (req, res) => __awaiter(void 0, void 0, void 0, function
             medium_right_thigh: req.body.medium_right_thigh,
             middle_left_thigh: req.body.middle_left_thigh,
             right_calf: req.body.right_calf,
-            left_calf: req.body.left_calf
+            left_calf: req.body.left_calf,
+            next_review: req.body.next_review
         };
         yield measures_model_1.default.findByIdAndUpdate(measureId, {
             $set: measure

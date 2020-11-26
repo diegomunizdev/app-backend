@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import Measures, { IMeasures } from '../../models/user.data/measures.model'
 import { responseError, responseSuccess } from '../../middlewares/response'
-import { ValidateMeasure} from '../../models/validators/measures.validator'
+import { ValidateMeasure } from '../../models/validators/measures.validator'
 import { PaginationData } from '../pagination/pagination.controller'
 
 export const createMeasure = async (req: Request, res: Response) => {
@@ -49,7 +49,8 @@ export const updateMeasure = async (req: Request, res: Response) => {
             medium_right_thigh: req.body.medium_right_thigh,
             middle_left_thigh: req.body.middle_left_thigh,
             right_calf: req.body.right_calf,
-            left_calf: req.body.left_calf
+            left_calf: req.body.left_calf,
+            next_review: req.body.next_review
         }
         await Measures.findByIdAndUpdate(measureId, {
             $set: measure
