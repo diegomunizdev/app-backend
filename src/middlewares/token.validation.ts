@@ -23,7 +23,15 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
             message: 'No token provided or token malformatted.'
         })
 
-        jwt.verify(auth, SECRET_TOKEN) as IPayload
+        const decode: any = jwt.decode(auth)
+        if (decode.type === (UserType.CLIENT || UserType.ADMIN)) {
+            jwt.verify(auth, SECRET_TOKEN) as IPayload
+        } else {
+            return res.status(HttpStatus.UNAUTHORIZED).json({
+                status: 'Failure',
+                message: 'Access denied. You are not allowed to access this route'
+            })
+        }
 
         next()
     } catch (error) {

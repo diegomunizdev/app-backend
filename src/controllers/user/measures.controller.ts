@@ -3,14 +3,15 @@ import Measures, { IMeasures } from '../../models/user.data/measures.model'
 import { responseError, responseSuccess } from '../../middlewares/response'
 import { ValidateMeasure } from '../../models/validators/measures.validator'
 import { PaginationData } from '../pagination/pagination.controller'
+import { HttpStatus } from '../../middlewares/http.status'
 
 export const createMeasure = async (req: Request, res: Response) => {
     try {
         const measure: IMeasures = new Measures(req.body)
-        if (!measure) responseError(res, 'Measure not created', 400)
+        if (!measure) responseError(res, 'Measure not created', HttpStatus.BAD_REQUEST)
         ValidateMeasure.validate(measure)
         await measure.save()
-        responseSuccess(res, measure, 200)
+        responseSuccess(res, measure, HttpStatus.CREATED)
     } catch (error) {
         responseError(res, error)
     }
@@ -21,8 +22,8 @@ export const getMeasures = PaginationData(Measures)
 export const getByMeasureId = async (req: Request, res: Response) => {
     try {
         const measure = await Measures.findById(req.params.measureId)
-        if (!measure) responseError(res, 'Measure not found', 404)
-        responseSuccess(res, measure, 200)
+        if (!measure) responseError(res, 'Measure not found', HttpStatus.NOT_FOUND)
+        responseSuccess(res, measure, HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
@@ -31,7 +32,7 @@ export const getByMeasureId = async (req: Request, res: Response) => {
 export const updateMeasure = async (req: Request, res: Response) => {
     try {
         const { measureId } = req.params
-        if (!measureId) responseError(res, 'Measure not found', 404)
+        if (!measureId) responseError(res, 'Measure not found', HttpStatus.NOT_FOUND)
         const measure = {
             weight: req.body.weight,
             height: req.body.height,
@@ -55,7 +56,7 @@ export const updateMeasure = async (req: Request, res: Response) => {
         await Measures.findByIdAndUpdate(measureId, {
             $set: measure
         }, { new: true })
-        responseSuccess(res, measure, 200)
+        responseSuccess(res, measure, HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
@@ -63,10 +64,10 @@ export const updateMeasure = async (req: Request, res: Response) => {
 
 export const deleteMeasure = async (req: Request, res: Response) => {
     try {
-        const measureId = req.params.measureId
-        if (!measureId) responseError(res, 'Measure not found', 404)
+        const { measureId } = req.params
+        if (!measureId) responseError(res, 'Measure not found', HttpStatus.NOT_FOUND)
         await Measures.findByIdAndRemove(measureId)
-        responseSuccess(res, 'Measure successfully removed', 200)
+        responseSuccess(res, 'Measure successfully removed', HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
