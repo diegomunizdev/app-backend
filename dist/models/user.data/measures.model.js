@@ -22,6 +22,7 @@ const MeasureSchema = new mongoose_1.default.Schema({
     middle_left_thigh: { type: Number },
     right_calf: { type: Number },
     left_calf: { type: Number },
+    next_review: { type: String, required: true },
     user_id: { type: String, required: true }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },

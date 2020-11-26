@@ -8,6 +8,8 @@ export interface IExercise extends Document {
     exercise_friday: string,
     exercise_saturday: string,
     exercise_sunday: string,
+    exercise_start: string,
+    exercise_end: string,
     user_id: string
 }
 
@@ -19,6 +21,8 @@ const ExerciseSchema = new Mongoose.Schema({
     exercise_friday: { type: String },
     exercise_saturday: { type: String },
     exercise_sunday: { type: String },
+    exercise_start: { type: String, required: true },
+    exercise_end: { type: String, required: true },
     user_id: { type: String }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },

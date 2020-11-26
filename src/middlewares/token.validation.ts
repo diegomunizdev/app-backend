@@ -10,6 +10,8 @@ interface IPayload {
     type: UserType;
 }
 
+export const SECRET_TOKEN: string = process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'xxx'
+
 export const TokenValidation = (req: Request, res: Response, next: NextFunction) => {
     try {
         const token = req.header('Authorization');
@@ -21,7 +23,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
             message: 'No token provided or token malformatted.'
         })
 
-        jwt.verify(auth, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'xxx') as IPayload
+        jwt.verify(auth, SECRET_TOKEN) as IPayload
 
         next()
     } catch (error) {
@@ -31,17 +33,18 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
 
 export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.header('Authorization')
+        const token = req.header('Authorization');
+        const [bearer, auth] = token ? token.split(' ') : ''
 
-        if (!token) return res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
             auth: false,
             status: 'Failure',
-            message: 'No token provided.'
+            message: 'No token provided or token malformatted.'
         })
 
-        const decode: any = jwt.decode(token)
+        const decode: any = jwt.decode(auth)
         if (decode.type === UserType.ADMIN) {
-            jwt.verify(token, process.env.TOKEN_SECRET || 'tokentest') as IPayload
+            jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).json({
                 status: 'Failure',
@@ -57,17 +60,18 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
 
 export const TokenValidationAdminAndPersonal = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.header('Authorization')
+        const token = req.header('Authorization');
+        const [bearer, auth] = token ? token.split(' ') : ''
 
-        if (!token) return res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
             auth: false,
             status: 'Failure',
-            message: 'No token provided.'
+            message: 'No token provided or token malformatted.'
         })
 
-        const decode: any = jwt.decode(token)
+        const decode: any = jwt.decode(auth)
         if (decode.type === (UserType.ADMIN || UserType.PERSONAL_TRAINER)) {
-            jwt.verify(token, process.env.TOKEN_SECRET || 'tokentest') as IPayload
+            jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).json({
                 status: 'Failure',

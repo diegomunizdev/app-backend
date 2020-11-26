@@ -18,6 +18,7 @@ export interface IMeasures extends Document {
     middle_left_thigh: number,
     right_calf: number,
     left_calf: number,
+    next_review: string,
     user_id: string
 }
 
@@ -39,6 +40,7 @@ const MeasureSchema = new Mongoose.Schema({
     middle_left_thigh: { type: Number },
     right_calf: { type: Number },
     left_calf: { type: Number },
+    next_review: { type: String, required: true },
     user_id: { type: String, required: true }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },

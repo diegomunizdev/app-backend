@@ -10,10 +10,10 @@ const measures_controller_1 = require("../controllers/user/measures.controller")
 const url_user = '/user/:userId';
 // user
 exports.UserRoutes = (routes) => {
+    // User
     routes.post('/user', token_validation_1.TokenValidationAdmin, user_controller_1.createUser)
         .get('/user', token_validation_1.TokenValidation, user_controller_1.getUsers)
-        // TODO: TokenValidationAdminAndPersonal
-        .get('/users/:type', token_validation_1.TokenValidation, user_controller_1.getUsersByType)
+        .get('/users/:type', token_validation_1.TokenValidationAdminAndPersonal, user_controller_1.getUsersByType)
         .get(`${url_user}`, token_validation_1.TokenValidationAdminAndPersonal, user_controller_1.getByUserId)
         .patch(`${url_user}`, token_validation_1.TokenValidation, user_controller_1.updateUser)
         .delete(`${url_user}`, token_validation_1.TokenValidationAdmin, user_controller_1.deleteUser);

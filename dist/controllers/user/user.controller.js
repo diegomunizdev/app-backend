@@ -13,8 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteUser = exports.updateUser = exports.getUsers = exports.getUsersByType = exports.getByUserId = exports.createUser = void 0;
-const user_model_1 = __importDefault(require("../../models/user.data/user.model"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const user_model_1 = __importDefault(require("../../models/user.data/user.model"));
 const response_1 = require("../../middlewares/response");
 const user_validator_1 = require("../../models/validators/user.validator");
 const pagination_controller_1 = require("../pagination/pagination.controller");
@@ -59,10 +59,13 @@ exports.updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             email: req.body.email,
             password: req.body.password,
             cpf: req.body.cpf,
+            age: req.body.age,
             date_of_birth: req.body.date_of_birth,
             type: req.body.type,
             phone: req.body.phone,
             genre: req.body.genre,
+            contract_start: req.body.contract_start,
+            contract_end: req.body.contract_end,
             encryptPassword: (password) => __awaiter(void 0, void 0, void 0, function* () {
                 password = req.body.password;
                 const salt = yield bcrypt_1.default.genSalt(10);

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import User, { IUser } from '../../models/user.data/user.model'
 import bcrypt from 'bcrypt'
+import User, { IUser } from '../../models/user.data/user.model'
 import { responseError, responseSuccess } from '../../middlewares/response'
 import { ValidateUser } from '../../models/validators/user.validator';
 import { PaginationData, PaginationDataType } from '../pagination/pagination.controller';
@@ -45,10 +45,13 @@ export const updateUser = async (req: Request, res: Response) => {
             email: req.body.email,
             password: req.body.password,
             cpf: req.body.cpf,
+            age: req.body.age,
             date_of_birth: req.body.date_of_birth,
             type: req.body.type,
             phone: req.body.phone,
             genre: req.body.genre,
+            contract_start: req.body.contract_start,
+            contract_end: req.body.contract_end,
             encryptPassword: async (password: string): Promise<string> => {
                 password = req.body.password
                 const salt = await bcrypt.genSalt(10);

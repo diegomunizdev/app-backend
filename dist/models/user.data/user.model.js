@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserType = void 0;
+exports.GenreType = exports.UserType = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 var UserType;
@@ -21,6 +21,11 @@ var UserType;
     UserType["CLIENT"] = "client";
     UserType["PERSONAL_TRAINER"] = "personal_trainer";
 })(UserType = exports.UserType || (exports.UserType = {}));
+var GenreType;
+(function (GenreType) {
+    GenreType["FEMALE"] = "female";
+    GenreType["MALE"] = "male";
+})(GenreType = exports.GenreType || (exports.GenreType = {}));
 const UserSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
@@ -48,6 +53,10 @@ const UserSchema = new mongoose_1.default.Schema({
         unique: true,
         min: 10
     },
+    age: {
+        type: Number,
+        required: true,
+    },
     date_of_birth: {
         type: String,
         required: true
@@ -60,6 +69,12 @@ const UserSchema = new mongoose_1.default.Schema({
         type: String
     },
     genre: {
+        type: GenreType
+    },
+    contract_start: {
+        type: String
+    },
+    contract_end: {
         type: String
     }
 }, {

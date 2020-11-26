@@ -1,14 +1,15 @@
 import Mongoose, { Document } from 'mongoose'
 
 export interface IAnamnesis extends Document {
+    activity_objective: string
+    health_problems: string
+    medical_treatment: boolean
+    medication_use: string
     diabetes: string
     arterial_hypertension: string
     arterial_hypotension: string
     smoking: string
     allergy: string
-    medical_treatment: string
-    medication_use: string
-    heart_problem: string
     pacemaker: string
     sitting_time: string
     standing_time: string
@@ -17,18 +18,20 @@ export interface IAnamnesis extends Document {
     water_day: string
     intestinal_disorder: string
     hormonal_disorder: string
+    next_review: string
     user_id: string
 }
 
 const AnamnesisSchema = new Mongoose.Schema({
+    activity_objective: { type: String, required: true },
+    health_problems: { type: String, required: true },
+    medical_treatment: { type: Boolean, required: true },
+    medication_use: { type: String },
     diabetes: { type: String },
     arterial_hypertension: { type: String },
     arterial_hypotension: { type: String },
     smoking: { type: String },
     allergy: { type: String },
-    medical_treatment: { type: String },
-    medication_use: { type: String },
-    heart_problem: { type: String },
     pacemaker: { type: String },
     sitting_time: { type: String },
     standing_time: { type: String },
@@ -37,6 +40,7 @@ const AnamnesisSchema = new Mongoose.Schema({
     water_day: { type: String },
     intestinal_disorder: { type: String },
     hormonal_disorder: { type: String },
+    next_review: { type: String, required: true },
     user_id: { type: String, required: true }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },

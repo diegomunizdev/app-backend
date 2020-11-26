@@ -12,6 +12,8 @@ const ExerciseSchema = new mongoose_1.default.Schema({
     exercise_friday: { type: String },
     exercise_saturday: { type: String },
     exercise_sunday: { type: String },
+    exercise_start: { type: String, required: true },
+    exercise_end: { type: String, required: true },
     user_id: { type: String }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: false },

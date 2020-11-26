@@ -18,6 +18,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const response_1 = require("../middlewares/response");
 const http_status_1 = require("../middlewares/http.status");
+const token_validation_1 = require("../middlewares/token.validation");
 exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield user_model_1.default.findOne({
@@ -28,8 +29,8 @@ exports.signin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         const correctPassword = yield (user ? user.validatePassword(req.body.password) : false);
         if (!correctPassword)
             response_1.responseError(res, 'Invalid password', http_status_1.HttpStatus.BAD_REQUEST);
-        const token = jsonwebtoken_1.default.sign({ id: user ? user._id : '', type: user ? user.type : '' }, process.env.TOKEN_SECRET ? process.env.TOKEN_SECRET : 'zzz', {
-            expiresIn: '7d'
+        const token = jsonwebtoken_1.default.sign({ id: user ? user._id : '', type: user ? user.type : '' }, token_validation_1.SECRET_TOKEN, {
+            expiresIn: '1d'
         });
         if (!token)
             response_1.responseSuccess(res, 'Token was not provider', http_status_1.HttpStatus.BAD_REQUEST);

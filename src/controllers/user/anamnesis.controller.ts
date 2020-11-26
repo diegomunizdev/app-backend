@@ -33,14 +33,15 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
         const { anamnesisId } = req.params
         if (!anamnesisId) responseError(res, 'Bad request', 400)
         const anamnesis = {
+            activity_objective: req.body.activity_objective,
+            health_problems: req.body.health_problems,
+            medical_treatment: req.body.medical_treatment,
+            medication_use: req.body.medication_use,
             diabetes: req.body.diabetes,
             arterial_hypertension: req.body.arterial_hypertension,
             arterial_hypotension: req.body.arterial_hypotension,
             smoking: req.body.smoking,
             allergy: req.body.allergy,
-            medical_treatment: req.body.medical_treatment,
-            medication_use: req.body.medication_use,
-            heart_problem: req.body.heart_problem,
             pacemaker: req.body.pacemaker,
             sitting_time: req.body.sitting_time,
             standing_time: req.body.standing_time,
@@ -48,7 +49,8 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
             orthosis: req.body.orthosis,
             water_day: req.body.water_day,
             intestinal_disorder: req.body.intestinal_disorder,
-            hormonal_disorder: req.body.hormonal_disorder
+            hormonal_disorder: req.body.hormonal_disorder,
+            next_review: req.body.next_review
         }
         await Anamnesis.findByIdAndUpdate(anamnesisId, {
             $set: anamnesis
