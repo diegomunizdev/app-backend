@@ -13,7 +13,7 @@ export const createMeasure = async (req: Request, res: Response) => {
         await measure.save()
         responseSuccess(res, measure, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -25,7 +25,7 @@ export const getByMeasureId = async (req: Request, res: Response) => {
         if (!measure) responseError(res, 'Measure not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, measure, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -58,7 +58,7 @@ export const updateMeasure = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, measure, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -69,6 +69,6 @@ export const deleteMeasure = async (req: Request, res: Response) => {
         await Measures.findByIdAndRemove(measureId)
         responseSuccess(res, 'Measure successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

@@ -8,12 +8,12 @@ import { HttpStatus } from '../../middlewares/http.status'
 export const createExercise = async (req: Request, res: Response) => {
     try {
         const exercise: IExercise = new Exercise(req.body)
-        if (!exercise) responseError(res, 'Exercise not created', HttpStatus.NOT_FOUND)
+        if (!exercise) responseError(res, 'Exercise not created', HttpStatus.BAD_REQUEST)
         ValidateExercise.validate(exercise)
         await exercise.save()
-        responseSuccess(res, exercise, HttpStatus.OK)
+        responseSuccess(res, exercise, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -25,7 +25,7 @@ export const getByExerciseId = async (req: Request, res: Response) => {
         if (!exercise) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, exercise, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -49,7 +49,7 @@ export const updateExercise = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, exercise, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -60,6 +60,6 @@ export const deleteExercise = async (req: Request, res: Response) => {
         await Exercise.findByIdAndRemove(exerciseId)
         responseSuccess(res, 'Exercise successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

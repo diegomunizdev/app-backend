@@ -18,7 +18,7 @@ export const createPhoto = async (req: Request, res: Response) => {
 
         const photo = new Photo(myPhoto)
         await photo.save()
-        responseSuccess(res, photo, HttpStatus.OK)
+        responseSuccess(res, photo, HttpStatus.CREATED)
     } catch (error) {
         responseError(res, error)
     }
@@ -30,7 +30,7 @@ export const getPhoto = async (req: Request, res: Response) => {
         if (!userId) responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, userId, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -48,7 +48,7 @@ export const updatePhoto = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, pht, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 

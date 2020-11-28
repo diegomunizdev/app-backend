@@ -17,7 +17,7 @@ export const createUser = async (req: Request, res: Response) => {
         user.password = undefined
         responseSuccess(res, user, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error, HttpStatus.NOT_FOUND)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -28,7 +28,7 @@ export const getByUserId = async (req: Request, res: Response) => {
         user ? user.password = undefined : ''
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -68,7 +68,7 @@ export const updateUser = async (req: Request, res: Response) => {
         user.password = undefined
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -78,7 +78,7 @@ export const deleteUser = async (req: Request, res: Response) => {
         if (!user) responseError(res, 'User not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, 'User successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 

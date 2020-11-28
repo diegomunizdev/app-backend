@@ -10,18 +10,6 @@
 - Specials;
 - Monthly payments;
 
-### Route and model documentation available on swagger
-
-![image](https://user-images.githubusercontent.com/26802818/100518645-85c0c280-3171-11eb-9014-1c78d7c8c3af.png)
-
-![image](https://user-images.githubusercontent.com/26802818/100518681-bef93280-3171-11eb-95cd-471691274b23.png)
-
-##### Important: After running the application access the route
-```
-http://localhost:3001/gym/api
-```
-
-
 ## Prerequisites
 - [Node 12.0.0+](https://nodejs.org/en/download/)
 - [Typescript 3.9.7+](https://www.typescriptlang.org/)
@@ -68,7 +56,18 @@ In the root directory look for the `.env.example` file and generate a copy with 
 
 
 
-### Launch the server
+### Start the server and access the swagger api
 ```
 npm run dev
 ```
+
+#### Route and model documentation available on swagger
+```
+http://localhost:3001/gym/api
+```
+
+![image](https://user-images.githubusercontent.com/26802818/100518645-85c0c280-3171-11eb-9014-1c78d7c8c3af.png)
+
+![image](https://user-images.githubusercontent.com/26802818/100518681-bef93280-3171-11eb-95cd-471691274b23.png)
+
+

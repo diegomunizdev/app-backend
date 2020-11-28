@@ -26,7 +26,7 @@ export const signin = async (req: Request, res: Response) => {
         user ? user.password = undefined : ''
         return res.header('Authorization', token).json({ code: HttpStatus.OK, Authorization: token })
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -36,7 +36,7 @@ export const forgot = async (req: Request, res: Response) => {
         if (!user) responseError(res, 'User not found in the database', HttpStatus.NOT_FOUND)
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -60,6 +60,6 @@ export const changePassword = async (req: Request, res: Response) => {
         user.password = undefined
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
