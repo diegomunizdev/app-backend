@@ -1,0 +1,1473 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Academia",
+        "description": "Sistema de gerenciamento de Academia",
+        "version": "1.0.0",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "diegomunizdev@outlook.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "basePath": "http://localhost:3001/gym",
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Operations about Authenticartion"
+        },
+        {
+            "name": "user",
+            "description": "Operations about user"
+        }
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/auth/sign": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "Sign",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Authentication",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully authenticated."
+                    }
+                }
+            }
+        },
+        "/auth/forgot": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "Forgot",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Get user object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/auth/user/{id}/changepassword": {
+            "patch": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "ChangePassword",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created user object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Create User",
+                "description": "",
+                "operationId": "createUser",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created user object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "listUser",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "List of user object",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/users/{type}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UserByType",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "List of user object",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UserById",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Get of user object",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/User"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUser",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update user object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUser",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "id",
+                        "description": "The name that needs to be deleted",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User successfully removed"
+                    },
+                    "400": {
+                        "description": "Invalid username supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/user/{id}/address": {
+            "post": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "Create Address",
+                "description": "",
+                "operationId": "createAddress",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created address object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UserAddress",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserAddress",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Address"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUserAddress",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Address object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Address"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Address"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUserAddress",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/exercises": {
+            "post": {
+                "tags": [
+                    "Exercise"
+                ],
+                "summary": "Create Exercise",
+                "description": "",
+                "operationId": "createExercise",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created exercise object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Exercise"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Exercise"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserExercise",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserExercise",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Exercise"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/exercises/{exercise_id}": {
+            "get": {
+                "tags": [
+                    "Exercise"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserExerciseId",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserExerciseId",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Exercise"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Exercise"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUserExercise",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Address object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Exercise"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Exercise"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUserExercise",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/anamnesis": {
+            "post": {
+                "tags": [
+                    "Anamnesis"
+                ],
+                "summary": "Create Anamnesis",
+                "description": "",
+                "operationId": "createAnamnesis",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created anamnesis object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Anamnesis"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Anamnesis"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserAnamnesis",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserAnamnesis",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Anamnesis"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/anamnesis/{anamnesis_id}": {
+            "get": {
+                "tags": [
+                    "Anamnesis"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserAnamnesisId",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserAnamnesisId",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Anamnesis"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Anamnesis"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUserAnamnesis",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Anamnesis object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Anamnesis"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Anamnesis"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUserAnamnesis",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/measures": {
+            "post": {
+                "tags": [
+                    "Measures"
+                ],
+                "summary": "Create Measures",
+                "description": "",
+                "operationId": "createMeasures",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created measures object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/measures"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Measures"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserMeasures",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserMeasures",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Measures"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/measures/{measure_id}": {
+            "get": {
+                "tags": [
+                    "Measures"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserMeasureId",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserMeasureId",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Measures"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Measures"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUserMeasures",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Measures object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Measures"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Measures"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUserMeasures",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/payment": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Create Payment",
+                "description": "",
+                "operationId": "createPayment",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created Payment object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Payment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserPayment",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserPayment",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Payment"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/payment/{payment_id}": {
+            "patch": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUserPayment",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Payment object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Payment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUserPayment",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "petstore_auth": {
+            "type": "oauth2",
+            "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+            "flow": "implicit",
+            "scopes": {
+                "write:pets": "modify pets in your account",
+                "read:pets": "read your pets"
+            }
+        },
+        "api_key": {
+            "type": "apiKey",
+            "name": "api_key",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "User": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "username",
+                "email",
+                "password",
+                "cpf",
+                "type"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "cpf": {
+                    "type": "string"
+                },
+                "age": {
+                    "type": "string"
+                },
+                "date_of_birth": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "admin",
+                        "client",
+                        "personal_trainer"
+                    ]
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "genre": {
+                    "type": "string",
+                    "enum": [
+                        "male",
+                        "female"
+                    ]
+                },
+                "contract_start": {
+                    "type": "string"
+                },
+                "contract_end": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "User"
+            }
+        },
+        "Address": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "user_id",
+                "zip_code",
+                "number"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "zip_code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "complement": {
+                    "type": "string"
+                },
+                "number": {
+                    "type": "string"
+                },
+                "neighborhood": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "Photo": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "imagePath": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "Exercise": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "exercise_monday": {
+                    "type": "string"
+                },
+                "exercise_tuesday": {
+                    "type": "string"
+                },
+                "exercise_wednesday": {
+                    "type": "string"
+                },
+                "exercise_thursday": {
+                    "type": "string"
+                },
+                "exercise_friday": {
+                    "type": "string"
+                },
+                "exercise_saturday": {
+                    "type": "string"
+                },
+                "exercise_sunday": {
+                    "type": "string"
+                },
+                "exercise_start": {
+                    "type": "string"
+                },
+                "exercise_end": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "Measures": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "weight": {
+                    "type": "integer"
+                },
+                "height": {
+                    "type": "integer"
+                },
+                "chest": {
+                    "type": "integer"
+                },
+                "waist": {
+                    "type": "integer"
+                },
+                "upper_abdomen": {
+                    "type": "integer"
+                },
+                "lower_abdormen": {
+                    "type": "integer"
+                },
+                "hip": {
+                    "type": "integer"
+                },
+                "right_arm": {
+                    "type": "integer"
+                },
+                "left_arm": {
+                    "type": "integer"
+                },
+                "before_right_arm": {
+                    "type": "integer"
+                },
+                "before_left_arm": {
+                    "type": "integer"
+                },
+                "upper_right_thigh": {
+                    "type": "integer"
+                },
+                "upper_left_thigh": {
+                    "type": "integer"
+                },
+                "medium_right_thigh": {
+                    "type": "integer"
+                },
+                "middle_left_thigh": {
+                    "type": "integer"
+                },
+                "right_calf": {
+                    "type": "integer"
+                },
+                "left_calf": {
+                    "type": "integer"
+                },
+                "next_review": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "Anamnesis": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "activity_objective": {
+                    "type": "string"
+                },
+                "health_problems": {
+                    "type": "string"
+                },
+                "medical_treatment": {
+                    "type": "string"
+                },
+                "medication_use": {
+                    "type": "string"
+                },
+                "diabetes": {
+                    "type": "string"
+                },
+                "arterial_hypertension": {
+                    "type": "string"
+                },
+                "arterial_hypotension": {
+                    "type": "string"
+                },
+                "smoking": {
+                    "type": "string"
+                },
+                "allergy": {
+                    "type": "string"
+                },
+                "pacemaker": {
+                    "type": "string"
+                },
+                "sitting_time": {
+                    "type": "string"
+                },
+                "standing_time": {
+                    "type": "string"
+                },
+                "prosthesis": {
+                    "type": "string"
+                },
+                "orthosis": {
+                    "type": "string"
+                },
+                "water_day": {
+                    "type": "string"
+                },
+                "intestinal_disorder": {
+                    "type": "string"
+                },
+                "hormonal_disorder": {
+                    "type": "string"
+                },
+                "next_review": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "Payment": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "value",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "value": {
+                    "type": "number"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "Promotions": {
+            "type": "object",
+            "required": [
+                "id",
+                "created_at",
+                "title",
+                "value",
+                "date_start",
+                "user_id"
+            ],
+            "properties": {
+                "id": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                },
+                "created_at": {
+                    "readOnly": true,
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date automatically generated in UTC format according to ISO 8601 at the time the resource is saved.",
+                    "example": "2020-08-05T10:00:30Z"
+                },
+                "title": {
+                    "type": "string"
+                },
+                "subtitle": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "number"
+                },
+                "date_start": {
+                    "type": "string"
+                },
+                "date_end": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "string",
+                    "format": "uuid",
+                    "example": "507f191e810c19729de860ea"
+                }
+            }
+        },
+        "ApiResponse": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    }
+}

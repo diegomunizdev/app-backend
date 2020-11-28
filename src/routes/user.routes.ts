@@ -14,11 +14,11 @@ const url_user = '/user/:userId'
 export const UserRoutes = (routes: Router) => {
     // User
     routes.post('/user', TokenValidationAdmin, createUser)
-        .get('/user', TokenValidation, getUsers)
+        .get('/users', TokenValidation, getUsers)
         .get('/users/:type', TokenValidationAdminAndPersonal, getUsersByType)
         .get(`${url_user}`, TokenValidationAdminAndPersonal, getByUserId)
-        .patch(`${url_user}`, TokenValidation, updateUser)
-        .delete(`${url_user}`, TokenValidationAdmin, deleteUser)
+        .patch(`${url_user}/update`, TokenValidation, updateUser)
+        .delete(`${url_user}/delete`, TokenValidationAdmin, deleteUser)
 
     // Address
     routes.post(`${url_user}/address`, TokenValidation, createAddress)
