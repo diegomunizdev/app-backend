@@ -10,6 +10,17 @@
 - Specials;
 - Monthly payments;
 
+### Route and model documentation available on swagger
+
+![image](https://user-images.githubusercontent.com/26802818/100518645-85c0c280-3171-11eb-9014-1c78d7c8c3af.png)
+
+![image](https://user-images.githubusercontent.com/26802818/100518681-bef93280-3171-11eb-95cd-471691274b23.png)
+
+##### Important: After running the application access the route
+```
+http://localhost:3001/gym/api
+```
+
 
 ## Prerequisites
 - [Node 12.0.0+](https://nodejs.org/en/download/)
@@ -50,9 +61,14 @@ In the root directory look for the `.env.example` file and generate a copy with 
 
 | VARIABLE | DESCRIPTION  | DEFAULT |
 |-----|-----|-----|
-| `PORT` | Defines which http port the application will run on. | `4000` |
+| `PORT` | Defines which http port the application will run on. | `3001` |
 | `TOKEN_SECRET` | Encryption key used to encrypt data stored in localStorage. | `s3cr3tk3y` |
 | `CONNECTION_DATABASE` | URI used to connect to the database. | `mongodb+srv://<username>:<password>@cluster0.ncil7.mongodb.net/<dbname>?retryWrites=true&w=majority` |
 
 
-## Run `npm run dev` for a dev server.
+
+
+### Launch the server
+```
+npm run dev
+```
