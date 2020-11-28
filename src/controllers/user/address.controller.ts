@@ -19,7 +19,7 @@ export const createAddress = async (req: Request, res: Response) => {
 export const getAddress = async (req: Request, res: Response) => {
     try {
         const user = await Address.findOne({ user_id: req.params.userId })
-        if (!user) responseError(res, 'Address not found', 400)
+        if (!user) return responseError(res, 'Address not found', 400)
         responseSuccess(res, user, 200)
     } catch (error) {
         responseError(res, error)
@@ -36,7 +36,8 @@ export const updateAddress = async (req: Request, res: Response) => {
             complement: req.body.complement,
             number: req.body.number,
             neighborhood: req.body.neighborhood,
-            city: req.body.city
+            city: req.body.city,
+            uf: req.body.uf
         }
 
         await Address.findByIdAndUpdate(addr ? addr.id : '', {

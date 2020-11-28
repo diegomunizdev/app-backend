@@ -13,6 +13,12 @@
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         }
     },
+    "servers": [
+        {
+            "url": "http://localhost:3001",
+            "description": "localhost HTTP"
+        }
+    ],
     "basePath": "http://localhost:3001/gym",
     "tags": [
         {
@@ -29,7 +35,7 @@
         "http"
     ],
     "paths": {
-        "/auth/sign": {
+        "/auth/signin": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -48,19 +54,27 @@
                         "description": "Authentication",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/Authentication"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "User successfully authenticated."
+                        "description": "User successfully authenticated.",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "code": "200",
+                                    "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NDMxNDI2NjAsInNjb3BlIjoiYWN0aXZpdGllczpyZWFkIGFjdGl2aXRpZXM6cmVnaXN0ZXI6cmVtb3ZlIiwic3ViIjoiVVNFUl9JRCIsImlzcyI6Im9jYXJpb3QiLCJpYXQiOjE1NDMyMDAyNjl9.Dj3nRRRtQIBRhb6UMNVNTnePI2s3JfCltU0dtR499IM"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/auth/forgot": {
-            "get": {
+            "post": {
                 "tags": [
                     "Authentication"
                 ],
@@ -73,12 +87,12 @@
                 ],
                 "parameters": [
                     {
-                        "in": "body",
+                        "in": "email",
                         "name": "body",
                         "description": "Get user object",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "$ref": "#/definitions/Authentication"
                         }
                     }
                 ],
@@ -242,8 +256,44 @@
                     }
                 ],
                 "responses": {
-                    "default": {
-                        "description": "successful operation"
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "code": 200,
+                                    "status": "success",
+                                    "data": {
+                                        "name": "admin",
+                                        "username": "admin",
+                                        "email": "admin@email.com",
+                                        "cpf": "12312312330",
+                                        "age": 28,
+                                        "date_of_birth": "1992-05-18",
+                                        "type": "admin",
+                                        "phone": "",
+                                        "genre": "male",
+                                        "contract_start": "",
+                                        "contract_end": "",
+                                        "created_at": "2020-11-28T02:16:14.287Z",
+                                        "id": "5fc1b2eecf95c6dde1b1f14r"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "example": {
+                                    "code": 403,
+                                    "auth": false,
+                                    "status": "Failure",
+                                    "message": "No token provided or token malformatted."
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -1002,6 +1052,24 @@
         }
     },
     "definitions": {
+        "Authentication": {
+            "type": "object",
+            "required": [
+                "username",
+                "password"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            },
+            "xml": {
+                "name": "Authentication"
+            }
+        },
         "User": {
             "type": "object",
             "required": [

@@ -19,7 +19,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     app.use(cors());
     next();
 });
-app.use('/gym/api/reference', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/gym/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes
 app.use('/gym', Routes);

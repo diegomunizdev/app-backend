@@ -7,6 +7,7 @@ export interface IAddress extends Document {
     number: string
     neighborhood: string
     city: string
+    uf: string
     user_id: string
 }
 
@@ -17,6 +18,7 @@ const AddressShcema = new Mongoose.Schema({
     number: { type: String },
     neighborhood: { type: String },
     city: { type: String },
+    uf: { type: String },
     user_id: { type: String }
 },{
     timestamps: { createdAt: 'created_at', updatedAt: false },
