@@ -1,9 +1,9 @@
 {
-    "openapi": "3.0.0",
+    "swagger": "2.0",
     "info": {
         "title": "API Academia",
         "description": "Sistema de gerenciamento de Academia",
-        "version": "1.0.0",
+        "version": "0.0.2",
         "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "email": "diegomunizdev@outlook.com"
@@ -28,6 +28,26 @@
         {
             "name": "user",
             "description": "Operations about user"
+        },
+        {
+            "name": "Address",
+            "description": "Operations about address"
+        },
+        {
+            "name": "Exercise",
+            "description": "Operations about exercises"
+        },
+        {
+            "name": "Anamnesis",
+            "description": "Operations about anamnesis"
+        },
+        {
+            "name": "Measures",
+            "description": "Operations about Measures"
+        },
+        {
+            "name": "Payment",
+            "description": "Operations about payment"
         }
     ],
     "schemes": [
@@ -1108,7 +1128,7 @@
                     "type": "string"
                 },
                 "age": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "date_of_birth": {
                     "type": "string"
