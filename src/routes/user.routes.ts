@@ -6,14 +6,15 @@ import { createAddress, getAddress, updateAddress, deleteAddress } from '../cont
 import { createExercise, getByExerciseId, getExercises, updateExercise, deleteExercise } from '../controllers/user/exercise.controller'
 import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
 import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
+import { createPayment, getPayment, updatePayment, deletePayment } from '../controllers/user/payment.controller'
 
 const url_user = '/user/:userId'
 
 // user
 export const UserRoutes = (routes: Router) => {
     // User
-    routes.post('/user', TokenValidationAdmin, createUser)
-        .get('/user', TokenValidation, getUsers)
+    routes.post('/user', createUser)
+        .get('/users', TokenValidationAdmin, getUsers)
         .get('/users/:type', TokenValidationAdminAndPersonal, getUsersByType)
         .get(`${url_user}`, TokenValidationAdminAndPersonal, getByUserId)
         .patch(`${url_user}`, TokenValidation, updateUser)
@@ -45,5 +46,11 @@ export const UserRoutes = (routes: Router) => {
         .get(`${url_user}/measures/:measureId`, TokenValidationAdminAndPersonal, getByMeasureId)
         .patch(`${url_user}/measures/:measureId`, TokenValidation, updateMeasure)
         .delete(`${url_user}/measures/:measureId`, TokenValidation, deleteMeasure)
+
+    // Payment
+    routes.post(`${url_user}/payment`, TokenValidation, createPayment)
+        .get(`${url_user}/payment`, TokenValidation, getPayment)
+        .patch(`${url_user}/payment/:paymentId`, TokenValidation, updatePayment)
+        .delete(`${url_user}/payment/:paymentId`, TokenValidation, deletePayment)
 
 }

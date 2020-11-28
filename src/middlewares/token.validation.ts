@@ -17,17 +17,22 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
         const token = req.header('Authorization');
         const [bearer, auth] = token ? token.split(' ') : ''
 
-        if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") res.status(HttpStatus.FORBINDDEN).json({
+            code: 403,
             auth: false,
             status: 'Failure',
             message: 'No token provided or token malformatted.'
         })
 
         jwt.verify(auth, SECRET_TOKEN) as IPayload
-
         next()
+
     } catch (error) {
-        res.status(HttpStatus.BAD_REQUEST).json({ status: 'Failure', error: error.message })
+        res.status(HttpStatus.BAD_REQUEST).json({
+            code: 400,
+            status: 'Failure',
+            error: error.message
+        })
     }
 }
 
@@ -37,7 +42,7 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
         const [bearer, auth] = token ? token.split(' ') : ''
 
         if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
-            auth: false,
+            code: 403,
             status: 'Failure',
             message: 'No token provided or token malformatted.'
         })
@@ -47,8 +52,9 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
             jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).json({
+                code: 401,
                 status: 'Failure',
-                message: 'Access denied. You are not allowed to access this route'
+                message: 'Access denied. You are not allowed to access this route.'
             })
         }
 
@@ -64,7 +70,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
         const [bearer, auth] = token ? token.split(' ') : ''
 
         if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
-            auth: false,
+            code: 403,
             status: 'Failure',
             message: 'No token provided or token malformatted.'
         })
@@ -74,6 +80,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
             jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).json({
+                code: 401,
                 status: 'Failure',
                 message: 'Access denied. You are not allowed to access this route'
             })

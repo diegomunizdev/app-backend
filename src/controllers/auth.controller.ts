@@ -24,7 +24,7 @@ export const signin = async (req: Request, res: Response) => {
         if (!token) responseSuccess(res, 'Token was not provider', HttpStatus.BAD_REQUEST)
 
         user ? user.password = undefined : ''
-        res.header('Authorization', token).json({ status: HttpStatus.OK, Authorization: token })
+        return res.header('Authorization', token).json({ code: HttpStatus.OK, Authorization: token })
     } catch (error) {
         responseError(res, error)
     }

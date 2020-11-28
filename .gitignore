@@ -1,5 +1,9 @@
 # Directory
 node_modules
+dist
+
+# Information Database
+data.md
 
 # Optional npm cache directory
 .npm
