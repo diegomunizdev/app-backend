@@ -8,5 +8,5 @@ export const ValidateExercise = yup.object().shape({
     exercise_friday: yup.string(),
     exercise_saturday: yup.string(),
     exercise_sunday: yup.string(),
-    user_id: yup.string().required()
+    user_id: yup.string().required('Informe the user')
 })

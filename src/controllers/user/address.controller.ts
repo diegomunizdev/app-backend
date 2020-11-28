@@ -13,24 +13,24 @@ export const createAddress = async (req: Request, res: Response) => {
         await address.save()
         responseSuccess(res, address, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const getAddress = async (req: Request, res: Response) => {
     try {
         const user = await Address.findOne({ user_id: req.params.userId })
-        if (!user) return responseError(res, 'Address not found', HttpStatus.BAD_REQUEST)
+        if (!user) return responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const updateAddress = async (req: Request, res: Response) => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        if (!addr) responseError(res, 'Address not found', HttpStatus.BAD_REQUEST)
+        if (!addr) responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
         const address = {
             zip_code: req.body.zip_code,
             name: req.body.name,
@@ -46,18 +46,18 @@ export const updateAddress = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, addr, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const deleteAddress = async (req: Request, res: Response) => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        if (!addr) responseError(res, 'Address not found', HttpStatus.BAD_REQUEST)
+        if (!addr) responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
         const deleteAddress = await Address.findByIdAndRemove(addr ? addr.id : '')
         if (!deleteAddress) responseError(res, 'Has not been removed', HttpStatus.BAD_REQUEST)
         responseSuccess(res, 'Address successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

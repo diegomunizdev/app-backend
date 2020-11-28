@@ -12,9 +12,9 @@ export const createEvaluation = async (req: Request, res: Response) => {
         if (!evaluation) return responseError(res, 'Unable to save evaluation', HttpStatus.BAD_REQUEST)
         ValidateEvaluation.validate(evaluation)
         await evaluation.save()
-        responseSuccess(res, evaluation, HttpStatus.OK)
+        responseSuccess(res, evaluation, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -26,7 +26,7 @@ export const getEvaluationById = async (req: Request, res: Response) => {
         if (!evaluation) return responseError(res, 'Evaluation not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, evaluation, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -45,7 +45,7 @@ export const updateEvaluation = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, evaluation, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -58,6 +58,6 @@ export const deleteEvaluation = async (req: Request, res: Response) => {
         if (!deleteEvaluation) return responseError(res, 'Has not been removed', HttpStatus.BAD_REQUEST)
         responseSuccess(res, 'Evaluation successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

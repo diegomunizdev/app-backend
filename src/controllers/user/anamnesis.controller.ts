@@ -13,7 +13,7 @@ export const createAnamnesis = async (req: Request, res: Response) => {
         await anamnesis.save()
         responseSuccess(res, anamnesis, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -22,17 +22,17 @@ export const getAllAnamnesis = PaginationData(Anamnesis)
 export const getByAnamnesisId = async (req: Request, res: Response) => {
     try {
         const anamnesis = await Anamnesis.findById(req.params.anamnesisId)
-        if (!anamnesis) responseError(res, 'Bad request', HttpStatus.BAD_REQUEST)
+        if (!anamnesis) responseError(res, 'Anamnesis not found', HttpStatus.NOT_FOUND)
         responseSuccess(res, anamnesis, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const updateAnamnesis = async (req: Request, res: Response) => {
     try {
-        const { anamnesisId } = req.params
-        if (!anamnesisId) responseError(res, 'Bad request', HttpStatus.BAD_REQUEST)
+        const anamnesisId = await Anamnesis.findById(req.params.anamnesisId)
+        if (!anamnesisId) responseError(res, 'Anamnesis not found', HttpStatus.NOT_FOUND)
         const anamnesis = {
             activity_objective: req.body.activity_objective,
             health_problems: req.body.health_problems,
@@ -58,17 +58,17 @@ export const updateAnamnesis = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, anamnesis, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const deleteAnamnesis = async (req: Request, res: Response) => {
     try {
         const anamnesisId = req.params.anamnesisId
-        if (!anamnesisId) responseError(res, 'Bad request', HttpStatus.BAD_REQUEST)
+        if (!anamnesisId) responseError(res, 'Anamnesis not found', HttpStatus.NOT_FOUND)
         await Anamnesis.findByIdAndRemove(anamnesisId)
         responseSuccess(res, 'Anamneses successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
