@@ -3,6 +3,7 @@ import Photo from '../../models/user.data/photo.model'
 import path from 'path'
 import fs from 'fs-extra'
 import { responseError, responseSuccess } from '../../middlewares/response'
+import { HttpStatus } from '../../middlewares/http.status'
 
 export const createPhoto = async (req: Request, res: Response) => {
     try {
@@ -13,11 +14,11 @@ export const createPhoto = async (req: Request, res: Response) => {
             imagePath: req.file.path
         }
 
-        if (!myPhoto.user_id) responseError(res, 'User not found', 404)
+        if (!myPhoto.user_id) responseError(res, 'User not found', HttpStatus.NOT_FOUND)
 
         const photo = new Photo(myPhoto)
         await photo.save()
-        responseSuccess(res, photo, 200)
+        responseSuccess(res, photo, HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
@@ -26,8 +27,8 @@ export const createPhoto = async (req: Request, res: Response) => {
 export const getPhoto = async (req: Request, res: Response) => {
     try {
         const userId = await Photo.findOne({ user_id: req.params.userId })
-        if (!userId) responseError(res, 'Photo not found', 404)
-        responseSuccess(res, userId, 200)
+        if (!userId) responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
+        responseSuccess(res, userId, HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
@@ -36,7 +37,7 @@ export const getPhoto = async (req: Request, res: Response) => {
 export const updatePhoto = async (req: Request, res: Response) => {
     try {
         const photo = await Photo.findOne({ user_id: req.params.userId })
-        if (!photo) responseError(res, 'Photo not found', 404)
+        if (!photo) responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
         const pht = {
             user_id: photo?.user_id,
             imagePath: req.file.path
@@ -45,7 +46,7 @@ export const updatePhoto = async (req: Request, res: Response) => {
         await Photo.findByIdAndUpdate(photo?.id, {
             $set: pht
         }, { new: true })
-        responseSuccess(res, pht, 200)
+        responseSuccess(res, pht, HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }
@@ -54,12 +55,12 @@ export const updatePhoto = async (req: Request, res: Response) => {
 export const deletePhoto = async (req: Request, res: Response) => {
     try {
         const photo = await Photo.findOne({ user_id: req.params.userId })
-        if (!photo) responseError(res, 'Photo not found', 404)
+        if (!photo) responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
         const pht = await Photo.findByIdAndRemove(photo?.id);
         if (pht) {
             fs.unlink(path.resolve(pht.imagePath));
         }
-        responseSuccess(res, 'Photo successfully removed', 200)
+        responseSuccess(res, 'Photo successfully removed', HttpStatus.OK)
     } catch (error) {
         responseError(res, error)
     }

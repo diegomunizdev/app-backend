@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/index.js",
-    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
+    "dev": "concurrently \"tsc -w\" \"sucrase-node dist/index.js\""
   },
   "keywords": [],
   "author": "github.com/diegomunizdev",
@@ -36,6 +36,7 @@
     "@types/multer": "^1.4.4",
     "@types/yup": "^0.29.9",
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.6"
+    "nodemon": "^2.0.6",
+    "sucrase": "^3.16.0"
   }
 }
