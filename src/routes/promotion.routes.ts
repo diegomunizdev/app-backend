@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import { TokenValidation, TokenValidationAdmin } from '../middlewares/token.validation';
 import { createPromotion, getByPromotionId, getPromotions, updatePromotion, deletePromotion } from '../controllers/promotion.controller';
 

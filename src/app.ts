@@ -1,6 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
+import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
 import * as swaggerDocument from './swagger.json'
 import Routes from './routes/routes';
@@ -11,6 +12,7 @@ const app: Application = express();
 // middlewares
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(helmet())
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -19,6 +21,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     app.use(cors());
     next();
 });
+// Swagger API
 app.use('/gym/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // routes

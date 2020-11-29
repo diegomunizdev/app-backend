@@ -1,5 +1,4 @@
 import { Router } from 'express';
-
 import { TokenValidation, TokenValidationAdmin, TokenValidationAdminAndPersonal } from '../middlewares/token.validation';
 import { createUser, getByUserId, getUsers, getUsersByType, updateUser, deleteUser } from '../controllers/user/user.controller'
 import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/user/address.controller'
@@ -23,8 +22,8 @@ export const UserRoutes = (routes: Router) => {
     // Address
     routes.post(`${url_user}/address`, TokenValidation, createAddress)
         .get(`${url_user}/address`, TokenValidation, getAddress)
-        .patch(`${url_user}/address`, TokenValidation, updateAddress)
-        .delete(`${url_user}/address`, TokenValidation, deleteAddress)
+        .patch(`${url_user}/address/:addressId`, TokenValidation, updateAddress)
+        .delete(`${url_user}/address/:addressId`, TokenValidation, deleteAddress)
 
     // exercises
     routes.post(`${url_user}/exercises`, TokenValidationAdminAndPersonal, createExercise)

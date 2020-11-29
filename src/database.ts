@@ -14,7 +14,7 @@ function connection(): Promise<Connection> {
         mongoose.connect(database, options)
             .then((result: Mongoose) => {
                 resolve(result.connection)
-                console.log('>> DATABASE SUCCESSFULLY CONNECTED')
+                console.log('>> DATABASE SUCCESSFULLY CONNECTED <<')
             }).catch(err => {
                 reject(err)
                 console.log('xxx Failure. Could not connect to the databse. Error: ', err);
