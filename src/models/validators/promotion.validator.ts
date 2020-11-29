@@ -6,5 +6,5 @@ export const ValidatePromotion = yup.object().shape({
     value: yup.number().required(),
     date_start: yup.string(),
     date_end: yup.string(),
-    user_id: yup.string().required(),
+    user_id: yup.string().required('Inform the user'),
 })

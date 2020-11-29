@@ -8,12 +8,12 @@ import { HttpStatus } from '../middlewares/http.status'
 export const createPromotion = async (req: Request, res: Response) => {
     try {
         const promotion: IPromotions = new Promotions(req.body)
-        if (!promotion) responseError(res, 'Promotion could not be created', 400)
+        if (!promotion) responseError(res, 'Promotion could not be created', HttpStatus.BAD_REQUEST)
         ValidatePromotion.validate(promotion)
         await promotion.save()
-        responseSuccess(res, promotion, 200)
+        responseSuccess(res, promotion, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -21,10 +21,10 @@ export const createPromotion = async (req: Request, res: Response) => {
 export const getByPromotionId = async (req: Request, res: Response) => {
     try {
         const promotion = await Promotions.findById(req.params.promotionId)
-        if (!promotion) responseError(res, 'Promotion not found', 404)
-        responseSuccess(res, promotion, 200)
+        if (!promotion) responseError(res, 'Promotion not found', HttpStatus.NOT_FOUND)
+        responseSuccess(res, promotion, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -47,7 +47,7 @@ export const updatePromotion = async (req: Request, res: Response) => {
         }, { new: true })
         responseSuccess(res, promotion, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -59,6 +59,6 @@ export const deletePromotion = async (req: Request, res: Response) => {
         await Promotions.findByIdAndRemove(promotionId)
         responseSuccess(res, 'Promotion successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

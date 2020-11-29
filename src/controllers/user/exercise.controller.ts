@@ -3,16 +3,17 @@ import Exercise, { IExercise } from '../../models/user.data/exercise.model'
 import { responseError, responseSuccess } from '../../middlewares/response'
 import { ValidateExercise } from '../../models/validators/exercise.validator'
 import { PaginationData } from '../pagination/pagination.controller'
+import { HttpStatus } from '../../middlewares/http.status'
 
 export const createExercise = async (req: Request, res: Response) => {
     try {
         const exercise: IExercise = new Exercise(req.body)
-        if (!exercise) responseError(res, 'Exercise not created', 404)
+        if (!exercise) responseError(res, 'Exercise not created', HttpStatus.BAD_REQUEST)
         ValidateExercise.validate(exercise)
         await exercise.save()
-        responseSuccess(res, exercise, 200)
+        responseSuccess(res, exercise, HttpStatus.CREATED)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
@@ -21,17 +22,17 @@ export const getExercises = PaginationData(Exercise)
 export const getByExerciseId = async (req: Request, res: Response) => {
     try {
         const exercise = await Exercise.findById(req.params.exerciseId)
-        if (!exercise) responseError(res, 'Exercise not found', 404)
-        responseSuccess(res, exercise, 200)
+        if (!exercise) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
+        responseSuccess(res, exercise, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const updateExercise = async (req: Request, res: Response) => {
     try {
         const { exerciseId } = req.params
-        if (!exerciseId) responseError(res, 'Exercise not found', 404)
+        if (!exerciseId) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
         const exercise = {
             exercise_monday: req.body.exercise_monday,
             exercise_tuesday: req.body.exercise_tuesday,
@@ -46,19 +47,19 @@ export const updateExercise = async (req: Request, res: Response) => {
         await Exercise.findByIdAndUpdate(exerciseId, {
             $set: exercise
         }, { new: true })
-        responseSuccess(res, exercise, 200)
+        responseSuccess(res, exercise, HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }
 
 export const deleteExercise = async (req: Request, res: Response) => {
     try {
         const exerciseId = req.params.exerciseId
-        if (!exerciseId) responseError(res, 'Exercise not found', 404)
+        if (!exerciseId) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
         await Exercise.findByIdAndRemove(exerciseId)
-        responseSuccess(res, 'Exercise successfully removed', 200)
+        responseSuccess(res, 'Exercise successfully removed', HttpStatus.OK)
     } catch (error) {
-        responseError(res, error)
+        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
     }
 }

@@ -18,5 +18,5 @@ export const ValidateMeasure = yup.object().shape({
     middle_left_thigh: yup.number(),
     right_calf: yup.number(),
     left_calf: yup.number(),
-    user_id: yup.string().required('Informe the user')
+    user_id: yup.string().required('Inform the user')
 })

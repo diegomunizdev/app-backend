@@ -8,5 +8,5 @@ export const ValidateAddress = yup.object().shape({
     neighborhood: yup.string().required(),
     city: yup.string().required(),
     uf: yup.string().required(),
-    user_id: yup.string().required()
+    user_id: yup.string().required('Inform the user')
 })
