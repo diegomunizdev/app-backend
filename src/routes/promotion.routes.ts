@@ -5,6 +5,7 @@ import { createPromotion, getByPromotionId, getPromotions, updatePromotion, dele
 const url_user = '/user/:userId'
 
 export const PromotionsRoutes = (routes: Router) => {
+    // Promotions
     routes.post(`${url_user}/promotion`, TokenValidationAdmin, createPromotion)
         .get(`${url_user}/promotions`, TokenValidation, getPromotions)
         .get(`${url_user}/promotion/:promotionId`, TokenValidation, getByPromotionId)

@@ -48,6 +48,10 @@
         {
             "name": "Payment",
             "description": "Operations about payment"
+        },
+        {
+            "name": "Promotions",
+            "description": "Operations about promotions"
         }
     ],
     "schemes": [
@@ -1034,6 +1038,156 @@
                 "summary": "",
                 "description": "",
                 "operationId": "DeleteUserPayment",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/promotion": {
+            "post": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "Create Promotions",
+                "description": "",
+                "operationId": "createPromotions",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Created Promotions object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Promotions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/promotions": {
+            "get": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserPromotions",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserPromotions",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Promotions"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/user/{id}/promotion/{promotion_id}": {
+            "get": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "GetUserPromotionsId",
+                "produces": [
+                    "application/xml",
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "GetUserPromotionsId",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/Promotions"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "UpdateUserPromotions",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Promotions object",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Promotions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Promotions"
+                ],
+                "summary": "",
+                "description": "",
+                "operationId": "DeleteUserPromotions",
                 "produces": [
                     "application/json",
                     "application/xml"

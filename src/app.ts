@@ -21,6 +21,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     app.use(cors());
     next();
 });
+
 // Swagger API
 app.use('/gym/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -31,7 +32,8 @@ app.use('/gym', Routes);
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(HttpStatus.NOT_FOUND).json({
         code: HttpStatus.NOT_FOUND,
-        message: 'Página não encontrada!'
+        message: 'Page not found',
+        description: 'Check that a URL has been entered correctly'
     })
 })
 
