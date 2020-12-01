@@ -11,7 +11,7 @@ export const createPhoto = async (req: Request, res: Response) => {
 
         const myPhoto = {
             user_id: user_id,
-            imagePath: `${process.env.URL_BASE}/${req.file.filename}`
+            imagePath: `${process.env.URL_BASE}/user/${req.file.filename}`
         }
 
         if (!myPhoto.user_id) responseError(res, 'User not found', HttpStatus.NOT_FOUND)
@@ -40,7 +40,7 @@ export const updatePhoto = async (req: Request, res: Response) => {
         if (!photo) responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
         const pht = {
             user_id: photo?.user_id,
-            imagePath: req.file.path
+            imagePath: `${process.env.URL_BASE}/user/${req.file.filename}`
         }
 
         await Photo.findByIdAndUpdate(photo?.id, {
@@ -55,10 +55,11 @@ export const updatePhoto = async (req: Request, res: Response) => {
 export const deletePhoto = async (req: Request, res: Response) => {
     try {
         const photo = await Photo.findOne({ user_id: req.params.userId })
-        if (!photo) responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
+        if (!photo) return responseError(res, 'Photo not found', HttpStatus.NOT_FOUND)
         const pht = await Photo.findByIdAndRemove(photo?.id);
         if (pht) {
-            fs.unlink(path.resolve(pht.imagePath));
+            const ph = pht.imagePath.split('T')
+            await fs.unlink(`uploads/T${ph[1]}`);
         }
         responseSuccess(res, 'Photo successfully removed', HttpStatus.OK)
     } catch (error) {

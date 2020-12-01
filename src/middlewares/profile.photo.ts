@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
         crypto.randomBytes(16, (err, hash) => {
             if (err) callback(err, '')
             // TODO: Revisar hash depois. Essa hash coloca um id no nome da foto.
-            const fileName = `${hash.toString("hex")}-${file.originalname}`
+            const fileName = `T${hash.toString("hex")}-${file.originalname}`
             callback(null, fileName)
         })
     }

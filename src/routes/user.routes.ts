@@ -6,7 +6,7 @@ import { createExercise, getByExerciseId, getExercises, updateExercise, deleteEx
 import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
 import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
 import { createPayment, getPayment, updatePayment, deletePayment } from '../controllers/user/payment.controller'
-import { createPhoto, getPhoto } from '../controllers/user/photo.controller';
+import { createPhoto, deletePhoto, getPhoto, updatePhoto } from '../controllers/user/photo.controller';
 import { UploadFile } from '../middlewares/profile.photo';
 
 const url_user = '/user/:userId'
@@ -28,6 +28,8 @@ export const UserRoutes = (routes: Router) => {
      */
     routes.post(`${url_user}/photo`, TokenValidation, UploadFile.single('imagePath'), createPhoto)
         .get(`${url_user}/photo`, TokenValidation, getPhoto)
+        .patch(`${url_user}/photo/:photoId`, TokenValidation, UploadFile.single('imagePath'), updatePhoto)
+        .delete(`${url_user}/photo/:photoId`, TokenValidation, deletePhoto)
 
     /**
      * Address operations

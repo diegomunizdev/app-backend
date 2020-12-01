@@ -14,7 +14,7 @@ const app: Application = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(helmet())
-app.use('/gym/files', express.static(path.resolve(__dirname, '..', 'uploads')))
+app.use('/gym/user', express.static(path.resolve(__dirname, '..', 'uploads')))
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
