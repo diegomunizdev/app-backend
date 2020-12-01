@@ -6,6 +6,7 @@ export const responseError = (res: Response, err: any, status_code?: number) => 
         code: status_code,
         status: 'Failure',
         message: err,
+        description: err.message,
         field: err.path
     })
 }

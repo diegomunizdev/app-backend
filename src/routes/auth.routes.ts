@@ -2,8 +2,10 @@ import { Router } from 'express';
 import { signin, forgot, changePassword } from '../controllers/auth.controller';
 
 export const AuthRoutes = (routes: Router) => {
-    // auth
+    /**
+     * Authentication operations
+     */
     routes.post('/auth/signin', signin)
-        .get('/auth/forgot', forgot)
+        .post('/auth/forgot', forgot)
         .patch('/auth/user/:userId/changepassword', changePassword)
 }

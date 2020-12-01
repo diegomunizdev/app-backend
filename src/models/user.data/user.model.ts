@@ -69,7 +69,8 @@ const UserSchema = new Mongoose.Schema({
         required: true
     },
     phone: {
-        type: String
+        type: String,
+        unique: true
     },
     genre: {
         type: GenreType

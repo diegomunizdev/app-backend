@@ -12,16 +12,16 @@ export const signin = async (req: Request, res: Response) => {
             username: req.body.username
         }).select('+password');
 
-        if (!user) responseError(res, 'Invalid username or password', HttpStatus.BAD_REQUEST)
+        if (!user) return responseError(res, 'Invalid username or password', HttpStatus.BAD_REQUEST)
 
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
-        if (!correctPassword) responseError(res, 'Invalid password', HttpStatus.BAD_REQUEST)
+        if (!correctPassword) return responseError(res, 'Invalid password', HttpStatus.BAD_REQUEST)
 
         const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, SECRET_TOKEN, {
             expiresIn: '1d'
         })
 
-        if (!token) responseSuccess(res, 'Token was not provider', HttpStatus.BAD_REQUEST)
+        if (!token) return responseError(res, 'Token was not provider', HttpStatus.BAD_REQUEST)
 
         user ? user.password = undefined : ''
         return res.header('Authorization', token).json({ code: HttpStatus.OK, Authorization: token })
@@ -33,7 +33,8 @@ export const signin = async (req: Request, res: Response) => {
 export const forgot = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-        if (!user) responseError(res, 'User not found in the database', HttpStatus.NOT_FOUND)
+            .then(res => res?.id)
+        if (!user) return responseError(res, 'User not found in the database', HttpStatus.NOT_FOUND)
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {
         responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
@@ -43,7 +44,7 @@ export const forgot = async (req: Request, res: Response) => {
 export const changePassword = async (req: Request, res: Response) => {
     try {
         const userId = await User.findById(req.params.userId)
-        if (!userId) responseError(res, 'User not found', HttpStatus.NOT_FOUND)
+        if (!userId) return responseError(res, 'User not found', HttpStatus.NOT_FOUND)
         const user = {
             email: req.body.email,
             password: req.body.password,
