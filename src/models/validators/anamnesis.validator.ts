@@ -17,5 +17,5 @@ export const ValidateAnamnesis = yup.object().shape({
     water_day: yup.string(),
     intestinal_disorder: yup.string(),
     hormonal_disorder: yup.string(),
-    user_id: yup.string().required('Informe the user')
+    user_id: yup.string().required('Inform the user')
 })
