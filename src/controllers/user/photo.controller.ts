@@ -11,7 +11,7 @@ export const createPhoto = async (req: Request, res: Response) => {
 
         const myPhoto = {
             user_id: user_id,
-            imagePath: req.file.path
+            imagePath: `${process.env.URL_BASE}/${req.file.filename}`
         }
 
         if (!myPhoto.user_id) responseError(res, 'User not found', HttpStatus.NOT_FOUND)
