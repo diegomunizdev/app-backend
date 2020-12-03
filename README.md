@@ -18,6 +18,12 @@
 
 This project was generated using NodeJS with Typescript.
 
+## File Structure
+
+```
+filestructure.md
+```
+
 ## Database 
 
 Database used [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas).

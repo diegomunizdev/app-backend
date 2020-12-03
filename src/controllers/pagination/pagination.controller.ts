@@ -40,9 +40,9 @@ export const PaginationData = (model: any) => {
 
             result.data.map((dt: any) => dt.password = undefined)
 
-            if (!result.data) responseError(res, 'Bad Request', HttpStatus.BAD_REQUEST)
+            if (!result.data) return responseError(res, 'Bad Request', HttpStatus.BAD_REQUEST)
 
-            responseSuccess(res, result, HttpStatus.OK)
+            return responseSuccess(res, result, HttpStatus.OK)
         } catch (error) {
             responseError(res, error)
         }
@@ -101,9 +101,9 @@ export const PaginationDataType = (model: any) => {
                     .exec()
             }
 
-            if (!result) responseError(res, 'Bad request', HttpStatus.BAD_REQUEST)
+            if (!result) return responseError(res, 'Bad request', HttpStatus.BAD_REQUEST)
             result.data.map((dt: any) => dt.password = undefined)
-            responseSuccess(res, result, HttpStatus.OK)
+            return responseSuccess(res, result, HttpStatus.OK)
         } catch (error) {
             responseError(res, error)
         }
