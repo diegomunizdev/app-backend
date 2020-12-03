@@ -1,12 +1,15 @@
 {
   "name": "app-backend",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Gym management system",
   "main": "index.js",
   "scripts": {
     "dev:server": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
   },
-  "keywords": [],
+  "keywords": [
+    "Backend",
+    "NodeJS"
+  ],
   "author": "github.com/diegomunizdev",
   "license": "ISC",
   "dependencies": {
