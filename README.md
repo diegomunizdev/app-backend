@@ -1,3 +1,13 @@
+<p align="center">
+   <img src="https://user-images.githubusercontent.com/26802818/101092392-5ad2d600-3598-11eb-9bb2-9f90c1f79983.png" alt="gym" width="170" />
+</p>
+
+<p align="center">	
+  <a href="https://github.com/diegomunizdev/app-backend/commits/master">
+    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/diegomunizdev/app-backend?color=e5e5e5">
+  </a> 
+</p>
+
 # Application backend for Gym management
 
 ## Main Features
@@ -10,23 +20,26 @@
 - Specials;
 - Monthly payments;
 
-## Prerequisites
-- [Node 12.0.0+](https://nodejs.org/en/download/)
-- [Typescript 3.9.7+](https://www.typescriptlang.org/)
-
 ## Code
 
 This project was generated using NodeJS with Typescript.
 
-## File Structure
+## Prerequisites
+- [Node 12.0.0+](https://nodejs.org/en/download/)
+- [Typescript 3.9.7+](https://www.typescriptlang.org/)
 
-```
-filestructure.md
-```
+## File Structure
+open `filestructure.md` to see all the mapped files.
+
+## Insomnia
+
+Import `requests.json` into insomnia to make requests.
 
 ## Database 
 
 Database used [mongodb.com/cloud/atlas](https://www.mongodb.com/cloud/atlas).
+
+You need to create a cluster on mangodb and put the link for connection in the `CONNECTION_DATABASE` variable.
 
 ## Ruuning the application
 
