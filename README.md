@@ -5,7 +5,9 @@
 <p align="center">	
   <a href="https://github.com/diegomunizdev/app-backend/commits/master">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/diegomunizdev/app-backend?color=e5e5e5">
-  </a> 
+  </a>
+   <img alt="Repository size" src="https://img.shields.io/github/repo-size/diegomunizdev/app-backend?color=e5e5e5">
+
 </p>
 
 # Application backend for Gym management
@@ -24,7 +26,7 @@
 
 This project was generated using NodeJS with Typescript.
 
-## Prerequisites
+## Technology
 - [Node 12.0.0+](https://nodejs.org/en/download/)
 - [Typescript 3.9.7+](https://www.typescriptlang.org/)
 
