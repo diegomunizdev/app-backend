@@ -77,7 +77,7 @@ In the root directory look for the `.env.example` file and generate a copy with 
 
 ### Start the server and access the swagger api
 ```
-npm run dev
+npm run dev:server
 ```
 
 #### Route and model documentation available on swagger

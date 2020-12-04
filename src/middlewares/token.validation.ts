@@ -76,7 +76,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
         })
 
         const decode: any = jwt.decode(auth)
-        if (decode.type === (UserType.ADMIN || UserType.PERSONAL_TRAINER)) {
+        if ((decode.type === UserType.ADMIN) || (decode.type === UserType.PERSONAL_TRAINER)) {
             jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
             return res.status(HttpStatus.UNAUTHORIZED).json({

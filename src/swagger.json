@@ -59,7 +59,7 @@
         "http"
     ],
     "paths": {
-        "/auth/signin": {
+        "/user/authentication/signin": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -97,7 +97,7 @@
                 }
             }
         },
-        "/auth/forgot": {
+        "/user/authentication/forgot": {
             "post": {
                 "tags": [
                     "Authentication"
@@ -127,7 +127,7 @@
                 }
             }
         },
-        "/auth/user/{id}/changepassword": {
+        "/user/{id}/authentication/changepassword": {
             "patch": {
                 "tags": [
                     "Authentication"
