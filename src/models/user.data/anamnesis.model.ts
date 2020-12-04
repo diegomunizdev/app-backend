@@ -1,25 +1,25 @@
 import Mongoose, { Document } from 'mongoose'
 
 export interface IAnamnesis extends Document {
-    activity_objective: string
-    health_problems: string
-    medical_treatment: boolean
-    medication_use: string
-    diabetes: string
-    arterial_hypertension: string
-    arterial_hypotension: string
-    smoking: string
-    allergy: string
-    pacemaker: string
-    sitting_time: string
-    standing_time: string
-    prosthesis: string
-    orthosis: string
-    water_day: string
-    intestinal_disorder: string
-    hormonal_disorder: string
-    next_review: string
-    user_id: string
+    activity_objective: string,
+    health_problems: string,
+    medical_treatment: boolean,
+    medication_use: string,
+    diabetes: string,
+    arterial_hypertension: string,
+    arterial_hypotension: string,
+    smoking: string,
+    allergy: string,
+    pacemaker: string,
+    sitting_time: string,
+    standing_time: string,
+    prosthesis: string,
+    orthosis: string,
+    water_day: string,
+    intestinal_disorder: string,
+    hormonal_disorder: string,
+    next_review: string,
+    user_id: string,
 }
 
 const AnamnesisSchema = new Mongoose.Schema({

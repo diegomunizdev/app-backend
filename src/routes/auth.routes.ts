@@ -5,7 +5,7 @@ export const AuthRoutes = (routes: Router) => {
     /**
      * Authentication operations
      */
-    routes.post('/auth/signin', signin)
-        .post('/auth/forgot', forgot)
-        .patch('/auth/user/:userId/changepassword', changePassword)
+    routes.post('/user/authentication/signin', signin)
+        .post('/user/authentication/forgot', forgot)
+        .patch('/user/:userId/authentication/changepassword', changePassword)
 }
