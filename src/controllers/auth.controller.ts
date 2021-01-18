@@ -9,7 +9,7 @@ import { SECRET_TOKEN } from '../middlewares/token.validation';
 export const signin = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({
-            username: req.body.username
+            email: req.body.email
         }).select('+password');
 
         if (!user) return responseError(res, 'Invalid username or password', HttpStatus.BAD_REQUEST)
