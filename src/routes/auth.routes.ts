@@ -7,5 +7,5 @@ export const AuthRoutes = (routes: Router) => {
      */
     routes.post('/login', signin)
         .post('/forgot', forgot)
-        .patch('/users/:userId/changepassword', changePassword)
+        .patch('/user/:userId/changepassword', changePassword)
 }

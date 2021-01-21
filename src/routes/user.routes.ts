@@ -6,7 +6,7 @@ import { createExercise, getByExerciseId, getExercises, updateExercise, deleteEx
 import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
 import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
 import { createPayment, getPayment, updatePayment, deletePayment } from '../controllers/user/payment.controller'
-import { createPhoto, deletePhoto, getPhoto, updatePhoto } from '../controllers/user/photo.controller';
+import { createAvatar, deleteAvatar, getAvatar, updateAvatar } from '../controllers/user/avatar.controller';
 import { UploadFile } from '../middlewares/profile.photo';
 
 const url_user = '/user/:userId'
@@ -16,20 +16,20 @@ export const UserRoutes = (routes: Router) => {
     /**
      * User operations
      */
-    routes.post('/user', TokenValidationAdmin, createUser)
+    routes.post('/user/create', TokenValidationAdmin, createUser)
         .get('/users', TokenValidationAdmin, getUsers)
-        .get(`${url_user}`, TokenValidation, getByUserId)
-        .get('/users/:type', TokenValidationAdminAndPersonal, getUsersByType)
-        .patch(`${url_user}`, TokenValidationAdminAndPersonal, updateUser)
-        .delete(`${url_user}`, TokenValidationAdmin, deleteUser)
+        .get('/user/:userId', TokenValidationAdmin, getByUserId)
+        .get('/users/:type', TokenValidationAdmin, getUsersByType)
+        .patch('/users/:userId/update', TokenValidationAdmin, updateUser)
+        .delete('/user/:userId/delete', TokenValidationAdmin, deleteUser)
 
     /**
-     * Photo operations
+     * Avatar operations
      */
-    routes.post(`${url_user}/photo`, TokenValidation, UploadFile.single('imagePath'), createPhoto)
-        .get(`${url_user}/photo`, TokenValidation, getPhoto)
-        .patch(`${url_user}/photo/:photoId`, TokenValidation, UploadFile.single('imagePath'), updatePhoto)
-        .delete(`${url_user}/photo/:photoId`, TokenValidation, deletePhoto)
+    routes.post(`${url_user}/avatar`, TokenValidation, UploadFile.single('avatar'), createAvatar)
+        .get(`${url_user}/avatar`, TokenValidation, getAvatar)
+        .patch(`${url_user}/avatar/:avatarId`, TokenValidation, UploadFile.single('avatar'), updateAvatar)
+        .delete(`${url_user}/avatar/:avatarId`, TokenValidation, deleteAvatar)
 
     /**
      * Address operations

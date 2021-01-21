@@ -14,9 +14,8 @@ export const SECRET_TOKEN: string = process.env.TOKEN_SECRET ? process.env.TOKEN
 
 export const TokenValidation = (req: Request, res: Response, next: NextFunction) => {
     try {
-        const token = req.header('Authorization');
+        const token: string | undefined = req.header('Authorization')
         const [bearer, auth] = token ? token.split(' ') : ''
-
         if (!token || bearer !== "Bearer") res.status(HttpStatus.FORBINDDEN).json({
             code: 403,
             auth: false,

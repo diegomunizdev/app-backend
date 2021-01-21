@@ -33,12 +33,12 @@ export const updateAddress = async (req: Request, res: Response) => {
         if (!addr) responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
         const address = {
             zip_code: req.body.zip_code,
-            name: req.body.name,
+            street: req.body.street,
             complement: req.body.complement,
             number: req.body.number,
-            neighborhood: req.body.neighborhood,
+            district: req.body.district,
             city: req.body.city,
-            uf: req.body.uf
+            state: req.body.state
         }
 
         await Address.findByIdAndUpdate(addr ? addr.id : '', {
