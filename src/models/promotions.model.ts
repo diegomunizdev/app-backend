@@ -17,7 +17,7 @@ const PromotionSchema = new Mongoose.Schema({
     date_end: { type: String },
     user_id: { type: String }
 },{
-    timestamps: { createdAt: 'created_at', updatedAt: false },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id

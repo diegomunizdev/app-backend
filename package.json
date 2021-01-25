@@ -4,7 +4,7 @@
   "description": "Gym management system",
   "main": "index.js",
   "scripts": {
-    "dev:server": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
   },
   "keywords": [
     "Backend",

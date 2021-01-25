@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '../models/user.data/user.model';
+import User, { IUser } from '../models/user.data/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
 import { responseError, responseSuccess } from '../middlewares/response'
@@ -9,7 +9,7 @@ import { SECRET_TOKEN } from '../middlewares/token.validation';
 export const signin = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({
-            username: req.body.username
+            email: req.body.email
         }).select('+password');
 
         if (!user) return responseError(res, 'Invalid username or password', HttpStatus.BAD_REQUEST)
@@ -33,7 +33,9 @@ export const signin = async (req: Request, res: Response) => {
 export const forgot = async (req: Request, res: Response) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-            .then(res => res?.id)
+        /* .then((res) => {
+            return { id: res?.id, email: res?.email, name: res?.name }
+        }) */
         if (!user) return responseError(res, 'User not found in the database', HttpStatus.NOT_FOUND)
         responseSuccess(res, user, HttpStatus.OK)
     } catch (error) {

@@ -43,7 +43,7 @@ const MeasureSchema = new Mongoose.Schema({
     next_review: { type: String, required: true },
     user_id: { type: String, required: true }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: false },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id

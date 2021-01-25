@@ -7,22 +7,21 @@ export enum UserType {
     PERSONAL_TRAINER = 'personal_trainer'
 }
 
-export enum GenreType {
+export enum GenderType {
     FEMALE = 'female',
     MALE = 'male'
 }
 
 export interface IUser extends Document {
     name: string,
-    username: string,
     email: string,
     password: string | undefined,
-    cpf: string,
+    individual_registration: string,
     age: number,
     date_of_birth: string,
     type: UserType, // admin, client or personal_trainer
     phone: string,
-    genre: GenreType, // female or male
+    gender: GenderType, // female or male
     contract_start: string,
     contract_end: string,
     encryptPassword(password: string): Promise<string>,
@@ -33,11 +32,6 @@ const UserSchema = new Mongoose.Schema({
     name: {
         type: String,
         required: true
-    },
-    username: {
-        type: String,
-        required: true,
-        unique: true
     },
     email: {
         type: String,
@@ -51,7 +45,7 @@ const UserSchema = new Mongoose.Schema({
         required: true,
         select: false
     },
-    cpf: {
+    individual_registration: {
         type: String,
         unique: true,
         min: 10
@@ -72,8 +66,8 @@ const UserSchema = new Mongoose.Schema({
         type: String,
         unique: true
     },
-    genre: {
-        type: GenreType
+    gender: {
+        type: GenderType
     },
     contract_start: {
         type: String
@@ -82,7 +76,7 @@ const UserSchema = new Mongoose.Schema({
         type: String
     }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: false },
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id
