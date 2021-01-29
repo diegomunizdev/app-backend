@@ -33,6 +33,7 @@ export const updateExercise = async (req: Request, res: Response) => {
     try {
         const { exerciseId } = req.params
         if (!exerciseId) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
+        // TODO Validar se precisar modificar ou se recebe tudo pelo req.body
         const exercise = {
             exercise_monday: req.body.exercise_monday,
             exercise_tuesday: req.body.exercise_tuesday,

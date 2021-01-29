@@ -3,12 +3,12 @@ import MeasureModel from './measures.model'
 
 export interface IPayment extends Document {
     value: number,
-    user_id: string
+    userId: string
 }
 
 const PaymentSchema = new Mongoose.Schema({
     value: { type: String },
-    user_id: { type: String, required: true }
+    userId: { type: String, required: true }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {

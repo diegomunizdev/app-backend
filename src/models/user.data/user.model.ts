@@ -16,14 +16,14 @@ export interface IUser extends Document {
     name: string,
     email: string,
     password: string | undefined,
-    individual_registration: string,
+    individualRegistration: string,
     age: number,
-    date_of_birth: string,
+    dateBirth: string,
     type: UserType, // admin, client or personal_trainer
     phone: string,
     gender: GenderType, // female or male
-    contract_start: string,
-    contract_end: string,
+    contractStart: string,
+    contractEnd: string,
     encryptPassword(password: string): Promise<string>,
     validatePassword(password: string): Promise<boolean>
 }
@@ -45,7 +45,7 @@ const UserSchema = new Mongoose.Schema({
         required: true,
         select: false
     },
-    individual_registration: {
+    individualRegistration: {
         type: String,
         unique: true,
         min: 10
@@ -69,10 +69,10 @@ const UserSchema = new Mongoose.Schema({
     gender: {
         type: GenderType
     },
-    contract_start: {
+    contractStart: {
         type: String
     },
-    contract_end: {
+    contractEnd: {
         type: String
     }
 }, {

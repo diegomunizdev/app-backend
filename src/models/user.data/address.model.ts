@@ -1,25 +1,25 @@
 import Mongoose, { Document } from 'mongoose'
 
 export interface IAddress extends Document {
-    zip_code: string
+    zipCode: string
     street: string
     complement: string
     number: number
     district: string
     city: string
     state: string
-    user_id: string
+    userId: string
 }
 
 const AddressShcema = new Mongoose.Schema({
-    zip_code: { type: String, required: true },
+    zipCode: { type: String, required: true },
     street: { type: String },
     complement: { type: String },
     number: { type: Number },
     district: { type: String },
     city: { type: String },
     state: { type: String },
-    user_id: { type: String }
+    userId: { type: String }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {

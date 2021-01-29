@@ -6,8 +6,8 @@ import { createExercise, getByExerciseId, getExercises, updateExercise, deleteEx
 import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
 import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
 import { createPayment, getPayment, updatePayment, deletePayment } from '../controllers/user/payment.controller'
-import { createAvatar, deleteAvatar, getAvatar, updateAvatar } from '../controllers/user/avatar.controller';
-import { UploadFile } from '../middlewares/profile.photo';
+import { createAvatar, getAvatar } from '../controllers/user/avatar.controller';
+import multer from 'multer';
 
 const url_user = '/user/:userId'
 
@@ -20,16 +20,14 @@ export const UserRoutes = (routes: Router) => {
         .get('/users', TokenValidationAdmin, getUsers)
         .get('/user/:userId', TokenValidationAdmin, getByUserId)
         .get('/users/:type', TokenValidationAdmin, getUsersByType)
-        .patch('/users/:userId/update', TokenValidationAdmin, updateUser)
+        .patch('/users/:userId/update', updateUser)
         .delete('/user/:userId/delete', TokenValidationAdmin, deleteUser)
 
     /**
      * Avatar operations
      */
-    routes.post(`${url_user}/avatar`, TokenValidation, UploadFile.single('avatar'), createAvatar)
+    routes.post(`${url_user}/avatar`, TokenValidation, multer().single('avatar'), createAvatar)
         .get(`${url_user}/avatar`, TokenValidation, getAvatar)
-        .patch(`${url_user}/avatar/:avatarId`, TokenValidation, UploadFile.single('avatar'), updateAvatar)
-        .delete(`${url_user}/avatar/:avatarId`, TokenValidation, deleteAvatar)
 
     /**
      * Address operations
