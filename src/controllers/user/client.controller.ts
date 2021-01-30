@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt'
 import { ValidateUser } from '../../models/validators/user.validator'
 import Client from '../../models/user.data/client.model'
 import { IClient } from '../../models/interfaces/client.interface'
-import { ErroMessage } from '../errors/errors'
+import { HttpMessage, HttpStatusCode } from '../errors/errors'
 
 export const createClient = async (req: Request, res: Response): Promise<any> => {
     try {
@@ -29,13 +29,15 @@ export const getAllClient = async (req: Request, res: Response): Promise<any> =>
         const admins: IClient[] = await Client.find()
             .limit(limit)
             .skip(index)
+
+        if (!admins) throw new Error(HttpMessage.NOT_FOUND)
+
         const totalClients: number = await Client.countDocuments().exec()
 
-        if (!admins) throw new Error(ErroMessage.USERS_NOT_FOUND)
 
         res.status(200).header('total-count', String(totalClients)).json(admins)
     } catch (error) {
-        console.log(error)
+        throw new Error(error.message)
     }
 }
 

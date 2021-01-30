@@ -1,9 +1,8 @@
-import Mongoose from 'mongoose';
-import bcrypt from 'bcrypt';
-import GenderType from './admin.model';
-import { IPersonalTrainer } from 'models/interfaces/personalTrainer.interface';
+import Mongoose from 'mongoose'
+import bcrypt from 'bcrypt'
+import { IPersonalTrainer } from '../interfaces/personalTrainer.interface'
 
-const UserSchema = new Mongoose.Schema({
+const PersonalSchema = new Mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -62,14 +61,14 @@ const UserSchema = new Mongoose.Schema({
     }
 })
 
-UserSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+PersonalSchema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt)
 }
 
-UserSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
+PersonalSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);
 }
 
-const PersonalTrainer = Mongoose.model<IPersonalTrainer>('PersonalsTrainer', UserSchema)
+const PersonalTrainer = Mongoose.model<IPersonalTrainer>('PersonalsTrainer', PersonalSchema)
 export default PersonalTrainer

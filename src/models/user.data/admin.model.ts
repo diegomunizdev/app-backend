@@ -8,7 +8,7 @@ export enum UserType {
     CLIENT = 'client'
 }
 
-const UserSchema = new Mongoose.Schema({
+const AdminSchema = new Mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -60,14 +60,14 @@ const UserSchema = new Mongoose.Schema({
 }
 );
 
-UserSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+AdminSchema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt)
 }
 
-UserSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
+AdminSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);
 }
 
-const Admin = Mongoose.model<IAdmin>('Admin', UserSchema)
+const Admin = Mongoose.model<IAdmin>('Admin', AdminSchema)
 export default Admin

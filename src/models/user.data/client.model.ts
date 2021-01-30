@@ -2,7 +2,7 @@ import Mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { IClient } from 'models/interfaces/client.interface';
 
-const UserSchema = new Mongoose.Schema({
+const ClientSchema = new Mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -59,14 +59,14 @@ const UserSchema = new Mongoose.Schema({
 }
 );
 
-UserSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+ClientSchema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salt)
 }
 
-UserSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
+ClientSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
     return await bcrypt.compare(password, this.password);
 }
 
-const Client = Mongoose.model<IClient>('Client', UserSchema)
+const Client = Mongoose.model<IClient>('Client', ClientSchema)
 export default Client

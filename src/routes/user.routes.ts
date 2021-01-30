@@ -10,7 +10,7 @@ import { createAvatar, getAvatar } from '../controllers/user/avatar.controller';
 import { createAdmin, deleteAdmin, getAll, getById, updateAdmin } from '../controllers/user/admin.controller';
 import { createClient, getAllClient, getByClientId, updateClient, deleteClient } from '../controllers/user/client.controller';
 
-const url_user = '/user/:userId'
+const url_user = '/user/:id'
 
 // user
 export const UserRoutes = (routes: Router) => {

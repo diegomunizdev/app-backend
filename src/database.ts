@@ -1,4 +1,4 @@
-import mongoose, { Connection, Mongoose } from "mongoose";
+import mongoose, { Connection, Mongoose } from 'mongoose'
 
 const database: string = process.env.CONNECTION_DATABASE ? process.env.CONNECTION_DATABASE : ''
 
