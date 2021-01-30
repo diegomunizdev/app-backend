@@ -38,9 +38,9 @@ export const getAll = async (req: Request, res: Response): Promise<any> => {
 
         if (!admins) throw new Error(HttpMessage.NOT_FOUND)
 
-        const totalAdmins: number = await Admin.countDocuments().exec()
+        const adminsTotal: number = await Admin.countDocuments().exec()
 
-        res.status(HttpStatusCode.OK).header('total-count', String(totalAdmins)).json(admins)
+        res.status(HttpStatusCode.OK).header('total-count', String(adminsTotal)).json(admins)
     } catch (error) {
         console.log(error)
     }
@@ -79,9 +79,10 @@ export const updateAdmin = async (req: Request, res: Response): Promise<any> => 
             password: req.body.password,
             dateBirth: req.body.dateBirth,
             phone: req.body.phone,
+            updatedAt: new Date().toISOString(),
             encryptPassword: async (password: string): Promise<string> => {
                 password = req.body.password
-                const salt = await bcrypt.genSalt(10);
+                const salt = await bcrypt.genSalt(10)
                 return bcrypt.hash(password, salt)
             }
         }

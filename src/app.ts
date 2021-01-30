@@ -5,7 +5,7 @@ import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
 import * as swaggerDocument from './swagger.json'
 import Routes from './routes/routes';
-import { HttpStatusCode } from 'controllers/errors/errors'
+import { HttpStatusCode } from './controllers/errors/errors'
 
 const app: Application = express();
 

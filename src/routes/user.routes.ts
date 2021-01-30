@@ -18,7 +18,7 @@ export const UserRoutes = (routes: Router) => {
      * Admin operations
      */
     routes.post('/admin', createAdmin)
-        .get('/admins', getAll)
+        .get('/admin', getAll)
         .get('/admin/:id', getById)
         .patch('/admin/:id', updateAdmin)
         .delete('/admin/:id', deleteAdmin)
@@ -27,7 +27,7 @@ export const UserRoutes = (routes: Router) => {
      * Client operations
      */
     routes.post('/client', createClient)
-        .get('/clients', getAllClient)
+        .get('/client', getAllClient)
         .get('/client/:id', getByClientId)
         .patch('/client/:id', updateClient)
         .delete('/client/:id', deleteClient)
