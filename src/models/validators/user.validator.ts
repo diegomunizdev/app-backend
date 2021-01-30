@@ -1,4 +1,4 @@
-import { GenderType, UserType } from '../user.data/user.model'
+import GenderType from '../user.data/admin.model'
 import * as yup from 'yup'
 
 /**
@@ -13,7 +13,7 @@ export const ValidateUser = yup.object().shape({
     individualRegistration: yup.string().required('Inform the individual registration'),
     age: yup.number().required(),
     dateBirth: yup.string().required(),
-    type: yup.string().oneOf(Object.values(UserType)).required(), // admin, client or personal_trainer
+    type: yup.string().required(), // admin, client or personal_trainer
     phone: yup.string(),
     gender: yup.string().oneOf(Object.values(GenderType)), // male or female
     contractStart: yup.string(),

@@ -1,14 +1,11 @@
 import { Request, Response } from 'express'
 import Avatar from '../../models/user.data/avatar.model'
-import fs from 'fs-extra'
-import { responseError, responseSuccess } from '../../middlewares/response'
-import { HttpStatus } from '../../middlewares/http.status'
 import { Stream } from 'stream'
+import { Error } from 'mongoose'
 
-export const createAvatar = async (req: any, res: Response) => {
+export const createAvatar = async (err: Error, req: any, res: Response): Promise<any> => {
     try {
-        console.log('req.file', req.file)
-        if (!req.file) throw new Error('Please submit a image with refer key name "avatar".')
+        if (!req.file) throw new Error(err.message)
         const avatar = new Avatar({
             contentType: req.file.mimetype,
             filename: req.file.originalname,
@@ -16,24 +13,23 @@ export const createAvatar = async (req: any, res: Response) => {
             data: Buffer.from(req.file.buffer),
             userId: req.params.userId
         })
-
-        await avatar.save()
-        responseSuccess(res, avatar, HttpStatus.CREATED)
+        const result = await avatar.save()
+        res.status(201).json(result)
     } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const getAvatar = async (req: Request, res: Response): Promise<any> => {
+export const getAvatar = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const avatar = await Avatar.findOne({ userId: req.params.userId })
-        if (!avatar) responseError(res, 'Avatar not found', HttpStatus.NOT_FOUND)
+        if (!avatar) throw new Error(err.message)
         const readStream = new Stream.PassThrough()
         res.set('Content-Disposition', 'inline')
         res.set('Content-Type', avatar?.contentType)
         readStream.pipe(res)
         readStream.end(avatar?.data)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }

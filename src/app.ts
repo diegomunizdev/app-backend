@@ -5,7 +5,6 @@ import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
 import * as swaggerDocument from './swagger.json'
 import Routes from './routes/routes';
-import { HttpStatus } from './middlewares/http.status';
 
 const app: Application = express();
 
@@ -30,8 +29,8 @@ app.use('/gym', Routes);
 
 
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(HttpStatus.NOT_FOUND).json({
-        code: HttpStatus.NOT_FOUND,
+    res.status(404).json({
+        code: 404,
         message: 'Page not found',
         description: 'Check that a URL has been entered correctly'
     })

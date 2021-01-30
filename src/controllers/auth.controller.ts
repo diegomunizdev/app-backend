@@ -1,52 +1,48 @@
 import { Request, Response } from 'express';
-import User, { IUser } from '../models/user.data/user.model';
+import User from '../models/user.data/admin.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-import { responseError, responseSuccess } from '../middlewares/response'
-import { HttpStatus } from '../middlewares/http.status';
 import { SECRET_TOKEN } from '../middlewares/token.validation';
+import { Error } from 'mongoose';
 
-export const signin = async (req: Request, res: Response) => {
+export const signin = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const user = await User.findOne({
             email: req.body.email
         }).select('+password');
 
-        if (!user) return responseError(res, 'Invalid username or password', HttpStatus.BAD_REQUEST)
+        if (!user) throw new Error(err.message)
 
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
-        if (!correctPassword) return responseError(res, 'Invalid password', HttpStatus.BAD_REQUEST)
+        if (!correctPassword) throw new Error(err.message)
 
         const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, SECRET_TOKEN, {
             expiresIn: '1d'
         })
 
-        if (!token) return responseError(res, 'Token was not provider', HttpStatus.BAD_REQUEST)
+        if (!token) throw new Error(err.message)
 
         user ? user.password = undefined : ''
-        return res.header('Authorization', token).json({ code: HttpStatus.OK, Authorization: token })
+        return res.header('Authorization', token).json({ Authorization: token })
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const forgot = async (req: Request, res: Response) => {
+export const forgot = async (err: Error, req: Request, res: Response) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-        /* .then((res) => {
-            return { id: res?.id, email: res?.email, name: res?.name }
-        }) */
-        if (!user) return responseError(res, 'User not found in the database', HttpStatus.NOT_FOUND)
-        responseSuccess(res, user, HttpStatus.OK)
+        if (!user) throw new Error(err.message)
+        res.status(200).json(user)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const changePassword = async (req: Request, res: Response) => {
+export const changePassword = async (err: Error, req: Request, res: Response) => {
     try {
         const userId = await User.findById(req.params.userId)
-        if (!userId) return responseError(res, 'User not found', HttpStatus.NOT_FOUND)
+        if (!userId) throw new Error(err.message)
         const user = {
             email: req.body.email,
             password: req.body.password,
@@ -56,13 +52,13 @@ export const changePassword = async (req: Request, res: Response) => {
                 return bcrypt.hash(password, salt)
             }
         }
-        user.password = await user.encryptPassword(user.password ? user.password : '')
-        await User.findByIdAndUpdate(userId, {
+        user.password = await user.encryptPassword(user.password ? user.password : null)
+        const result = await User.findByIdAndUpdate(userId, {
             $set: user
         }, { new: true })
-        user.password = undefined
-        responseSuccess(res, user, HttpStatus.OK)
+        user ? user.password = undefined : null
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }

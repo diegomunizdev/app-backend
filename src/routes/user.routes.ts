@@ -1,27 +1,36 @@
 import { Router } from 'express';
+import multer from 'multer';
 import { TokenValidation, TokenValidationAdmin, TokenValidationAdminAndPersonal } from '../middlewares/token.validation';
-import { createUser, getByUserId, getUsers, getUsersByType, updateUser, deleteUser } from '../controllers/user/user.controller'
 import { createAddress, getAddress, updateAddress, deleteAddress } from '../controllers/user/address.controller'
-import { createExercise, getByExerciseId, getExercises, updateExercise, deleteExercise } from '../controllers/user/exercise.controller'
-import { createAnamnesis, getAllAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
-import { createMeasure, getByMeasureId, getMeasures, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
+import { createExercise, getByExerciseId, updateExercise, deleteExercise } from '../controllers/user/exercise.controller'
+import { createAnamnesis, getByAnamnesisId, updateAnamnesis, deleteAnamnesis } from '../controllers/user/anamnesis.controller'
+import { createMeasure, getByMeasureId, updateMeasure, deleteMeasure } from '../controllers/user/measures.controller'
 import { createPayment, getPayment, updatePayment, deletePayment } from '../controllers/user/payment.controller'
 import { createAvatar, getAvatar } from '../controllers/user/avatar.controller';
-import multer from 'multer';
+import { createAdmin, deleteAdmin, getAll, getById, updateAdmin } from '../controllers/user/admin.controller';
+import { createClient, getAllClient, getByClientId, updateClient, deleteClient } from '../controllers/user/client.controller';
 
 const url_user = '/user/:userId'
 
 // user
 export const UserRoutes = (routes: Router) => {
     /**
-     * User operations
+     * Admin operations
      */
-    routes.post('/user/create', TokenValidationAdmin, createUser)
-        .get('/users', TokenValidationAdmin, getUsers)
-        .get('/user/:userId', TokenValidationAdmin, getByUserId)
-        .get('/users/:type', TokenValidationAdmin, getUsersByType)
-        .patch('/users/:userId/update', updateUser)
-        .delete('/user/:userId/delete', TokenValidationAdmin, deleteUser)
+    routes.post('/admin', createAdmin)
+        .get('/admins', getAll)
+        .get('/admin/:id', getById)
+        .patch('/admin/:id', updateAdmin)
+        .delete('/admin/:id', deleteAdmin)
+
+    /**
+     * Client operations
+     */
+    routes.post('/client', createClient)
+        .get('/clients', getAllClient)
+        .get('/client/:id', getByClientId)
+        .patch('/client/:id', updateClient)
+        .delete('/client/:id', deleteClient)
 
     /**
      * Avatar operations
@@ -41,7 +50,6 @@ export const UserRoutes = (routes: Router) => {
      * Exercises operations
      */
     routes.post(`${url_user}/exercises`, TokenValidationAdminAndPersonal, createExercise)
-        .get(`${url_user}/exercises`, TokenValidation, getExercises)
         .get(`${url_user}/exercises/:exerciseId`, TokenValidation, getByExerciseId)
         .patch(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, updateExercise)
         .delete(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, deleteExercise)
@@ -50,7 +58,6 @@ export const UserRoutes = (routes: Router) => {
      * Anamnesis operations
      */
     routes.post(`${url_user}/anamnesis`, TokenValidationAdminAndPersonal, createAnamnesis)
-        .get(`${url_user}/anamnesis`, TokenValidation, getAllAnamnesis)
         .get(`${url_user}/anamnesis/:anamnesisId`, TokenValidation, getByAnamnesisId)
         .patch(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, updateAnamnesis)
         .delete(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, deleteAnamnesis)
@@ -59,7 +66,6 @@ export const UserRoutes = (routes: Router) => {
      * Measures operations
      */
     routes.post(`${url_user}/measures`, TokenValidationAdminAndPersonal, createMeasure)
-        .get(`${url_user}/measures`, TokenValidation, getMeasures)
         .get(`${url_user}/measures/:measureId`, TokenValidationAdminAndPersonal, getByMeasureId)
         .patch(`${url_user}/measures/:measureId`, TokenValidation, updateMeasure)
         .delete(`${url_user}/measures/:measureId`, TokenValidation, deleteMeasure)

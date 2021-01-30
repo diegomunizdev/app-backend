@@ -1,32 +1,6 @@
-import Mongoose, { Document } from 'mongoose';
+import Mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-
-export enum UserType {
-    ADMIN = 'admin',
-    CLIENT = 'client',
-    PERSONAL_TRAINER = 'personal_trainer'
-}
-
-export enum GenderType {
-    FEMALE = 'female',
-    MALE = 'male'
-}
-
-export interface IUser extends Document {
-    name: string,
-    email: string,
-    password: string | undefined,
-    individualRegistration: string,
-    age: number,
-    dateBirth: string,
-    type: UserType, // admin, client or personal_trainer
-    phone: string,
-    gender: GenderType, // female or male
-    contractStart: string,
-    contractEnd: string,
-    encryptPassword(password: string): Promise<string>,
-    validatePassword(password: string): Promise<boolean>
-}
+import { IClient } from 'models/interfaces/client.interface';
 
 const UserSchema = new Mongoose.Schema({
     name: {
@@ -50,24 +24,21 @@ const UserSchema = new Mongoose.Schema({
         unique: true,
         min: 10
     },
-    age: {
-        type: Number,
-        required: true,
-    },
-    date_of_birth: {
+    dateBirth: {
         type: String,
-        required: true
-    },
-    type: {
-        type: UserType,
         required: true
     },
     phone: {
         type: String,
         unique: true
     },
+    type: {
+        type: String,
+        default: 'client',
+        required: true
+    },
     gender: {
-        type: GenderType
+        type: String
     },
     contractStart: {
         type: String
@@ -76,7 +47,7 @@ const UserSchema = new Mongoose.Schema({
         type: String
     }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id
@@ -97,5 +68,5 @@ UserSchema.methods.validatePassword = async function (password: string): Promise
     return await bcrypt.compare(password, this.password);
 }
 
-const UserModel = Mongoose.model<IUser>('User', UserSchema)
-export default UserModel
+const Client = Mongoose.model<IClient>('Client', UserSchema)
+export default Client
