@@ -42,7 +42,7 @@ export const getAll = async (req: Request, res: Response): Promise<any> => {
 
         res.status(HttpStatusCode.OK).header('total-count', String(adminsTotal)).json(admins)
     } catch (error) {
-        console.log(error)
+        throw new Error(error.message)
     }
 }
 
@@ -58,6 +58,7 @@ export const getById = async (req: Request, res: Response): Promise<any> => {
         admin.totalAdmins = await Admin.countDocuments().exec()
         admin.totalPersonalsTrainer = await PersonalTrainer.countDocuments().exec()
         admin.totalClients = await Client.countDocuments().exec()
+        
 
         res.status(HttpStatusCode.OK).json(admin)
     } catch (error) {

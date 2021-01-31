@@ -23,13 +23,13 @@ export const createPersonalTrainer = async (err: Error, req: Request, res: Respo
 
 export const getById = async (err: Error, req: Request, res: Response) => {
     try {
-        const personal = await PersonalTrainer.findById(req.params.userId)
+        const personal = await PersonalTrainer.findById(req.params.id)
         if (!personal) throw new Error(err.message)
         personal ? personal.password = undefined : null
 
-        const total_clients: Query<number> = Client.countDocuments()
+        const totalClients: Query<number> = Client.countDocuments()
 
-        res.status(200).json({ ...personal, total_clients })
+        res.status(200).json({ ...personal, totalClients })
     } catch (error) {
         throw new Error(error.message || err)
     }

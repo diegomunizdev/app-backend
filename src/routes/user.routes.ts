@@ -41,10 +41,10 @@ export const UserRoutes = (routes: Router) => {
     /**
      * Address operations
      */
-    routes.post(`${url_user}/address`, TokenValidation, createAddress)
-        .get(`${url_user}/address`, TokenValidation, getAddress)
-        .patch(`${url_user}/address/:addressId`, TokenValidation, updateAddress)
-        .delete(`${url_user}/address/:addressId`, TokenValidation, deleteAddress)
+    routes.post(`/address`, TokenValidation, createAddress)
+        .get(`/:id/address`, TokenValidation, getAddress)
+        .patch(`/:id/address`, TokenValidation, updateAddress)
+        .delete(`/:id/address`, TokenValidation, deleteAddress)
 
     /**
      * Exercises operations

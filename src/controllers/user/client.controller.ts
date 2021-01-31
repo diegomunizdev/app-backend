@@ -22,12 +22,9 @@ export const createClient = async (req: Request, res: Response): Promise<any> =>
 
 export const getAllClient = async (req: Request, res: Response): Promise<any> => {
     try {
-        /* const page = Number(req.query.page)
-        const limit = Number(req.query.limit) */
         const page = parseInt(String(req.query.page), 10)
         const limit = parseInt(String(req.query.limit), 10)
         const index = (page - 1) * limit
-        console.log({ page, limit, index })
         const admins: IClient[] = await Client.find()
             .limit(limit)
             .skip(index)
@@ -78,10 +75,10 @@ export const updateClient = async (err: Error, req: Request, res: Response): Pro
     }
 }
 
-export const deleteClient = async (err: Error, req: Request, res: Response): Promise<any> => {
+export const deleteClient = async (req: Request, res: Response): Promise<any> => {
     try {
-        const client = await Client.findByIdAndRemove(req.params.userId)
-        if (!client) throw new Error(err.message)
+        const client = await Client.findByIdAndRemove(req.params.id)
+        if (!client) throw new Error(HttpMessage.NOT_FOUND)
         res.status(200).json(client)
     } catch (error) {
         throw new Error(error.message)

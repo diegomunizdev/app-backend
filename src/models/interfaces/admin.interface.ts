@@ -7,6 +7,7 @@ export enum GenderType {
 
 export interface IAdmin extends Document {
     name?: string
+    individualRegistration?: string
     email?: string
     password?: string
     dateBirth?: string

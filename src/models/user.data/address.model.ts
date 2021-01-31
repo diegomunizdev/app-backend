@@ -1,15 +1,5 @@
-import Mongoose, { Document } from 'mongoose'
-
-export interface IAddress extends Document {
-    zipCode: string
-    street: string
-    complement: string
-    number: number
-    district: string
-    city: string
-    state: string
-    userId: string
-}
+import { IAddress } from '../interfaces/address.interface'
+import Mongoose from 'mongoose'
 
 const AddressShcema = new Mongoose.Schema({
     zipCode: { type: String, required: true },
@@ -19,9 +9,9 @@ const AddressShcema = new Mongoose.Schema({
     district: { type: String },
     city: { type: String },
     state: { type: String },
-    userId: { type: String }
+    userId: { type: String, required: true }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id

@@ -4,7 +4,7 @@ import { IAdmin } from '../interfaces/admin.interface';
 
 export enum UserType {
     ADMIN = 'admin',
-    PERSONAL_TRAINER = 'personal_trainer',
+    PERSONAL_TRAINER = 'personaltrainer',
     CLIENT = 'client'
 }
 
@@ -12,6 +12,11 @@ const AdminSchema = new Mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    individualRegistration: {
+        type: String,
+        unique: true,
+        min: 10
     },
     email: {
         type: String,
