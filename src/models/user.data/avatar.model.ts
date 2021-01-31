@@ -1,13 +1,23 @@
 import Mongoose, { Document } from 'mongoose'
 
 interface IAvatar extends Document {
-    user_id: string
-    avatar: string
+    contentType: any
+    filename: any
+    size: any
+    data: Buffer
+    downloadLink: any
+    userId: any
+    fileId: any
 }
 
 const AvatarSchema = new Mongoose.Schema({
-    user_id: { type: String },
-    avatar: { type: String }
+    contentType: { type: String },
+    filename: { type: String },
+    size: { type: String },
+    data: { type: Buffer },
+    downloadLink: { type: String },
+    fileId: { type: String },
+    userId: { type: String }
 }, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {

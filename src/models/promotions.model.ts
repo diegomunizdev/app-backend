@@ -4,19 +4,19 @@ export interface IPromotions extends Document {
     title: string
     subtitle: string
     value: number
-    date_start: string
-    date_end: string
-    user_id: string
+    dateStart: string
+    dateEnd: string
+    userId: string
 }
 
 const PromotionSchema = new Mongoose.Schema({
     title: { type: String },
-    subtitle: { type:String},
+    subtitle: { type: String },
     value: { type: Number },
-    date_start: { type: String },
-    date_end: { type: String },
-    user_id: { type: String }
-},{
+    dateStart: { type: String },
+    dateEnd: { type: String },
+    userId: { type: String }
+}, {
     timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
     toJSON: {
         transform: (doc, ret) => {

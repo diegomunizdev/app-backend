@@ -1,65 +1,51 @@
 import { Request, Response } from 'express'
+import { Error } from 'mongoose'
 import Exercise, { IExercise } from '../../models/user.data/exercise.model'
-import { responseError, responseSuccess } from '../../middlewares/response'
 import { ValidateExercise } from '../../models/validators/exercise.validator'
-import { PaginationData } from '../pagination/pagination.controller'
-import { HttpStatus } from '../../middlewares/http.status'
 
-export const createExercise = async (req: Request, res: Response) => {
+export const createExercise = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const exercise: IExercise = new Exercise(req.body)
-        if (!exercise) responseError(res, 'Exercise not created', HttpStatus.BAD_REQUEST)
+        if (!exercise) throw new Error(err.message)
         ValidateExercise.validate(exercise)
-        await exercise.save()
-        responseSuccess(res, exercise, HttpStatus.CREATED)
+        const result: IExercise = await exercise.save()
+        res.status(201).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const getExercises = PaginationData(Exercise)
-
-export const getByExerciseId = async (req: Request, res: Response) => {
+export const getByExerciseId = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const exercise = await Exercise.findById(req.params.exerciseId)
-        if (!exercise) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
-        responseSuccess(res, exercise, HttpStatus.OK)
+        if (!exercise) throw new Error(err.message)
+        res.status(201).json(exercise)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const updateExercise = async (req: Request, res: Response) => {
+export const updateExercise = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const { exerciseId } = req.params
-        if (!exerciseId) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
-        const exercise = {
-            exercise_monday: req.body.exercise_monday,
-            exercise_tuesday: req.body.exercise_tuesday,
-            exercise_wednesday: req.body.exercise_wednesday,
-            exercise_thursday: req.body.exercise_thursday,
-            exercise_friday: req.body.exercise_friday,
-            exercise_saturday: req.body.exercise_saturday,
-            exercise_sunday: req.body.exercise_sunday,
-            exercise_start: req.body.exercise_start,
-            exercise_end: req.body.exercise_end
-        }
-        await Exercise.findByIdAndUpdate(exerciseId, {
+        if (!exerciseId) throw new Error(err.message)
+        const exercise = req.body
+        const result = await Exercise.findByIdAndUpdate(exerciseId, {
             $set: exercise
         }, { new: true })
-        responseSuccess(res, exercise, HttpStatus.OK)
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const deleteExercise = async (req: Request, res: Response) => {
+export const deleteExercise = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const exerciseId = req.params.exerciseId
-        if (!exerciseId) responseError(res, 'Exercise not found', HttpStatus.NOT_FOUND)
-        await Exercise.findByIdAndRemove(exerciseId)
-        responseSuccess(res, 'Exercise successfully removed', HttpStatus.OK)
+        if (!exerciseId) throw new Error(err.message)
+        const result = await Exercise.findByIdAndRemove(exerciseId)
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }

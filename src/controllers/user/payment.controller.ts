@@ -1,56 +1,51 @@
-import { Request, response, Response } from 'express'
+import { Request, Response } from 'express'
+import { Error } from 'mongoose'
 import Payment, { IPayment } from '../../models/user.data/payment.model'
-import { responseError, responseSuccess } from '../../middlewares/response'
 import { ValidatePayment } from '../../models/validators/payment.validator'
-import { HttpStatus } from '../../middlewares/http.status'
 
-export const createPayment = async (req: Request, res: Response): Promise<void> => {
+export const createPayment = async (err: Error, req: Request, res: Response): Promise<void> => {
     try {
         const payment: IPayment = new Payment(req.body)
-        if (!payment) responseError(res, 'Data not added', HttpStatus.BAD_REQUEST)
+        if (!payment) throw new Error(err.message)
         ValidatePayment.validate(payment)
-        await payment.save()
-        responseSuccess(res, payment, HttpStatus.OK)
+        const result = await payment.save()
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const getPayment = async (req: Request, res: Response): Promise<void> => {
+export const getPayment = async (err: Error, req: Request, res: Response): Promise<void> => {
     try {
         const user = await Payment.findById(req.params.userId)
-        if (!user) responseError(res, 'Payment not found', HttpStatus.NOT_FOUND)
-        responseSuccess(res, user, HttpStatus.OK)
+        if (!user) throw new Error(err.message)
+        res.status(200).json(user)
     } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const updatePayment = async (req: Request, res: Response): Promise<void> => {
+export const updatePayment = async (err: Error, req: Request, res: Response): Promise<void> => {
     try {
         const { paymentId } = req.params
-        if (!paymentId) responseError(res, 'Payment not found', HttpStatus.NOT_FOUND)
-        const payment = {
-            value: req.body.value
-        }
-
-        await Payment.findByIdAndUpdate(paymentId, {
+        if (!paymentId) throw new Error(err.message)
+        const payment = req.body
+        const result = await Payment.findByIdAndUpdate(paymentId, {
             $set: payment
         }, { new: true })
-
-        responseSuccess(res, payment, HttpStatus.OK)
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const deletePayment = async (req: Request, res: Response) => {
+export const deletePayment = async (err: Error, req: Request, res: Response) => {
     try {
         const { paymentId } = req.params
-        if (!paymentId) responseError(res, 'Payment not found', HttpStatus.NOT_FOUND)
-        await Payment.findByIdAndRemove(paymentId)
-        responseSuccess(res, 'Payment successfully removed', HttpStatus.OK)
+        if (!paymentId) throw new Error(err.message)
+        const result = await Payment.findByIdAndRemove(paymentId)
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }

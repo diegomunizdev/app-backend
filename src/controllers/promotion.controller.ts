@@ -1,64 +1,51 @@
 import { Request, Response } from 'express'
 import Promotions, { IPromotions } from '../models/promotions.model'
-import { responseError, responseSuccess } from '../middlewares/response'
 import { ValidatePromotion } from '../models/validators/promotion.validator'
-import { PaginationData } from './pagination/pagination.controller'
-import { HttpStatus } from '../middlewares/http.status'
 
-export const createPromotion = async (req: Request, res: Response) => {
+export const createPromotion = async (err: Error, req: Request, res: Response) => {
     try {
         const promotion: IPromotions = new Promotions(req.body)
-        if (!promotion) responseError(res, 'Promotion could not be created', HttpStatus.BAD_REQUEST)
+        if (!promotion) throw new Error(err.message)
         ValidatePromotion.validate(promotion)
-        await promotion.save()
-        responseSuccess(res, promotion, HttpStatus.CREATED)
+        const result = await promotion.save()
+        res.status(201).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-
-export const getByPromotionId = async (req: Request, res: Response) => {
+export const getByPromotionId = async (err: Error, req: Request, res: Response) => {
     try {
         const promotion = await Promotions.findById(req.params.promotionId)
-        if (!promotion) responseError(res, 'Promotion not found', HttpStatus.NOT_FOUND)
-        responseSuccess(res, promotion, HttpStatus.OK)
+        if (!promotion) throw new Error(err.message)
+        res.status(200).json(promotion)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const getPromotions = PaginationData(Promotions)
-
-export const updatePromotion = async (req: Request, res: Response) => {
+export const updatePromotion = async (err: Error, req: Request, res: Response) => {
     try {
         const { promotionId } = req.params
-        if (!promotionId) responseError(res, 'Promotion not found', HttpStatus.NOT_FOUND)
-        const promotion = {
-            title: req.body.title,
-            subtitle: req.body.subtitle,
-            value: req.body.value,
-            date_start: req.body.date_start,
-            date_end: req.body.date_end,
-            user_id: req.body.user_id
-        }
-        await Promotions.findByIdAndUpdate(promotionId, {
+        if (!promotionId) throw new Error(err.message)
+        const promotion = req.body
+        const result = await Promotions.findByIdAndUpdate(promotionId, {
             $set: promotion
         }, { new: true })
-        responseSuccess(res, promotion, HttpStatus.OK)
+        res.status(200).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }
 
 
-export const deletePromotion = async (req: Request, res: Response) => {
+export const deletePromotion = async (err: Error, req: Request, res: Response) => {
     try {
         const promotionId = req.params.promotionId
-        if (!promotionId) responseError(res, 'Promotion not found', HttpStatus.NOT_FOUND)
+        if (!promotionId) throw new Error(err.message)
         await Promotions.findByIdAndRemove(promotionId)
-        responseSuccess(res, 'Promotion successfully removed', HttpStatus.OK)
+        res.status(200)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message || err.message)
     }
 }

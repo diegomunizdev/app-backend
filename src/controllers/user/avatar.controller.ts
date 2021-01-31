@@ -1,67 +1,35 @@
 import { Request, Response } from 'express'
 import Avatar from '../../models/user.data/avatar.model'
-import fs from 'fs-extra'
-import { responseError, responseSuccess } from '../../middlewares/response'
-import { HttpStatus } from '../../middlewares/http.status'
+import { Stream } from 'stream'
+import { Error } from 'mongoose'
 
-export const createAvatar = async (req: Request, res: Response) => {
+export const createAvatar = async (err: Error, req: any, res: Response): Promise<any> => {
     try {
-        const { user_id } = req.body
-
-        const myAvatar = {
-            user_id: user_id,
-            imagePath: `${process.env.URL_BASE}/user/${req.file.filename}`
-        }
-
-        if (!myAvatar.user_id) responseError(res, 'User not found', HttpStatus.NOT_FOUND)
-
-        const avatar = new Avatar(myAvatar)
-        await avatar.save()
-        responseSuccess(res, avatar, HttpStatus.CREATED)
+        if (!req.file) throw new Error(err.message)
+        const avatar = new Avatar({
+            contentType: req.file.mimetype,
+            filename: req.file.originalname,
+            size: req.file.size,
+            data: Buffer.from(req.file.buffer),
+            userId: req.params.userId
+        })
+        const result = await avatar.save()
+        res.status(201).json(result)
     } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }
 
-export const getAvatar = async (req: Request, res: Response) => {
+export const getAvatar = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
-        const userId = await Avatar.findOne({ user_id: req.params.userId })
-        if (!userId) responseError(res, 'Avatar not found', HttpStatus.NOT_FOUND)
-        responseSuccess(res, userId, HttpStatus.OK)
+        const avatar = await Avatar.findOne({ userId: req.params.userId })
+        if (!avatar) throw new Error(err.message)
+        const readStream = new Stream.PassThrough()
+        res.set('Content-Disposition', 'inline')
+        res.set('Content-Type', avatar?.contentType)
+        readStream.pipe(res)
+        readStream.end(avatar?.data)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
-    }
-}
-
-export const updateAvatar = async (req: Request, res: Response) => {
-    try {
-        const avatar = await Avatar.findOne({ user_id: req.params.userId })
-        if (!avatar) responseError(res, 'Avatar not found', HttpStatus.NOT_FOUND)
-        const pht = {
-            user_id: avatar?.user_id,
-            imagePath: `${process.env.URL_BASE}/user/${req.file.filename}`
-        }
-
-        await Avatar.findByIdAndUpdate(avatar?.id, {
-            $set: pht
-        }, { new: true })
-        responseSuccess(res, pht, HttpStatus.OK)
-    } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
-    }
-}
-
-export const deleteAvatar = async (req: Request, res: Response) => {
-    try {
-        const avatar = await Avatar.findOne({ user_id: req.params.userId })
-        if (!avatar) return responseError(res, 'Avatar not found', HttpStatus.NOT_FOUND)
-        const avt = await Avatar.findByIdAndRemove(avatar?.id);
-        if (avt) {
-            const ph = avt.avatar.split('T')
-            await fs.unlink(`uploads/T${ph[1]}`);
-        }
-        responseSuccess(res, 'Avatar successfully removed', HttpStatus.OK)
-    } catch (error) {
-        responseError(res, error)
+        throw new Error(error.message || err.message)
     }
 }

@@ -1,63 +1,55 @@
 import { Request, Response } from 'express'
-import { HttpStatus } from '../../middlewares/http.status'
-import { responseError, responseSuccess } from '../../middlewares/response'
-import Address, { IAddress } from '../../models/user.data/address.model'
+import { IAddress } from '../../models/interfaces/address.interface'
+import { Error } from 'mongoose'
+import Address from '../../models/user.data/address.model'
 import { ValidateAddress } from '../../models/validators/address.validator'
+import { HttpMessage } from '../errors/errors'
 
-export const createAddress = async (req: Request, res: Response) => {
+export const createAddress = async (req: Request, res: Response): Promise<any> => {
     try {
         const address: IAddress = new Address(req.body)
-        if (!address) responseError(res, 'Unable to save address', HttpStatus.BAD_REQUEST)
-        // TODO: Validando os dados de endereço
+        if (!address) throw new Error(HttpMessage.BAD_REQUEST)
         ValidateAddress.validate(address)
         await address.save()
-        responseSuccess(res, address, HttpStatus.CREATED)
+        res.status(201).json(address)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }
 
-export const getAddress = async (req: Request, res: Response) => {
+export const getAddress = async (req: Request, res: Response): Promise<any> => {
     try {
-        const user = await Address.findOne({ user_id: req.params.userId })
-        if (!user) return responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
-        responseSuccess(res, user, HttpStatus.OK)
+        if (!req.params.id) throw new Error(HttpMessage.BAD_REQUEST)
+        const address = await Address.findOne({ userId: req.params.id })
+        if (!address) throw new Error(HttpMessage.NOT_FOUND)
+        res.status(200).json(address)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }
 
-export const updateAddress = async (req: Request, res: Response) => {
+export const updateAddress = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        if (!addr) responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
-        const address = {
-            zip_code: req.body.zip_code,
-            street: req.body.street,
-            complement: req.body.complement,
-            number: req.body.number,
-            district: req.body.district,
-            city: req.body.city,
-            state: req.body.state
-        }
-
-        await Address.findByIdAndUpdate(addr ? addr.id : '', {
+        if (!addr) throw new Error(err.message)
+        const address = req.body
+        await Address.findByIdAndUpdate(addr ? addr.id : null, {
             $set: address
         }, { new: true })
-        responseSuccess(res, addr, HttpStatus.OK)
+        res.status(200).json(address)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }
 
-export const deleteAddress = async (req: Request, res: Response) => {
+export const deleteAddress = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const addr = await Address.findOne({ user_id: req.params.userId })
-        if (!addr) responseError(res, 'Address not found', HttpStatus.NOT_FOUND)
+        if (!addr) throw new Error(err.message)
         const deleteAddress = await Address.findByIdAndRemove(addr ? addr.id : '')
-        if (!deleteAddress) responseError(res, 'Has not been removed', HttpStatus.BAD_REQUEST)
-        responseSuccess(res, 'Address successfully removed', HttpStatus.OK)
+        if (!deleteAddress) throw new Error(err.message)
+        res.status(200)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }

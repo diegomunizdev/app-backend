@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UserType } from '../models/user.data/user.model';
-import { HttpStatus } from './http.status';
+import { UserType } from '../models/user.data/admin.model';
 
 interface IPayload {
     id: string;
@@ -16,7 +15,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
     try {
         const token: string | undefined = req.header('Authorization')
         const [bearer, auth] = token ? token.split(' ') : ''
-        if (!token || bearer !== "Bearer") res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") res.status(403).json({
             code: 403,
             auth: false,
             status: 'Failure',
@@ -27,7 +26,7 @@ export const TokenValidation = (req: Request, res: Response, next: NextFunction)
         next()
 
     } catch (error) {
-        res.status(HttpStatus.BAD_REQUEST).json({
+        res.status(400).json({
             code: 400,
             status: 'Failure',
             error: error.message
@@ -40,7 +39,7 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
         const token = req.header('Authorization');
         const [bearer, auth] = token ? token.split(' ') : ''
 
-        if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") return res.status(403).json({
             code: 403,
             status: 'Failure',
             message: 'No token provided or token malformatted.'
@@ -50,7 +49,7 @@ export const TokenValidationAdmin = (req: Request, res: Response, next: NextFunc
         if (decode.type === UserType.ADMIN) {
             jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
-            return res.status(HttpStatus.UNAUTHORIZED).json({
+            return res.status(401).json({
                 code: 401,
                 status: 'Failure',
                 message: 'Access denied. You are not allowed to access this route.'
@@ -68,7 +67,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
         const token = req.header('Authorization');
         const [bearer, auth] = token ? token.split(' ') : ''
 
-        if (!token || bearer !== "Bearer") return res.status(HttpStatus.FORBINDDEN).json({
+        if (!token || bearer !== "Bearer") return res.status(403).json({
             code: 403,
             status: 'Failure',
             message: 'No token provided or token malformatted.'
@@ -78,7 +77,7 @@ export const TokenValidationAdminAndPersonal = (req: Request, res: Response, nex
         if ((decode.type === UserType.ADMIN) || (decode.type === UserType.PERSONAL_TRAINER)) {
             jwt.verify(auth, SECRET_TOKEN) as IPayload
         } else {
-            return res.status(HttpStatus.UNAUTHORIZED).json({
+            return res.status(401).json({
                 code: 401,
                 status: 'Failure',
                 message: 'Access denied. You are not allowed to access this route'

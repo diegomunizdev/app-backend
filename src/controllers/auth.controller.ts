@@ -1,52 +1,58 @@
 import { Request, Response } from 'express';
-import User, { IUser } from '../models/user.data/user.model';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt'
-import { responseError, responseSuccess } from '../middlewares/response'
-import { HttpStatus } from '../middlewares/http.status';
-import { SECRET_TOKEN } from '../middlewares/token.validation';
+import { Error } from 'mongoose'
 
-export const signin = async (req: Request, res: Response) => {
+import { SECRET_TOKEN } from '../middlewares/token.validation'
+import User from '../models/user.data/admin.model';
+import { HttpMessage, HttpStatusCode } from './errors/errors'
+
+export const signin = async (req: Request, res: Response): Promise<any> => {
     try {
         const user = await User.findOne({
             email: req.body.email
         }).select('+password');
 
-        if (!user) return responseError(res, 'Invalid username or password', HttpStatus.BAD_REQUEST)
+        if (!user) throw new Error(HttpMessage.NOT_FOUND)
 
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
-        if (!correctPassword) return responseError(res, 'Invalid password', HttpStatus.BAD_REQUEST)
+        if (!correctPassword) throw new Error(HttpMessage.BAD_REQUEST)
 
         const token: string = jwt.sign({ id: user ? user._id : '', type: user ? user.type : '' }, SECRET_TOKEN, {
             expiresIn: '1d'
         })
 
-        if (!token) return responseError(res, 'Token was not provider', HttpStatus.BAD_REQUEST)
+        if (!token) throw new Error(HttpMessage.BAD_REQUEST)
 
         user ? user.password = undefined : ''
-        return res.header('Authorization', token).json({ code: HttpStatus.OK, Authorization: token })
+        return res.status(HttpStatusCode.OK).header('Authorization', token).json({ Authorization: token })
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }
 
 export const forgot = async (req: Request, res: Response) => {
     try {
+        if (!req.body.email) throw new Error(HttpMessage.BAD_REQUEST)
+
         const user = await User.findOne({ email: req.body.email })
-        /* .then((res) => {
-            return { id: res?.id, email: res?.email, name: res?.name }
-        }) */
-        if (!user) return responseError(res, 'User not found in the database', HttpStatus.NOT_FOUND)
-        responseSuccess(res, user, HttpStatus.OK)
+
+        if (!user) throw new Error(HttpMessage.NOT_FOUND)
+
+        res.status(HttpStatusCode.OK).json(user)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }
 
 export const changePassword = async (req: Request, res: Response) => {
     try {
-        const userId = await User.findById(req.params.userId)
-        if (!userId) return responseError(res, 'User not found', HttpStatus.NOT_FOUND)
+        if (!req.params.id) throw new Error(HttpMessage.BAD_REQUEST)
+
+        const userId = await User.findById(req.params.id)
+
+        if (!userId) throw new Error(HttpMessage.NOT_FOUND)
+
         const user = {
             email: req.body.email,
             password: req.body.password,
@@ -56,13 +62,17 @@ export const changePassword = async (req: Request, res: Response) => {
                 return bcrypt.hash(password, salt)
             }
         }
-        user.password = await user.encryptPassword(user.password ? user.password : '')
-        await User.findByIdAndUpdate(userId, {
+
+        user.password = await user.encryptPassword(user.password ? user.password : null)
+
+        const result = await User.findByIdAndUpdate(userId, {
             $set: user
         }, { new: true })
-        user.password = undefined
-        responseSuccess(res, user, HttpStatus.OK)
+
+        user ? user.password = undefined : null
+
+        res.status(HttpStatusCode.OK).json(result)
     } catch (error) {
-        responseError(res, error, HttpStatus.INTERNAL_SERVER_ERROR)
+        throw new Error(error.message)
     }
 }

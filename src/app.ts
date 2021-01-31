@@ -3,10 +3,9 @@ import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
 import swaggerUi from 'swagger-ui-express'
-import path from 'path'
 import * as swaggerDocument from './swagger.json'
 import Routes from './routes/routes';
-import { HttpStatus } from './middlewares/http.status';
+import { HttpStatusCode } from './controllers/errors/errors'
 
 const app: Application = express();
 
@@ -14,7 +13,6 @@ const app: Application = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(helmet())
-app.use('/gym/user/avatar', express.static(path.resolve(__dirname, '..', 'uploads')))
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -30,14 +28,12 @@ app.use('/gym/api', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 // routes
 app.use('/gym', Routes);
 
-
 app.use((req: Request, res: Response, next: NextFunction) => {
-    res.status(HttpStatus.NOT_FOUND).json({
-        code: HttpStatus.NOT_FOUND,
+    res.status(HttpStatusCode.NOT_FOUND).json({
+        code: HttpStatusCode.NOT_FOUND,
         message: 'Page not found',
         description: 'Check that a URL has been entered correctly'
     })
 })
-
 
 export default app;
