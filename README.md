@@ -1,14 +1,25 @@
-<p align="center">
+<div align="center">
    <img src="https://user-images.githubusercontent.com/26802818/101092392-5ad2d600-3598-11eb-9bb2-9f90c1f79983.png" alt="gym" width="170" />
-</p>
+</div>
 
-<p align="center">	
-  <a href="https://github.com/diegomunizdev/app-backend/commits/master">
-    <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/diegomunizdev/app-backend?color=e5e5e5">
-  </a>
-   <img alt="Repository size" src="https://img.shields.io/github/repo-size/diegomunizdev/app-backend?color=e5e5e5">
+<div align="center">
+   <img src="https://img.shields.io/github/package-json/v/diegomunizdev/app-backend?style=flat-square">
+   <img src="https://img.shields.io/github/languages/top/diegomunizdev/app-backend?style=flat-square">
+   <img src="https://img.shields.io/github/languages/count/diegomunizdev/app-backend?style=flat-square&color=0066ff">
+   <img src="https://img.shields.io/github/repo-size/diegomunizdev/app-backend?style=flat-square&color=009933">
+   <img src="https://img.shields.io/github/last-commit/diegomunizdev/app-backend/master?label=master&style=flat-square&color=0066ff">
+   <img src="https://img.shields.io/github/last-commit/diegomunizdev/app-backend/develop?label=develop&style=flat-square&color=004466">
+   <img src="https://img.shields.io/github/release-date/diegomunizdev/app-backend?style=flat-square">
+</div>
 
-</p>
+<h2 align="center" id="#tecnology">Tecnology</h2>
+<div align="center">
+   <img src="https://img.shields.io/badge/visualstudiocode%20-%23007ACC.svg?&style=for-the-badge&logo=visual%20studio%20code&logoColor=white&color=004466">
+   <img src="https://img.shields.io/badge/typescript%20-%23007ACC.svg?&style=for-the-badge&logo=typescript&logoColor=white">
+   <img src="https://img.shields.io/badge/node.js%20-%2343853D.svg?&style=for-the-badge&logo=node.js&logoColor=white">
+   <img src="https://img.shields.io/badge/mongodb%20-%2343853D.svg?&style=for-the-badge&logoColor=white">
+</div>
+
 
 # Application backend for Gym management
 
@@ -26,7 +37,7 @@
 
 This project was generated using NodeJS with Typescript.
 
-## Technology
+## Prerequisites
 - [Node 12.0.0+](https://nodejs.org/en/download/)
 - [Typescript 3.9.7+](https://www.typescriptlang.org/)
 
