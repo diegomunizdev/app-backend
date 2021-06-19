@@ -7,7 +7,7 @@ export interface IPersonalTrainer extends Document {
     password: string | undefined,
     individualRegistration: string,
     dateBirth: string,
-    type: string,
+    type: string, //personalTrainer 
     phone: string,
     gender: string, // female or male
     contractStart: string,

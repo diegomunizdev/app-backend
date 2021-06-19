@@ -12,7 +12,6 @@ export const signin = async (req: Request, res: Response): Promise<any> => {
         const user = await User.findOne({
             email: req.body.email
         }).select('+password');
-
         if (!user) throw new Error(HttpMessage.NOT_FOUND)
 
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)

@@ -6,7 +6,7 @@ export interface IClient extends Document {
     password: string | undefined,
     individualRegistration: string,
     dateBirth: string,
-    type: string,
+    type: string, // client
     phone: string,
     gender: string, // female or male
     contractStart: string,

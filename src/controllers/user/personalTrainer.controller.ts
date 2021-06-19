@@ -27,7 +27,7 @@ export const getById = async (err: Error, req: Request, res: Response) => {
         if (!personal) throw new Error(err.message)
         personal ? personal.password = undefined : null
 
-        const totalClients: Query<number> = Client.countDocuments()
+        const totalClients: any = Client.countDocuments()
 
         res.status(200).json({ ...personal, totalClients })
     } catch (error) {

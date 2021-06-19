@@ -10,7 +10,6 @@ export interface IAdmin extends Document {
     individualRegistration?: string
     email?: string
     password?: string
-    dateBirth?: string
     type?: string // admin
     phone?: string
     totalAdmins?: number
