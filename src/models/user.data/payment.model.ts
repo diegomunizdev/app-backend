@@ -1,12 +1,7 @@
-import Mongoose, { Document } from 'mongoose'
-import MeasureModel from './measures.model'
+import { IPayment } from 'models/interfaces/payment.interface';
+import Mongoose from 'mongoose';
 
-export interface IPayment extends Document {
-    value: number,
-    userId: string
-}
-
-const PaymentSchema = new Mongoose.Schema({
+const PaymentSchema = new Mongoose.Schema<IPayment>({
     value: { type: String },
     userId: { type: String, required: true }
 }, {
@@ -21,5 +16,5 @@ const PaymentSchema = new Mongoose.Schema({
     }
 })
 
-const PaymentModel = Mongoose.model<IPayment>('Payment', PaymentSchema)
-export default PaymentModel
+const PaymentModel = Mongoose.model<IPayment>('Payment', PaymentSchema);
+export default PaymentModel;

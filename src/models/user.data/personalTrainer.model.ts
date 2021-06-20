@@ -1,8 +1,9 @@
-import Mongoose from 'mongoose'
-import bcrypt from 'bcrypt'
-import { IPersonalTrainer } from '../interfaces/personalTrainer.interface'
+import Mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
+import { IPersonalTrainer } from '../interfaces/personalTrainer.interface';
+import { UserType } from './admin.model';
 
-const PersonalSchema = new Mongoose.Schema({
+const PersonalSchema = new Mongoose.Schema<IPersonalTrainer>({
     name: {
         type: String,
         required: true
@@ -33,7 +34,7 @@ const PersonalSchema = new Mongoose.Schema({
         unique: true
     },
     type: {
-        type: String,
+        type: UserType,
         default: 'client',
         required: true
     },
@@ -61,14 +62,14 @@ const PersonalSchema = new Mongoose.Schema({
     }
 })
 
-PersonalSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+PersonalSchema.methods.encryptPassword = async function (password: string): Promise<string> {
     const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt)
+    return bcrypt.hash(password, salt);
 }
 
 PersonalSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
-    return await bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password || '');
 }
 
-const PersonalTrainer = Mongoose.model<IPersonalTrainer>('PersonalsTrainer', PersonalSchema)
-export default PersonalTrainer
+const PersonalTrainer = Mongoose.model<IPersonalTrainer>('PersonalTrainer', PersonalSchema)
+export default PersonalTrainer;

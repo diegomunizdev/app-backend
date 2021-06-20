@@ -4,11 +4,11 @@ import { IAdmin } from '../interfaces/admin.interface';
 
 export enum UserType {
     ADMIN = 'admin',
-    PERSONAL_TRAINER = 'personaltrainer',
+    PERSONAL_TRAINER = 'personalTrainer',
     CLIENT = 'client'
 }
 
-const AdminSchema = new Mongoose.Schema({
+const AdminSchema = new Mongoose.Schema<IAdmin>({
     name: {
         type: String,
         required: true
@@ -26,16 +26,12 @@ const AdminSchema = new Mongoose.Schema({
     },
     password: {
         type: String,
-        min: 6,
+        min: 8,
         required: true,
         select: false
     },
-    dateBirth: {
-        type: String,
-        required: true
-    },
     type: {
-        type: String,
+        type: UserType,
         default: 'admin',
         required: true
     },
@@ -62,17 +58,16 @@ const AdminSchema = new Mongoose.Schema({
             return ret
         }
     }
-}
-);
+});
 
-AdminSchema.methods.encryptPassword = async (password: string): Promise<string> => {
+AdminSchema.methods.encryptPassword = async function (password: string): Promise<string> {
     const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt)
+    return bcrypt.hash(password, salt);
 }
 
 AdminSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
-    return await bcrypt.compare(password, this.password);
+    return await bcrypt.compare(password, this.password || '');
 }
 
-const Admin = Mongoose.model<IAdmin>('Admin', AdminSchema)
-export default Admin
+const Admin = Mongoose.model<IAdmin>('Admin', AdminSchema);
+export default Admin;

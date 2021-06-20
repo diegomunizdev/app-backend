@@ -21,7 +21,7 @@ export const UserRoutes = (routes: Router) => {
         .get('/admin', getAll)
         .get('/admin/:id', getById)
         .patch('/admin/:id', updateAdmin)
-        .delete('/admin/:id', deleteAdmin)
+        .delete('/admin/:id', deleteAdmin);
 
     /**
      * Client operations
@@ -30,13 +30,13 @@ export const UserRoutes = (routes: Router) => {
         .get('/client', getAllClient)
         .get('/client/:id', getByClientId)
         .patch('/client/:id', updateClient)
-        .delete('/client/:id', deleteClient)
+        .delete('/client/:id', deleteClient);
 
     /**
      * Avatar operations
      */
     routes.post(`${url_user}/avatar`, TokenValidation, multer().single('avatar'), createAvatar)
-        .get(`${url_user}/avatar`, TokenValidation, getAvatar)
+        .get(`${url_user}/avatar`, TokenValidation, getAvatar);
 
     /**
      * Address operations
@@ -44,7 +44,7 @@ export const UserRoutes = (routes: Router) => {
     routes.post(`/address`, TokenValidation, createAddress)
         .get(`/:id/address`, TokenValidation, getAddress)
         .patch(`/:id/address`, TokenValidation, updateAddress)
-        .delete(`/:id/address`, TokenValidation, deleteAddress)
+        .delete(`/:id/address`, TokenValidation, deleteAddress);
 
     /**
      * Exercises operations
@@ -52,7 +52,7 @@ export const UserRoutes = (routes: Router) => {
     routes.post(`${url_user}/exercises`, TokenValidationAdminAndPersonal, createExercise)
         .get(`${url_user}/exercises/:exerciseId`, TokenValidation, getByExerciseId)
         .patch(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, updateExercise)
-        .delete(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, deleteExercise)
+        .delete(`${url_user}/exercises/:exerciseId`, TokenValidationAdminAndPersonal, deleteExercise);
 
     /**
      * Anamnesis operations
@@ -60,7 +60,7 @@ export const UserRoutes = (routes: Router) => {
     routes.post(`${url_user}/anamnesis`, TokenValidationAdminAndPersonal, createAnamnesis)
         .get(`${url_user}/anamnesis/:anamnesisId`, TokenValidation, getByAnamnesisId)
         .patch(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, updateAnamnesis)
-        .delete(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, deleteAnamnesis)
+        .delete(`${url_user}/anamnesis/:anamnesisId`, TokenValidationAdminAndPersonal, deleteAnamnesis);
 
     /**
      * Measures operations
@@ -68,7 +68,7 @@ export const UserRoutes = (routes: Router) => {
     routes.post(`${url_user}/measures`, TokenValidationAdminAndPersonal, createMeasure)
         .get(`${url_user}/measures/:measureId`, TokenValidationAdminAndPersonal, getByMeasureId)
         .patch(`${url_user}/measures/:measureId`, TokenValidation, updateMeasure)
-        .delete(`${url_user}/measures/:measureId`, TokenValidation, deleteMeasure)
+        .delete(`${url_user}/measures/:measureId`, TokenValidation, deleteMeasure);
 
     /**
      * Payment operations
@@ -76,6 +76,6 @@ export const UserRoutes = (routes: Router) => {
     routes.post(`${url_user}/payment`, TokenValidation, createPayment)
         .get(`${url_user}/payment`, TokenValidation, getPayment)
         .patch(`${url_user}/payment/:paymentId`, TokenValidation, updatePayment)
-        .delete(`${url_user}/payment/:paymentId`, TokenValidation, deletePayment)
+        .delete(`${url_user}/payment/:paymentId`, TokenValidation, deletePayment);
 
 }

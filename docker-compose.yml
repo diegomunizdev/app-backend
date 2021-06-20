@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    command: npm start
+    container_name: app-backend
+    env_file: .env
+    environment: 
+      - PORT=$PORT
+      - CONNECTION_DATABASE=$CONNECTION_DATABASE
+      - TOKEN_SECRET=$TOKEN_SECRET
+    ports:
+      - 3001:3001
+    volumes: 
+      - .:/usr/app

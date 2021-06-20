@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const ValidateMeasure = yup.object().shape({
     weight: yup.number(),
@@ -19,4 +19,4 @@ export const ValidateMeasure = yup.object().shape({
     rightCalf: yup.number(),
     leftCalf: yup.number(),
     userId: yup.string().required('Inform the user')
-})
+});

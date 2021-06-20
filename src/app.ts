@@ -12,7 +12,7 @@ const app: Application = express();
 // middlewares
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(helmet())
+app.use(helmet());
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Credentials", "true");
@@ -33,7 +33,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
         code: HttpStatusCode.NOT_FOUND,
         message: 'Page not found',
         description: 'Check that a URL has been entered correctly'
-    })
+    });
 })
 
 export default app;

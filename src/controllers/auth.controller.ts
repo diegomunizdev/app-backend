@@ -1,19 +1,18 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt'
-import { Error } from 'mongoose'
+import bcrypt from 'bcrypt';
+import { Error } from 'mongoose';
 
-import { SECRET_TOKEN } from '../middlewares/token.validation'
+import { SECRET_TOKEN } from '../middlewares/token.validation';
 import User from '../models/user.data/admin.model';
-import { HttpMessage, HttpStatusCode } from './errors/errors'
+import { HttpMessage, HttpStatusCode } from './errors/errors';
 
 export const signin = async (req: Request, res: Response): Promise<any> => {
     try {
         const user = await User.findOne({
             email: req.body.email
         }).select('+password');
-
-        if (!user) throw new Error(HttpMessage.NOT_FOUND)
+        if (!user) throw new Error(HttpMessage.BAD_REQUEST)
 
         const correctPassword: boolean = await (user ? user.validatePassword(req.body.password) : false)
         if (!correctPassword) throw new Error(HttpMessage.BAD_REQUEST)

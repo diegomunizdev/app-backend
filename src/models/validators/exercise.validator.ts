@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const ValidateExercise = yup.object().shape({
     exerciseMonday: yup.string(),
@@ -11,4 +11,4 @@ export const ValidateExercise = yup.object().shape({
     exerciseStart: yup.string().required('Inform the date start'),
     exerciseEnd: yup.string().required('Inform the date end'),
     userId: yup.string().required('Inform the user')
-})
+});

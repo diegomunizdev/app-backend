@@ -1,16 +1,7 @@
-import Mongoose, { Document } from 'mongoose'
+import { IAvatar } from 'models/interfaces/avatar.interface';
+import Mongoose from 'mongoose';
 
-interface IAvatar extends Document {
-    contentType: any
-    filename: any
-    size: any
-    data: Buffer
-    downloadLink: any
-    userId: any
-    fileId: any
-}
-
-const AvatarSchema = new Mongoose.Schema({
+const AvatarSchema = new Mongoose.Schema<IAvatar>({
     contentType: { type: String },
     filename: { type: String },
     size: { type: String },
@@ -19,7 +10,7 @@ const AvatarSchema = new Mongoose.Schema({
     fileId: { type: String },
     userId: { type: String }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id
@@ -30,5 +21,5 @@ const AvatarSchema = new Mongoose.Schema({
     }
 })
 
-const Avatar = Mongoose.model<IAvatar>('Avatar', AvatarSchema)
-export default Avatar
+const Avatar = Mongoose.model<IAvatar>('Avatar', AvatarSchema);
+export default Avatar;

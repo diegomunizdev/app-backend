@@ -1,10 +1,10 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const ValidatePromotion = yup.object().shape({
     title: yup.string().required('Inform the title'),
-    subtitle: yup.string(),
+    subtitle: yup.string().required('Inform the subtitle'),
     value: yup.number().required('Inform the value'),
     dateStart: yup.string().required('Inform the date start'),
     dateEnd: yup.string(),
-    userId: yup.string().required('Inform the user'),
-})
+    userId: yup.string()
+});

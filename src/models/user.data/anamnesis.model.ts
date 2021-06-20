@@ -1,26 +1,5 @@
-import Mongoose, { Document } from 'mongoose'
-
-export interface IAnamnesis extends Document {
-    activityObjective: string,
-    healthProblems: string,
-    medicalTreatment: boolean,
-    medicationUse: string,
-    diabetes: string,
-    arterialHypertension: string,
-    arterialHypotension: string,
-    smoking: string,
-    allergy: string,
-    pacemaker: string,
-    sittingTime: string,
-    standingTime: string,
-    prosthesis: string,
-    orthosis: string,
-    waterDay: string,
-    intestinalDisorder: string,
-    hormonalDisorder: string,
-    nextReview: string,
-    userId: string,
-}
+import { IAnamnesis } from 'models/interfaces/anamnesis.interface'
+import Mongoose from 'mongoose'
 
 const AnamnesisSchema = new Mongoose.Schema({
     activityObjective: { type: String, required: true },
@@ -43,7 +22,7 @@ const AnamnesisSchema = new Mongoose.Schema({
     nextReview: { type: String, required: true },
     userId: { type: String, required: true }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id

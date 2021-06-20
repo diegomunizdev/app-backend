@@ -1,28 +1,7 @@
-import Mongoose, { Document } from 'mongoose'
+import { IMeasures } from 'models/interfaces/measures.interface';
+import Mongoose from 'mongoose';
 
-export interface IMeasures extends Document {
-    weight: number,
-    height: number,
-    chest: number,
-    waist: number,
-    upperAbdomen: number,
-    lowerAbdormen: number,
-    hip: number,
-    rightArm: number,
-    leftArm: number,
-    beforeRightArm: number,
-    beforeLeftArm: number,
-    upperRightThigh: number,
-    upperLeftThigh: number,
-    mediumRightThigh: number,
-    middleLeftThigh: number,
-    rightCalf: number,
-    leftCalf: number,
-    nextReview: string,
-    userId: string
-}
-
-const MeasureSchema = new Mongoose.Schema({
+const MeasureSchema = new Mongoose.Schema<IMeasures>({
     weight: { type: Number },
     height: { type: Number },
     chest: { type: Number },
@@ -43,7 +22,7 @@ const MeasureSchema = new Mongoose.Schema({
     nextReview: { type: String, required: true },
     userId: { type: String, required: true }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id
