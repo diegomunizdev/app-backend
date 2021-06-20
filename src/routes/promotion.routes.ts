@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { TokenValidation, TokenValidationAdmin } from '../middlewares/token.validation';
 import { createPromotion, getByPromotionId, updatePromotion, deletePromotion } from '../controllers/promotion.controller';
 
@@ -11,5 +12,5 @@ export const PromotionsRoutes = (routes: Router) => {
     routes.post(`${url_user}/promotion`, TokenValidationAdmin, createPromotion)
         .get(`${url_user}/promotion/:promotionId`, TokenValidation, getByPromotionId)
         .patch(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, updatePromotion)
-        .delete(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, deletePromotion)
+        .delete(`${url_user}/promotion/:promotionId`, TokenValidationAdmin, deletePromotion);
 }

@@ -1,7 +1,7 @@
 import { IAddress } from '../interfaces/address.interface'
 import Mongoose from 'mongoose'
 
-const AddressShcema = new Mongoose.Schema({
+const AddressShcema = new Mongoose.Schema<IAddress>({
     zipCode: { type: String, required: true },
     street: { type: String },
     complement: { type: String },

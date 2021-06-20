@@ -1,19 +1,7 @@
-import Mongoose, { Document } from 'mongoose'
+import { IExercise } from 'models/interfaces/exercises.interface';
+import Mongoose from 'mongoose';
 
-export interface IExercise extends Document {
-    exerciseMonday: string[],
-    exerciseTuesday: string[],
-    exerciseWednesday: string[],
-    exerciseThursday: string[],
-    exerciseFriday: string[],
-    exerciseSaturday: string[],
-    exerciseSunday: string[],
-    exerciseStart: string[],
-    exerciseEnd: string[],
-    userId: string
-}
-
-const ExerciseSchema = new Mongoose.Schema({
+const ExerciseSchema = new Mongoose.Schema<IExercise>({
     exerciseMonday: { type: Array },
     exerciseTuesday: { type: Array },
     exerciseWednesday: { type: Array },
@@ -25,7 +13,7 @@ const ExerciseSchema = new Mongoose.Schema({
     exerciseEnd: { type: Array, required: true },
     userId: { type: String }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id

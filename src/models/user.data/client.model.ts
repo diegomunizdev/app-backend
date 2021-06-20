@@ -1,6 +1,8 @@
 import Mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { IClient } from 'models/interfaces/client.interface';
+import { UserType } from './admin.model';
+import { GenderType } from 'models/interfaces/admin.interface';
 
 const ClientSchema = new Mongoose.Schema<IClient>({
     name: {
@@ -15,7 +17,7 @@ const ClientSchema = new Mongoose.Schema<IClient>({
     },
     password: {
         type: String,
-        min: 6,
+        min: 8,
         required: true,
         select: false
     },
@@ -33,12 +35,13 @@ const ClientSchema = new Mongoose.Schema<IClient>({
         unique: true
     },
     type: {
-        type: String,
+        type: UserType,
         default: 'client',
         required: true
     },
     gender: {
-        type: String
+        type: GenderType,
+        required: true
     },
     contractStart: {
         type: String

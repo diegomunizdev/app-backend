@@ -1,17 +1,19 @@
-import Mongoose, { Document } from 'mongoose'
-
-export interface IEvaluation extends Document {
-    note: number
-    title: string
-    description: string
-}
+import Mongoose, { Document } from 'mongoose';
 
 const EvaluationSchema = new Mongoose.Schema({
-    note: { type: Number },
-    title: { type: String },
-    descrption: { type: String }
+    note: {
+        type: Number,
+        required: true
+    },
+    title: {
+        type: String,
+        required: true
+    },
+    descrption: {
+        type: String
+    }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id
@@ -22,5 +24,5 @@ const EvaluationSchema = new Mongoose.Schema({
     }
 })
 
-const EvaluationModel = Mongoose.model<IEvaluation>('Evaluation', EvaluationSchema)
-export default EvaluationModel
+const EvaluationModel = Mongoose.model<IEvaluation>('Evaluation', EvaluationSchema);
+export default EvaluationModel;

@@ -31,7 +31,7 @@ const AdminSchema = new Mongoose.Schema<IAdmin>({
         select: false
     },
     type: {
-        type: String,
+        type: UserType,
         default: 'admin',
         required: true
     },

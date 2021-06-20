@@ -1,4 +1,5 @@
-import { Document } from 'mongoose'
+import { UserType } from 'models/user.data/admin.model';
+import { Document } from 'mongoose';
 
 export enum GenderType {
     FEMALE = 'female',
@@ -6,15 +7,15 @@ export enum GenderType {
 }
 
 export interface IAdmin extends Document {
-    name?: string
-    individualRegistration?: string
-    email?: string
-    password?: string
-    type?: string // admin
-    phone?: string
-    totalAdmins?: number
-    totalClients?: number
-    totalPersonalsTrainer?: number
-    encryptPassword(password: string): Promise<string>
-    validatePassword(password: string): Promise<boolean>
+    name?: string;
+    individualRegistration?: string;
+    email?: string;
+    password?: string;
+    type?: UserType; // admin
+    phone?: string;
+    totalAdmins?: number;
+    totalClients?: number;
+    totalPersonalsTrainer?: number;
+    encryptPassword(password: string): Promise<string>;
+    validatePassword(password: string): Promise<boolean>;
 }

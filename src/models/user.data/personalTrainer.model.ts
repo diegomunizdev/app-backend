@@ -1,6 +1,7 @@
 import Mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import { IPersonalTrainer } from '../interfaces/personalTrainer.interface';
+import { UserType } from './admin.model';
 
 const PersonalSchema = new Mongoose.Schema<IPersonalTrainer>({
     name: {
@@ -33,7 +34,7 @@ const PersonalSchema = new Mongoose.Schema<IPersonalTrainer>({
         unique: true
     },
     type: {
-        type: String,
+        type: UserType,
         default: 'client',
         required: true
     },

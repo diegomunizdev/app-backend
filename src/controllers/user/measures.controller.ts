@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { Error } from 'mongoose'
-import Measures, { IMeasures } from '../../models/user.data/measures.model'
+import Measures from '../../models/user.data/measures.model'
+import { IMeasures } from '../../models/interfaces/measures.interface'
 import { ValidateMeasure } from '../../models/validators/measures.validator'
 
 export const createMeasure = async (err: Error, req: Request, res: Response) => {

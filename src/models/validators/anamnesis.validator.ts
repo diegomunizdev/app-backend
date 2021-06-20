@@ -1,4 +1,4 @@
-import * as yup from 'yup'
+import * as yup from 'yup';
 
 export const ValidateAnamnesis = yup.object().shape({
     diabetes: yup.string(),
@@ -18,4 +18,4 @@ export const ValidateAnamnesis = yup.object().shape({
     intestinalDisorder: yup.string(),
     hormonalDisorder: yup.string(),
     userId: yup.string().required('Inform the user')
-})
+});

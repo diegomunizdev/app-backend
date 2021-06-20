@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { Error } from 'mongoose'
-import Payment, { IPayment } from '../../models/user.data/payment.model'
+import { IPayment } from '../../models/interfaces/payment.interface'
+import Payment from '../../models/user.data/payment.model'
 import { ValidatePayment } from '../../models/validators/payment.validator'
 
 export const createPayment = async (err: Error, req: Request, res: Response): Promise<void> => {

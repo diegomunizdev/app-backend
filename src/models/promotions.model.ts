@@ -1,23 +1,31 @@
-import Mongoose, { Document } from 'mongoose'
+import Mongoose from 'mongoose';
+import { IPromotions } from './interfaces/promotions.interface';
 
-export interface IPromotions extends Document {
-    title: string
-    subtitle: string
-    value: number
-    dateStart: string
-    dateEnd: string
-    userId: string
-}
-
-const PromotionSchema = new Mongoose.Schema({
-    title: { type: String },
-    subtitle: { type: String },
-    value: { type: Number },
-    dateStart: { type: String },
-    dateEnd: { type: String },
-    userId: { type: String }
+const PromotionSchema = new Mongoose.Schema<IPromotions>({
+    title: {
+        type: String,
+        required: true
+    },
+    subtitle: {
+        type: String,
+        required: true
+    },
+    value: {
+        type: String,
+        required: true
+    },
+    dateStart: {
+        type: String,
+        required: true
+    },
+    dateEnd: {
+        type: String
+    },
+    userId: {
+        type: String
+    }
 }, {
-    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' },
+    timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     toJSON: {
         transform: (doc, ret) => {
             ret.id = ret._id
@@ -28,5 +36,5 @@ const PromotionSchema = new Mongoose.Schema({
     }
 })
 
-const PromotionModel = Mongoose.model<IPromotions>('Promotions', PromotionSchema)
-export default PromotionModel
+const PromotionModel = Mongoose.model<IPromotions>('Promotions', PromotionSchema);
+export default PromotionModel;

@@ -10,5 +10,5 @@ export const EvaluationRoutes = (routes: Router) => {
     routes.post('/evaluation', TokenValidationAdmin, createEvaluation)
         .get('/evaluation/:evaluationId', TokenValidation, getEvaluationById)
         .patch('/evaluation/:evaluationId', TokenValidationAdmin, updateEvaluation)
-        .delete('/evaluation/:evaluationId', TokenValidationAdmin, deleteEvaluation)
+        .delete('/evaluation/:evaluationId', TokenValidationAdmin, deleteEvaluation);
 }

@@ -1,15 +1,15 @@
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from 'dotenv';
 
-const PORT = process.env.PORT ? process.env.PORT : '3001'
+import app from './app';
+dotenv.config();
+import './database';
 
-import app from './app'
-import './database'
+const PORT = process.env.PORT || '3001';
 
 function main() {
     app.listen(PORT, () => {
-        console.log(`>> Server running: http://localhost:${PORT}`);
-    })
+        console.log(`>> Server running: http://localhost:${PORT} <<`);
+    });
 }
 
-main()
+main();
