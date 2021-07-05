@@ -1,8 +1,8 @@
 import Mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import { IClient } from 'models/interfaces/client.interface';
+import { IClient } from '../../models/interfaces/client.interface';
 import { UserType } from './admin.model';
-import { GenderType } from 'models/interfaces/admin.interface';
+import { GenderType } from '../../models/interfaces/admin.interface';
 
 const ClientSchema = new Mongoose.Schema<IClient>({
     name: {

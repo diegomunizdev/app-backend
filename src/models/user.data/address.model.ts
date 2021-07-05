@@ -1,5 +1,6 @@
-import { IAddress } from '../interfaces/address.interface'
-import Mongoose from 'mongoose'
+import Mongoose from 'mongoose';
+
+import { IAddress } from '../interfaces/address.interface';
 
 const AddressShcema = new Mongoose.Schema<IAddress>({
     zipCode: { type: String, required: true },
