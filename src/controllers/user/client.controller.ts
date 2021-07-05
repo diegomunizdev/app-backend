@@ -6,6 +6,7 @@ import { ValidateUser } from '../../models/validators/user.validator';
 import Client from '../../models/user.data/client.model';
 import { IClient } from '../../models/interfaces/client.interface';
 import { HttpStatusCode } from '../errors/errors';
+import AnamnesisModel from 'models/user.data/anamnesis.model';
 
 export const createClient = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
@@ -39,9 +40,11 @@ export const getAllClient = async (err: Error, req: Request, res: Response): Pro
 export const getByClientId = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const client = await Client.findById(req.params.userId);
+        const anamnesis = await AnamnesisModel.findById(req.params.userId);
+
         if (!client) throw new Error(err.message);
         client ? client.password = undefined : null;
-        res.status(HttpStatusCode.OK).json(client);
+        res.status(HttpStatusCode.OK).json({ ...client, anamnesis: { ...anamnesis } });
     } catch (error) {
         throw new Error(error.message);
     }
@@ -71,11 +74,19 @@ export const updateClient = async (err: Error, req: Request, res: Response): Pro
     }
 }
 
+export const updatePassword = async (err: Error, req: Request, res: Response): Promise<any> => {
+    try {
+        return console.log('Update user password.')
+    } catch (error) {
+        throw new Error(error.message)
+    }
+}
+
 export const deleteClient = async (err: Error, req: Request, res: Response): Promise<any> => {
     try {
         const client = await Client.findByIdAndRemove(req.params.id);
         if (!client) throw new Error(err.message);
-        res.status(HttpStatusCode.OK).json(client);
+        res.status(HttpStatusCode.OK);
     } catch (error) {
         throw new Error(error.message);
     }
